@@ -1,0 +1,45 @@
+import { Menu } from "@/utils/interface/menu";
+import { Image, Stack, Text } from "@chakra-ui/react";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import Link from "next/link";
+import React from "react";
+
+export default function Menus({
+  menus,
+  name,
+}: {
+  menus: Array<Menu>;
+  name: string;
+}) {
+  return (
+    <>
+      <Stack direction="column" spacing="40px" padding="40px 20px">
+        <Image
+          src="/images/logo-bma.png"
+          width="200px"
+          objectFit="contain"
+          alignSelf="center"
+        />
+
+        <Stack direction="column" spacing="5px">
+          {menus?.map((menu) => (
+            <Link href={menu.link} key={menu.name}>
+              <Stack
+                direction="row"
+                alignItems="center"
+                borderRadius="10px"
+                padding="10px"
+                bgColor={menu.name === name ? "bma.primary" : ""}
+                color={menu.name === name ? "white" : "bma.primary"}
+                fontWeight={menu.name === name ? "700" : "400"}
+              >
+                <Icon icon={menu.icon} />
+                <Text>{menu.name}</Text>
+              </Stack>
+            </Link>
+          ))}
+        </Stack>
+      </Stack>
+    </>
+  );
+}

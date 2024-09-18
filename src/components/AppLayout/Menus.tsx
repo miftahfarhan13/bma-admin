@@ -13,7 +13,7 @@ export default function Menus({
 }) {
   return (
     <>
-      <Stack direction="column" spacing="40px" padding="40px 20px">
+      <Stack direction="column" spacing="40px" padding="20px 20px">
         <Image
           src="/images/logo-bma.png"
           width="200px"
@@ -34,7 +34,7 @@ export default function Menus({
                 fontWeight={menu.name === name ? "700" : "400"}
               >
                 <Icon icon={menu.icon} />
-                <Text>{menu.name}</Text>
+                <Text fontSize=".875rem">{menu.name}</Text>
               </Stack>
             </Link>
           ))}

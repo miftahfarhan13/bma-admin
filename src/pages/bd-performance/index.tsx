@@ -20,6 +20,7 @@ import { useEffect, useRef, useState } from "react";
 import AdminPaginationFooter from "@/components/AdminPaginationFooter";
 import Link from "next/link";
 import { getBdPerformances } from "@/networks/user";
+import ListAccount from "@/components/Account/ListAccount";
 
 export default function BDPerformance() {
   const [date, setDate] = useState("");
@@ -71,103 +72,107 @@ export default function BDPerformance() {
   return (
     <>
       <AdminLayout name="BD Performance" pageName="Manage Used Car Dealer">
-        <Stack direction="column" spacing={["20px", "20px", "40px", "40px"]}>
-          <Stack
-            direction={["column", "column", "row", "row"]}
-            alignItems="center"
-            spacing="10px"
-            justifyContent="space-between"
-          >
-            <Box>{isLoading && <Spinner />}</Box>
-            <Stack direction="row" spacing="10px" alignSelf="end">
-              <Input
-                value={date}
-                onChange={(event) => {
-                  setDate(event?.target?.value);
-                  fetchBids(
-                    (pageIndex + 1).toString(),
-                    show,
-                    event?.target?.value
-                  );
-                }}
-                type="date"
-              />
+        <Stack direction="column" spacing={["40px", "40px", "60px", "60px"]}>
+          <Stack direction="column" spacing={["20px", "20px", "40px", "40px"]}>
+            <Stack
+              direction={["column", "column", "row", "row"]}
+              alignItems="center"
+              spacing="10px"
+              justifyContent="space-between"
+            >
+              <Box>{isLoading && <Spinner />}</Box>
+              <Stack direction="row" spacing="10px" alignSelf="end">
+                <Input
+                  value={date}
+                  onChange={(event) => {
+                    setDate(event?.target?.value);
+                    fetchBids(
+                      (pageIndex + 1).toString(),
+                      show,
+                      event?.target?.value
+                    );
+                  }}
+                  type="date"
+                />
 
-              <Button
-                leftIcon={<Icon icon="bx:download" />}
-                variant="green-solid-medium"
-                width="100%"
-              >
-                Export Data
-              </Button>
+                <Button
+                  leftIcon={<Icon icon="bx:download" />}
+                  variant="green-solid-medium"
+                  width="100%"
+                >
+                  Export Data
+                </Button>
+              </Stack>
+            </Stack>
+
+            <Stack direction="column" spacing="20px">
+              <TableContainer>
+                <Table variant="simple">
+                  <Thead>
+                    <Tr>
+                      <Th>PIC</Th>
+                      <Th>Dealers Created</Th>
+                      <Th>Particiaption(# of Dealer)</Th>
+                      <Th>Won (# of Dealer)</Th>
+                    </Tr>
+                  </Thead>
+                  <Tbody>
+                    {data?.data?.map((bd: any, index: number) => (
+                      <Tr key={bd?.id}>
+                        <Td>
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing="5px"
+                          >
+                            <Avatar name={bd?.name} size="sm" />
+                            <Text>{bd?.name}</Text>
+                          </Stack>
+                        </Td>
+                        <Td>{bd?.dealers_count}</Td>
+                        <Td>
+                          <Link
+                            href={`/bd-performance/dealer-participation/${bd?.id}`}
+                          >
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              spacing="5px"
+                            >
+                              <Text>{bd?.dealers_bids_count}</Text>
+                              <Icon icon="ion:eye-outline" />
+                            </Stack>
+                          </Link>
+                        </Td>
+                        <Td>
+                          <Link href={`/bd-performance/dealer-win/${bd?.id}`}>
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              spacing="5px"
+                            >
+                              <Text>{bd?.dealers_won_cars_count}</Text>
+                              <Icon icon="ion:eye-outline" />
+                            </Stack>
+                          </Link>
+                        </Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              </TableContainer>
+
+              <AdminPaginationFooter
+                pageIndex={pageIndex}
+                maxPage={maxPage}
+                onChangePage={changePage}
+                numberDisplayed={show}
+                setNumberDisplayed={changeLimit}
+              />
             </Stack>
           </Stack>
 
-          <Stack direction="column" spacing="20px">
-            <TableContainer>
-              <Table variant="simple">
-                <Thead>
-                  <Tr>
-                    <Th>PIC</Th>
-                    <Th>Dealers Created</Th>
-                    <Th>Particiaption(# of Dealer)</Th>
-                    <Th>Won (# of Dealer)</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {data?.data?.map((bd: any, index: number) => (
-                    <Tr key={bd?.id}>
-                      <Td>
-                        <Stack
-                          direction="row"
-                          alignItems="center"
-                          spacing="5px"
-                        >
-                          <Avatar name={bd?.name} size="sm" />
-                          <Text>{bd?.name}</Text>
-                        </Stack>
-                      </Td>
-                      <Td>{bd?.dealers_count}</Td>
-                      <Td>
-                        <Link
-                          href={`/bd-performance/dealer-participation/${bd?.id}`}
-                        >
-                          <Stack
-                            direction="row"
-                            alignItems="center"
-                            spacing="5px"
-                          >
-                            <Text>{bd?.dealers_bids_count}</Text>
-                            <Icon icon="ion:eye-outline" />
-                          </Stack>
-                        </Link>
-                      </Td>
-                      <Td>
-                        <Link href={`/bd-performance/dealer-win/${bd?.id}`}>
-                          <Stack
-                            direction="row"
-                            alignItems="center"
-                            spacing="5px"
-                          >
-                            <Text>{bd?.dealers_won_cars_count}</Text>
-                            <Icon icon="ion:eye-outline" />
-                          </Stack>
-                        </Link>
-                      </Td>
-                    </Tr>
-                  ))}
-                </Tbody>
-              </Table>
-            </TableContainer>
-
-            <AdminPaginationFooter
-              pageIndex={pageIndex}
-              maxPage={maxPage}
-              onChangePage={changePage}
-              numberDisplayed={show}
-              setNumberDisplayed={changeLimit}
-            />
-          </Stack>
+          <ListAccount />
         </Stack>
       </AdminLayout>
     </>

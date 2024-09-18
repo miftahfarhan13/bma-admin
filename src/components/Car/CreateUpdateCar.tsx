@@ -23,7 +23,7 @@ import useGetRoles from "@/utils/hooks/account/useGetRoles";
 import useGetBusinessUsers from "@/utils/hooks/account/useGetBusinessUsers";
 import UploadFile from "../AppComponents/UploadFile";
 
-export default function CreateUpdateAccount({
+export default function CreateUpdateCar({
   id,
   name,
   phoneNumber,
@@ -87,8 +87,16 @@ export default function CreateUpdateAccount({
     setAccountRole(role);
     setImageSavingBook(savingBookUrl);
     setImageProofTransfer(proofTransferUrl);
-    setAccountBd(businessUserId)
-  }, [isActive, isDeposit, depositDate, role, savingBookUrl, proofTransferUrl, businessUserId]);
+    setAccountBd(businessUserId);
+  }, [
+    isActive,
+    isDeposit,
+    depositDate,
+    role,
+    savingBookUrl,
+    proofTransferUrl,
+    businessUserId,
+  ]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -217,7 +225,7 @@ export default function CreateUpdateAccount({
           <Stack direction="column" spacing="20px">
             <Box p="10px" borderRadius="8px" border="1px solid #DBDBDB">
               <Stack direction="column" spacing="20px">
-                <Text fontWeight="700">Info Akun</Text>
+                <Text fontWeight="700">Detail Car</Text>
                 <Stack direction="column" spacing="10px">
                   <Stack direction="column" spacing="5px">
                     <Text fontSize="14px" color="grey">
@@ -298,7 +306,9 @@ export default function CreateUpdateAccount({
                         required
                       >
                         {businessUsers?.map((user: any) => (
-                          <option key={user?.id} value={user?.id}>{user?.name}</option>
+                          <option key={user?.id} value={user?.id}>
+                            {user?.name}
+                          </option>
                         ))}
                       </Select>
                     </Stack>

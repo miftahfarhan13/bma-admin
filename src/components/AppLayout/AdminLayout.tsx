@@ -33,22 +33,17 @@ export default function AdminLayout({
       icon: "bxs:book-content",
       name: "Bidding Information",
     },
-    // {
-    //   link: "",
-    //   icon: "bxs:car",
-    //   name: "Car",
-    // },
     {
-      link: "/account",
-      icon: "bxs:user-account",
-      name: "Akun",
+      link: "/car",
+      icon: "bxs:car",
+      name: "Car",
     },
   ];
   return (
     <Flex direction="row">
       <Box
         display={["none", "none", "block", "block"]}
-        minW="280px"
+        minW="255px"
         minH="100dvh"
         boxShadow="0px 1px 4px 0px #00000040"
       >
@@ -56,8 +51,9 @@ export default function AdminLayout({
       </Box>
       <Box width="100%">
         <Box
-          padding={["10px", "10px", "40px", "40px"]}
+          padding={["10px", "10px", "20px", "20px"]}
           bg={["bma.primary", "bma.primary", "transparent", "transparent"]}
+          shadow="md"
         >
           <Stack
             direction="row"
@@ -93,8 +89,10 @@ export default function AdminLayout({
           </Stack>
         </Box>
         <Box
-          p={["20px", "20px", "40px", "40px"]}
-          maxW={["100%", "100%", "calc(100vw - 300px)", "calc(100vw - 300px)"]}
+          p={["20px", "20px", "20px", "20px"]}
+          maxH="calc(100dvh - 88px)"
+          overflowY="auto"
+          maxW={["100%", "100%", "calc(100vw - 255px)", "calc(100vw - 255px)"]}
         >
           {children}
         </Box>

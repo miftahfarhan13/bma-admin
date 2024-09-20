@@ -17,7 +17,7 @@ import {
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 
-export default function ModalDeleteBrand({
+export default function ModalDeleteCar({
   id,
   onSuccess,
 }: {
@@ -36,7 +36,7 @@ export default function ModalDeleteBrand({
         setIsloading(false);
         toast({
           title: "Success",
-          description: "Berhasil menghapus Merek!",
+          description: "Berhasil menghapus Mobil!",
           status: "success",
           isClosable: true,
           position: "top",
@@ -50,7 +50,7 @@ export default function ModalDeleteBrand({
 
         toast({
           title: "Failed",
-          description: "Gagal menghapus Merek!",
+          description: "Gagal menghapus Mobil!",
           status: "error",
           isClosable: true,
           position: "top",
@@ -73,9 +73,9 @@ export default function ModalDeleteBrand({
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton />
-          <ModalHeader>Hapus Data Merek</ModalHeader>
+          <ModalHeader>Hapus Data Mobil</ModalHeader>
           <ModalBody>
-            <Text>Apakah anda yakin ingin menghapus data Merek?</Text>
+            <Text>Apakah anda yakin ingin menghapus data Mobil?</Text>
           </ModalBody>
 
           <ModalFooter>

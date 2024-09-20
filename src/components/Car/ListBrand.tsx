@@ -114,7 +114,7 @@ export default function ListBrand() {
               <Thead>
                 <Tr>
                   <Th>ID</Th>
-                  <Th>Merk Mobil</Th>
+                  <Th>Merek Mobil</Th>
                   <Th>Action</Th>
                 </Tr>
               </Thead>

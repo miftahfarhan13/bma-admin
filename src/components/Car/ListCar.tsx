@@ -1,6 +1,5 @@
 import {
   Button,
-  Center,
   IconButton,
   Input,
   InputGroup,
@@ -17,13 +16,14 @@ import {
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect, useRef, useState } from "react";
-import { getUsers } from "@/networks/auth";
 import useDebounce from "@/utils/hooks/useDebounce";
 import moment from "moment";
 import { formatter } from "@/utils/number";
 import AdminPaginationFooter from "@/components/AdminPaginationFooter";
 import Link from "next/link";
-import ModalDeleteAccount from "@/components/Account/ModalDeleteAccount";
+import { getCars } from "@/networks/car";
+import ChipBidStatus from "../AppComponents/ChipBidStatus";
+import ModalDeleteCar from "./ModalDeleteCar";
 
 export default function ListCar() {
   const [show, setShow] = useState("10");
@@ -34,10 +34,10 @@ export default function ListCar() {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<any>();
 
-  const fetchUsers = (page: string, show: string) => {
+  const fetchCars = (page: string, show: string) => {
     const token = localStorage.getItem("token") || "";
     setIsLoading(true);
-    getUsers("true", token, page, show, keyword)
+    getCars("true", token, page, show, keyword)
       .then((response) => {
         setData(response?.data?.result);
         setIsLoading(false);
@@ -49,7 +49,7 @@ export default function ListCar() {
 
   useEffect(() => {
     if (!firstRun.current) {
-      fetchUsers("1", show);
+      fetchCars("1", show);
       firstRun.current = true;
     }
   }, []);
@@ -58,7 +58,7 @@ export default function ListCar() {
   useDebounce(
     () => {
       if (firstRun.current) {
-        fetchUsers("1", show);
+        fetchCars("1", show);
       }
     },
     [keyword],
@@ -75,12 +75,12 @@ export default function ListCar() {
   const changePage = (page: number) => {
     if (page < 0) return;
     if (page >= maxPage) return;
-    fetchUsers((page + 1).toString(), show);
+    fetchCars((page + 1).toString(), show);
     setPageIndex(page);
   };
   const changeLimit = (limit: string) => {
     setShow(limit);
-    fetchUsers("1", limit);
+    fetchCars("1", limit);
   };
   // --
   return (
@@ -112,7 +112,7 @@ export default function ListCar() {
                 variant="primary-solid-medium"
                 w={["100%", "100%", "fit-content", "fit-content"]}
               >
-                Add Merk
+                Add Merek
               </Button>
             </Link>
             <Link href="/car/create">
@@ -133,7 +133,7 @@ export default function ListCar() {
               <Thead>
                 <Tr>
                   <Th>ID</Th>
-                  <Th>Merk Mobil</Th>
+                  <Th>Merek Mobil</Th>
                   <Th>Tipe Mobil</Th>
                   <Th>Harga Open</Th>
                   <Th>Plat Nomer</Th>
@@ -144,43 +144,27 @@ export default function ListCar() {
                 </Tr>
               </Thead>
               <Tbody>
-                {data?.data?.map((user: any, index: number) => (
-                  <Tr key={user?.id}>
-                    <Td>{user?.id}</Td>
-                    <Td>{user?.name}</Td>
+                {data?.data?.map((car: any) => (
+                  <Tr key={car?.id}>
+                    <Td>{car?.id}</Td>
+                    <Td>{car?.brand?.brand_name}</Td>
+                    <Td>{car?.car_name}</Td>
+                    <Td>Rp {formatter.format(car?.price)}</Td>
+                    <Td>{car?.license_plate}</Td>
                     <Td>
-                      {user?.businesses?.length > 0
-                        ? user?.businesses[0]?.name
-                        : "-"}
-                    </Td>
-                    <Td>{user?.roles[0]?.name}</Td>
-                    <Td>
-                      <Center>
-                        {user?.is_active === 1 ? (
-                          <Icon icon="bx:check-circle" color="#5ED256" />
-                        ) : (
-                          <Icon icon="bx:x-circle" color="#ED1C29" />
-                        )}
-                      </Center>
-                    </Td>
-                    <Td>
-                      <Center>
-                        {user?.is_deposit === 1 ? (
-                          <Icon icon="bx:check-circle" color="#5ED256" />
-                        ) : (
-                          <Icon icon="bx:x-circle" color="#ED1C29" />
-                        )}
-                      </Center>
-                    </Td>
-                    <Td>Rp {formatter.format(user?.deposit_nominal)}</Td>
-                    <Td>
-                      {moment(new Date(user?.created_at)).format(
-                        "MMMM DD, YYYY"
+                      {moment(new Date(car?.session_time_start)).format(
+                        "DD MMMM YYYY, HH:mm"
                       )}
                     </Td>
                     <Td>
+                      <ChipBidStatus status={car?.bidding_status} />
+                    </Td>
+                    <Td>
+                      {car?.bid?.length > 0 ? car?.bid[0]?.user?.name : "-"}
+                    </Td>
+                    <Td>
                       <Stack direction="row" alignItems="center" spacing="10px">
-                        <Link href={`/account/update/${user?.id}`}>
+                        <Link href={`/car/update/${car?.id}`}>
                           <IconButton
                             _hover={{}}
                             bgColor="#65DE78"
@@ -189,10 +173,10 @@ export default function ListCar() {
                             aria-label=""
                           />
                         </Link>
-                        <ModalDeleteAccount
-                          id={user?.id}
+                        <ModalDeleteCar
+                          id={car?.id}
                           onSuccess={() =>
-                            fetchUsers(pageIndex.toString(), show)
+                            fetchCars(pageIndex.toString(), show)
                           }
                         />
                       </Stack>

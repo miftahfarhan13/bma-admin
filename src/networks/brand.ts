@@ -3,9 +3,9 @@ import { axiosClient } from "./apiClient";
 export function getBrands(
   isPaginate: string,
   token: string,
-  page: string,
-  show: string,
-  search: string
+  page?: string,
+  show?: string,
+  search?: string
 ) {
   let config = {
     headers: {
@@ -13,7 +13,9 @@ export function getBrands(
     },
   };
   return axiosClient.get(
-    `/brands?is_paginate=${isPaginate}&page=${page}&per_page=${show}&search=${search}`,
+    `/brands?is_paginate=${isPaginate}&page=${page}&per_page=${show}${
+      search ? `&search=${search}` : ""
+    }`,
     config
   );
 }

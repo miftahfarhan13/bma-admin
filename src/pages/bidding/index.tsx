@@ -139,7 +139,7 @@ export default function Account() {
                 <Thead>
                   <Tr>
                     <Th>No</Th>
-                    <Th>Merk Mobil</Th>
+                    <Th>Merek Mobil</Th>
                     <Th>Tipe Mobil</Th>
                     <Th>Harga Open</Th>
                     <Th>Harga Terbentuk</Th>
@@ -214,7 +214,9 @@ export default function Account() {
                       <Td>
                         <ChipBidStatus status={car?.bidding_status} />
                       </Td>
-                      <Td>{car?.bid ? car?.bid[0]?.user?.name : "-"}</Td>
+                      <Td>
+                        {car?.bid?.length > 0 ? car?.bid[0]?.user?.name : "-"}
+                      </Td>
                       <Td>
                         <Center>
                           {car?.bidding_status === "Menang" && (

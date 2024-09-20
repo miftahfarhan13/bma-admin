@@ -1,0 +1,67 @@
+{
+    "brand_id": "",
+    "car_name": "",
+    "car_availability": "",
+    "price": "",
+    "current_price": "",
+    "license_plate": "",
+    "odometer": "",
+    "manufacture_year": "",
+    "car_tax": "",
+    "fuel_type": "",
+    "transmission_type": "",
+    "defect_status": "",
+    "is_flooded": "0",
+    "auction_date": "",
+    "auction_session_run": "10:00 - 15:00",
+    "bpkb_status": "0",
+    "stnk_status": "0",
+    "invoice_status": "0",
+    "vin_status": "0",
+    "form_a_status": "0",
+    "stnk_fotocopy_status": "0",
+    "manual_book_status": "0",
+    "service_book_status": "0",
+    "backup_key_status": "0",
+    "receipt_form_status": "0",
+    "declaration_right_status": "0",
+    "toolkit_status": "0",
+    "video_file": "",
+    "inspection_detail": "",
+    "bpkb_pict": "",
+    "stnk_pict": "",
+    "invoice_pict": "",
+    "vin_pict": "",
+    "form_a_pict": "",
+    "stnk_fotocopy_pict": "",
+    "manual_book_pict": "",
+    "service_book_pict": "",
+    "backup_key_pict": "",
+    "receipt_form_pict": "",
+    "declaration_right_pict": "",
+    "toolkit_pict": "",
+    "img_paths": [
+        ""
+    ],
+    "car_defects_interior": [
+        {
+            "defect_title": "",
+            "defect_pict": "",
+            "defect_type": ""
+        }
+    ],
+    "car_defects_eksterior": [
+        {
+            "defect_title": "",
+            "defect_pict": "",
+            "defect_type": ""
+        }
+    ],
+    "car_defects_others": [
+        {
+            "defect_title": "",
+            "defect_pict": "",
+            "defect_type": ""
+        }
+    ]
+}

@@ -1,11 +1,11 @@
 import AdminLayout from "@/components/AppLayout/AdminLayout";
 import CreateUpdateCar from "@/components/Car/CreateUpdateCar";
 
-export default function CreateCar() {
+export default function UpdateCar() {
   return (
     <>
-      <AdminLayout name="Car" pageName="Create Car">
-        <CreateUpdateCar type="create" />
+      <AdminLayout name="Car" pageName="Update Car">
+        <CreateUpdateCar type="update" />
       </AdminLayout>
     </>
   );

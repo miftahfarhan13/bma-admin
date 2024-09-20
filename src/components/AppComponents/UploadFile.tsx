@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   IconButton,
+  Image,
   Input,
   Skeleton,
   Stack,
@@ -15,9 +16,11 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 function UploadFile({
   url,
   onChangeValue,
+  filePath,
 }: {
   url: string;
   onChangeValue: (value: string) => void;
+  filePath: string;
 }) {
   const toast = useToast();
   const fileUpload = useRef<HTMLInputElement>(null);
@@ -59,7 +62,7 @@ function UploadFile({
   const onUploadFile = async (file: any) => {
     const form = new FormData();
     form.append("file", file);
-    form.append("filePath", "deposit");
+    form.append("filePath", filePath);
 
     await fetchUploadFile(localStorage.getItem("token") || "", form)
       .then((response) => {
@@ -98,64 +101,57 @@ function UploadFile({
 
   return (
     <Box width="100%">
-      <Stack direction="column" alignItems="center" spacing={1}>
-        <Box position="relative">
-          <Box
-            border="1px solid rgba(140, 140, 140, 0.2)"
-            borderRadius="8px"
-            padding="16px"
-          >
-            {isLoading ? (
-              <Skeleton variant="rounded" width={300} height={200} />
-            ) : (
-              <img
-                height={200}
-                width={300}
-                src={
-                  fileToUpload
-                    ? `http://127.0.0.1:8000/storage/${fileToUpload}`
-                    : "/images/default-image.jpeg"
-                }
-                alt="Foto"
-                style={{ objectFit: "contain" }}
-              ></img>
-            )}
-          </Box>
-
-          {fileToUpload && (
-            <IconButton
-              aria-label="Icon Delete File"
-              position="absolute"
-              top={-3}
-              right={-2}
-              onClick={() => setFileToUpload("")}
-              icon={<Icon icon="bx:x" />}
-              size="sm"
-              bgColor="bma.primary"
-              color="white"
-              _hover={{}}
-            ></IconButton>
+      <Box
+        border="1px solid rgba(140, 140, 140, 0.2)"
+        borderRadius="8px"
+        padding="16px"
+      >
+        <Stack direction="column" alignItems="center" spacing="10px">
+          {isLoading ? (
+            <Skeleton variant="rounded" width="100%" height="100px" />
+          ) : (
+            <Image
+              width="100%"
+              height="150px"
+              src={
+                fileToUpload
+                  ? `http://127.0.0.1:8000/storage/${fileToUpload}`
+                  : "/images/default-image.jpeg"
+              }
+              alt="Foto"
+              style={{ objectFit: "contain" }}
+            ></Image>
           )}
-        </Box>
 
-        {!fileToUpload && (
-          <Button
-            role={undefined}
-            variant="contained"
-            tabIndex={-1}
-            leftIcon={<Icon icon="bx:upload" />}
-            onClick={onSelectFile}
-          >
-            Upload file
-            <Input
-              onChange={() => uploadProfilePic()}
-              ref={fileUpload}
-              type="file"
-              hidden
-            />
-          </Button>
-        )}
-      </Stack>
+          {!fileToUpload ? (
+            <Button
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              leftIcon={<Icon icon="bx:upload" />}
+              onClick={onSelectFile}
+            >
+              Upload file
+              <Input
+                onChange={() => uploadProfilePic()}
+                ref={fileUpload}
+                type="file"
+                hidden
+              />
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              tabIndex={-1}
+              leftIcon={<Icon icon="bx:trash" />}
+              onClick={() => setFileToUpload("")}
+              color="bma.primary"
+            >
+              Ganti File
+            </Button>
+          )}
+        </Stack>
+      </Box>
     </Box>
   );
 }

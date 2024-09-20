@@ -6,7 +6,7 @@ export function getCars(
   page: string,
   show: string,
   search: string,
-  date: string
+  date?: string
 ) {
   let config = {
     headers: {

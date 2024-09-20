@@ -87,8 +87,16 @@ export default function CreateUpdateAccount({
     setAccountRole(role);
     setImageSavingBook(savingBookUrl);
     setImageProofTransfer(proofTransferUrl);
-    setAccountBd(businessUserId)
-  }, [isActive, isDeposit, depositDate, role, savingBookUrl, proofTransferUrl, businessUserId]);
+    setAccountBd(businessUserId);
+  }, [
+    isActive,
+    isDeposit,
+    depositDate,
+    role,
+    savingBookUrl,
+    proofTransferUrl,
+    businessUserId,
+  ]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -298,7 +306,9 @@ export default function CreateUpdateAccount({
                         required
                       >
                         {businessUsers?.map((user: any) => (
-                          <option key={user?.id} value={user?.id}>{user?.name}</option>
+                          <option key={user?.id} value={user?.id}>
+                            {user?.name}
+                          </option>
                         ))}
                       </Select>
                     </Stack>
@@ -424,6 +434,7 @@ export default function CreateUpdateAccount({
                     </Text>
                     <UploadFile
                       url={imageSavingBook || ""}
+                      filePath="deposit"
                       onChangeValue={(value) => setImageSavingBook(value)}
                     />
                   </Stack>
@@ -434,6 +445,7 @@ export default function CreateUpdateAccount({
                     </Text>
                     <UploadFile
                       url={imageProofTransfer || ""}
+                      filePath="deposit"
                       onChangeValue={(value) => setImageProofTransfer(value)}
                     />
                   </Stack>

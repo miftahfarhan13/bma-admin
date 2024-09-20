@@ -41,7 +41,7 @@ export default function ModalCreateUpdateBrand({
         setIsloading(false);
         toast({
           title: "Success",
-          description: "Berhasil menambah Merk!",
+          description: "Berhasil menambah Merek!",
           status: "success",
           isClosable: true,
           position: "top",
@@ -54,7 +54,7 @@ export default function ModalCreateUpdateBrand({
 
         toast({
           title: "Failed",
-          description: "Gagal menambah Merk!",
+          description: "Gagal menambah Merek!",
           status: "error",
           isClosable: true,
           position: "top",
@@ -70,7 +70,7 @@ export default function ModalCreateUpdateBrand({
         setIsloading(false);
         toast({
           title: "Success",
-          description: "Berhasil mengubah Merk!",
+          description: "Berhasil mengubah Merek!",
           status: "success",
           isClosable: true,
           position: "top",
@@ -83,7 +83,7 @@ export default function ModalCreateUpdateBrand({
 
         toast({
           title: "Failed",
-          description: "Gagal mengubah Merk!",
+          description: "Gagal mengubah Merek!",
           status: "error",
           isClosable: true,
           position: "top",
@@ -109,7 +109,7 @@ export default function ModalCreateUpdateBrand({
             variant="primary-solid-medium"
             w={["100%", "100%", "fit-content", "fit-content"]}
           >
-            Add Merk
+            Add Merek
           </Button>
         </>
       ) : (
@@ -141,7 +141,7 @@ export default function ModalCreateUpdateBrand({
         >
           <ModalCloseButton />
           <ModalHeader>
-            {type === "create" ? "Tambah Data Merk" : "Update Data Merk"}{" "}
+            {type === "create" ? "Tambah Data Merek" : "Update Data Merek"}{" "}
           </ModalHeader>
           <ModalBody>
             <Stack direction="column" spacing="5px">

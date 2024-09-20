@@ -1,3 +1,4 @@
+import { createBrand, updateBrand } from "@/networks/brand";
 import {
   Button,
   IconButton,
@@ -32,12 +33,70 @@ export default function ModalCreateUpdateBrand({
   const [isLoading, setIsloading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const onSubmit = ({ name }: { name: string }) => {
+  const onCreateBrand = async ({ name }: { name: string }) => {
     setIsloading(true);
-    console.log(name);
+    const token = localStorage.getItem("token") || "";
+    await createBrand(token, { brand_name: name })
+      .then((response) => {
+        setIsloading(false);
+        toast({
+          title: "Success",
+          description: "Berhasil menambah Merk!",
+          status: "success",
+          isClosable: true,
+          position: "top",
+        });
+        onClose();
+        onSuccess();
+      })
+      .catch((error) => {
+        setIsloading(false);
 
-    setIsloading(false);
-    // onSuccess();
+        toast({
+          title: "Failed",
+          description: "Gagal menambah Merk!",
+          status: "error",
+          isClosable: true,
+          position: "top",
+        });
+      });
+  };
+
+  const onUpdateBrand = async ({ name }: { name: string }) => {
+    setIsloading(true);
+    const token = localStorage.getItem("token") || "";
+    await updateBrand(token, id || 0, { brand_name: name })
+      .then((response) => {
+        setIsloading(false);
+        toast({
+          title: "Success",
+          description: "Berhasil mengubah Merk!",
+          status: "success",
+          isClosable: true,
+          position: "top",
+        });
+        onClose();
+        onSuccess();
+      })
+      .catch((error) => {
+        setIsloading(false);
+
+        toast({
+          title: "Failed",
+          description: "Gagal mengubah Merk!",
+          status: "error",
+          isClosable: true,
+          position: "top",
+        });
+      });
+  };
+
+  const onSubmit = ({ name }: { name: string }) => {
+    if (type === "create") {
+      onCreateBrand({ name });
+    } else {
+      onUpdateBrand({ name });
+    }
   };
 
   return (

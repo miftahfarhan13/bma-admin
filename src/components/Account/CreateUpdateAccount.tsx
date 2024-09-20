@@ -118,7 +118,7 @@ export default function CreateUpdateAccount({
     )
       .then((response) => {
         setIsLoading(false);
-        router.push("/account");
+        router.push("/bd-performance");
       })
       .catch((error) => {
         const message = error?.response?.data?.message
@@ -162,7 +162,7 @@ export default function CreateUpdateAccount({
     )
       .then((response) => {
         setIsLoading(false);
-        router.push("/account");
+        router.push("/bd-performance");
       })
       .catch((error) => {
         const message = error?.response?.data?.message

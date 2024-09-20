@@ -1,4 +1,5 @@
 import { fetchDeleteUser } from "@/networks/auth";
+import { deleteBrand } from "@/networks/brand";
 import {
   Button,
   IconButton,
@@ -30,7 +31,7 @@ export default function ModalDeleteBrand({
   const onDelete = async () => {
     setIsloading(true);
     const token = localStorage.getItem("token") || "";
-    await fetchDeleteUser(token, id)
+    await deleteBrand(token, id)
       .then((response) => {
         setIsloading(false);
         toast({
@@ -41,10 +42,10 @@ export default function ModalDeleteBrand({
           position: "top",
         });
 
+        onClose();
         onSuccess();
       })
       .catch((error) => {
-        console.log(error);
         setIsloading(false);
 
         toast({

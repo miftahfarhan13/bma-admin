@@ -1,7 +1,4 @@
 import {
-  Button,
-  Center,
-  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
@@ -17,15 +14,11 @@ import {
 } from "@chakra-ui/react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect, useRef, useState } from "react";
-import { getUsers } from "@/networks/auth";
 import useDebounce from "@/utils/hooks/useDebounce";
-import moment from "moment";
-import { formatter } from "@/utils/number";
 import AdminPaginationFooter from "@/components/AdminPaginationFooter";
-import Link from "next/link";
-import ModalDeleteAccount from "@/components/Account/ModalDeleteAccount";
 import ModalCreateUpdateBrand from "./Brand/ModalCreateUpdateBrand";
 import ModalDeleteBrand from "./Brand/ModalDeleteBrand";
+import { getBrands } from "@/networks/brand";
 
 export default function ListBrand() {
   const [show, setShow] = useState("10");
@@ -36,12 +29,12 @@ export default function ListBrand() {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<any>();
 
-  const fetchUsers = (page: string, show: string) => {
+  const fetchBrands = (page: string, show: string) => {
     const token = localStorage.getItem("token") || "";
     setIsLoading(true);
-    getUsers("true", token, page, show, keyword)
+    getBrands("true", token, page, show, keyword)
       .then((response) => {
-        setData(response?.data?.result);
+        setData(response?.data?.data);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -51,7 +44,7 @@ export default function ListBrand() {
 
   useEffect(() => {
     if (!firstRun.current) {
-      fetchUsers("1", show);
+      fetchBrands("1", show);
       firstRun.current = true;
     }
   }, []);
@@ -60,7 +53,7 @@ export default function ListBrand() {
   useDebounce(
     () => {
       if (firstRun.current) {
-        fetchUsers("1", show);
+        fetchBrands("1", show);
       }
     },
     [keyword],
@@ -77,12 +70,12 @@ export default function ListBrand() {
   const changePage = (page: number) => {
     if (page < 0) return;
     if (page >= maxPage) return;
-    fetchUsers((page + 1).toString(), show);
+    fetchBrands((page + 1).toString(), show);
     setPageIndex(page);
   };
   const changeLimit = (limit: string) => {
     setShow(limit);
-    fetchUsers("1", limit);
+    fetchBrands("1", limit);
   };
   // --
   return (
@@ -110,7 +103,7 @@ export default function ListBrand() {
           <Stack direction="row" alignItems="center" spacing="10px">
             <ModalCreateUpdateBrand
               type="create"
-              onSuccess={() => fetchUsers(pageIndex.toString(), show)}
+              onSuccess={() => fetchBrands(pageIndex.toString(), show)}
             />
           </Stack>
         </Stack>
@@ -126,24 +119,24 @@ export default function ListBrand() {
                 </Tr>
               </Thead>
               <Tbody>
-                {data?.data?.map((user: any) => (
-                  <Tr key={user?.id}>
-                    <Td>{user?.id}</Td>
-                    <Td>{user?.name}</Td>
+                {data?.data?.map((brand: any) => (
+                  <Tr key={brand?.id}>
+                    <Td>{brand?.id}</Td>
+                    <Td>{brand?.brand_name}</Td>
                     <Td>
                       <Stack direction="row" alignItems="center" spacing="10px">
                         <ModalCreateUpdateBrand
-                          id={user?.id}
-                          brand={user?.name}
+                          id={brand?.id}
+                          brand={brand?.brand_name}
                           type="update"
                           onSuccess={() =>
-                            fetchUsers(pageIndex.toString(), show)
+                            fetchBrands(pageIndex.toString(), show)
                           }
                         />
                         <ModalDeleteBrand
-                          id={user?.id}
+                          id={brand?.id}
                           onSuccess={() =>
-                            fetchUsers(pageIndex.toString(), show)
+                            fetchBrands(pageIndex.toString(), show)
                           }
                         />
                       </Stack>

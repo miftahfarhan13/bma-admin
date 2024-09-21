@@ -1,5 +1,4 @@
-import { fetchDeleteUser } from "@/networks/auth";
-import { deleteBrand } from "@/networks/brand";
+import { deleteCar } from "@/networks/car";
 import {
   Button,
   IconButton,
@@ -31,7 +30,7 @@ export default function ModalDeleteCar({
   const onDelete = async () => {
     setIsloading(true);
     const token = localStorage.getItem("token") || "";
-    await deleteBrand(token, id)
+    await deleteCar(token, id)
       .then((response) => {
         setIsloading(false);
         toast({

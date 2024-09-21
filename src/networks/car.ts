@@ -137,3 +137,14 @@ export function fetchUpdateCar(
 
   return axiosClient.put(`/cars/${id}`, data, config);
 }
+
+
+export function deleteCar(token: string, id: number) {
+  let config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return axiosClient.delete(`/cars/${id}`, config);
+}

@@ -190,6 +190,7 @@ export default function CreateUpdateCar({
       car_videos: [{ video_file: values?.video_file }],
       car_images: imgPaths,
       car_defects: concatCarDefects,
+      inspection_detail: inspectionDetail,
     };
 
     if (type === "update") {
@@ -736,7 +737,7 @@ export default function CreateUpdateCar({
 
                 {imgPaths && imgPaths?.length > 0 ? (
                   <>
-                    <SimpleGrid columns={[1, 1, 2, 6]} gap="10px">
+                    <SimpleGrid columns={[1, 1, 2, 4, 6]} gap="10px">
                       {imgPaths
                         ?.filter((fil) => !fil?._delete)
                         ?.map((imgPath, index) => (
@@ -1000,7 +1001,7 @@ export default function CreateUpdateCar({
                   </Stack>
                 </SimpleGrid>
 
-                <SimpleGrid columns={[1, 1, 2, 6]} gap="10px">
+                <SimpleGrid columns={[1, 1, 2, 4, 6]} gap="10px">
                   <Stack direction="column" spacing="5px">
                     <Text fontSize="14px" color="grey">
                       Gambar BPKB
@@ -1184,7 +1185,7 @@ export default function CreateUpdateCar({
 
                   {carDefectsInterior && carDefectsInterior?.length > 0 ? (
                     <>
-                      <SimpleGrid columns={[1, 1, 2, 6]} gap="10px">
+                      <SimpleGrid columns={[1, 1, 2, 4, 6]} gap="10px">
                         {carDefectsInterior
                           ?.filter((fil) => !fil?._delete)
                           ?.map((interior, index) => (
@@ -1262,7 +1263,7 @@ export default function CreateUpdateCar({
 
                   {carDefectsEksterior && carDefectsEksterior?.length > 0 ? (
                     <>
-                      <SimpleGrid columns={[1, 1, 2, 6]} gap="10px">
+                      <SimpleGrid columns={[1, 1, 2, 4, 6]} gap="10px">
                         {carDefectsEksterior
                           ?.filter((fil) => !fil?._delete)
                           ?.map((interior, index) => (
@@ -1340,7 +1341,7 @@ export default function CreateUpdateCar({
 
                   {carDefectsOthers && carDefectsOthers?.length > 0 ? (
                     <>
-                      <SimpleGrid columns={[1, 1, 2, 6]} gap="10px">
+                      <SimpleGrid columns={[1, 1, 2, 4, 6]} gap="10px">
                         {carDefectsOthers
                           ?.filter((fil) => !fil?._delete)
                           ?.map((interior, index) => (

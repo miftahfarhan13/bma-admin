@@ -26,3 +26,23 @@ a {
     color-scheme: dark;
   }
 }
+
+.ck-editor__editable_inline ol {
+  padding: 0 !important;
+  padding-left: 20px !important;
+}
+
+.ck-editor__editable_inline ul {
+  padding: 0 !important;
+  padding-left: 18px !important;
+}
+
+.ck-placeholder {
+  color: #AEBECD !important;
+  font-weight: 500;
+}
+
+.ck-placeholder::before {
+  color: #AEBECD !important;
+  font-weight: 500;
+}

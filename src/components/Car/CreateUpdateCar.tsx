@@ -13,120 +13,35 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import TextEditor from "@/components/AppComponents/TextEditor";
-
 import { useEffect, useState } from "react";
 import { Formik, Field, Form, FieldAttributes } from "formik";
-import { fetchRegister, fetchUpdateUser } from "@/networks/auth";
 import { useRouter } from "next/router";
 import UploadFile from "../AppComponents/UploadFile";
 import useGetBrands from "@/utils/hooks/brand/useGetBrands";
 import { Icon } from "@iconify/react/dist/iconify.js";
+import { fetchCreateCar, fetchUpdateCar } from "@/networks/car";
 
 interface ICarDefect {
+  id: number | undefined;
   defect_title: string;
   defect_pict: string;
   defect_type: string;
+  _delete: boolean;
+}
+
+interface IImagePath {
+  id: number | undefined;
+  img_path: string;
+  _delete: boolean;
 }
 
 export default function CreateUpdateCar({
+  car,
   id,
-  brand_id,
-  carName,
-  carAvailability,
-  price,
-  currentPrice,
-  licensePlate,
-  odometer,
-  manufactureYear,
-  carTax,
-  fuelType,
-  transmissionType,
-  defectStatus,
-  isFlooded = "0",
-  auctionDate,
-  bpkbStatus = "0",
-  stnkStatus = "0",
-  invoiceStatus = "0",
-  vinStatus = "0",
-  formAStatus = "0",
-  stnkFotocopyStatus = "0",
-  manualBookStatus = "0",
-  serviceBookStatus = "0",
-  backupKeyStatus = "0",
-  receiptFormStatus = "0",
-  declarationRightStatus = "0",
-  toolkitStatus = "0",
-  videoFile,
-
-  imgPathsProps,
-  statusProps,
-  inspectionDetailProps,
-  bpkbPictProps,
-  stnkPictProps,
-  invoicePictProps,
-  vinPictProps,
-  formAPictProps,
-  stnkFotocopyPictProps,
-  manualBookPictProps,
-  serviceBookPictProps,
-  backupKeyPictProps,
-  receiptFormPictProps,
-  declarationRightPictProps,
-  toolkitPictProps,
-  carDefectsInteriorProps,
-  carDefectsEksteriorProps,
-  carDefectsOthersProps,
-
   type,
 }: {
+  car?: any;
   id?: string;
-  brand_id?: string;
-  carName?: string;
-  carAvailability?: string;
-  price?: string;
-  currentPrice?: string;
-  licensePlate?: string;
-  odometer?: number;
-  manufactureYear?: string;
-  carTax?: string;
-  fuelType?: number;
-  transmissionType?: string;
-  defectStatus?: string;
-  isFlooded?: string;
-  auctionDate?: string;
-  bpkbStatus?: string;
-  stnkStatus?: string;
-  invoiceStatus?: string;
-  vinStatus?: string;
-  formAStatus?: string;
-  stnkFotocopyStatus?: string;
-  manualBookStatus?: string;
-  serviceBookStatus?: string;
-  backupKeyStatus?: string;
-  receiptFormStatus?: string;
-  declarationRightStatus?: string;
-  toolkitStatus?: string;
-  videoFile?: string;
-
-  imgPathsProps?: Array<string | undefined>;
-  statusProps?: string;
-  inspectionDetailProps?: string;
-  bpkbPictProps?: string;
-  stnkPictProps?: string;
-  invoicePictProps?: string;
-  vinPictProps?: string;
-  formAPictProps?: string;
-  stnkFotocopyPictProps?: string;
-  manualBookPictProps?: string;
-  serviceBookPictProps?: string;
-  backupKeyPictProps?: string;
-  receiptFormPictProps?: string;
-  declarationRightPictProps?: string;
-  toolkitPictProps?: string;
-  carDefectsInteriorProps?: Array<ICarDefect>;
-  carDefectsEksteriorProps?: Array<ICarDefect>;
-  carDefectsOthersProps?: Array<ICarDefect>;
-
   type: string;
 }) {
   const router = useRouter();
@@ -134,7 +49,7 @@ export default function CreateUpdateCar({
 
   const { data: brands } = useGetBrands();
 
-  const [imgPaths, setImgPaths] = useState<Array<string | undefined>>([]);
+  const [imgPaths, setImgPaths] = useState<Array<IImagePath>>([]);
   const [status, setStatus] = useState("");
   const [inspectionDetail, setInspectionDetail] = useState("");
   const [bpkbPict, setBpkbPict] = useState<string | undefined>("");
@@ -168,58 +83,97 @@ export default function CreateUpdateCar({
   );
 
   useEffect(() => {
-    setStatus(statusProps || "");
-    setImgPaths(imgPathsProps || []);
-    setInspectionDetail(inspectionDetailProps || "");
-    setBpkbPict(bpkbPictProps);
-    setStnkPict(stnkPictProps);
-    setInvoicePict(invoicePictProps);
-    setVinPict(vinPictProps);
-    setFormAPict(formAPictProps);
-    setStnkFotocopyPict(stnkFotocopyPictProps);
-    setManualBookPict(manualBookPictProps);
-    setServiceBookPict(serviceBookPictProps);
-    setBackupKeyPict(backupKeyPictProps);
-    setReceiptFormPict(receiptFormPictProps);
-    setDeclarationRightPict(declarationRightPictProps);
-    setToolkitPict(toolkitPictProps);
-    setCarDefectsInterior(carDefectsInteriorProps || []);
-    setCarDefectsEksterior(carDefectsEksteriorProps || []);
-    setCarDefectsOthers(carDefectsOthersProps || []);
-  }, [
-    imgPathsProps,
-    statusProps,
-    inspectionDetailProps,
-    bpkbPictProps,
-    stnkPictProps,
-    invoicePictProps,
-    vinPictProps,
-    formAPictProps,
-    stnkFotocopyPictProps,
-    manualBookPictProps,
-    serviceBookPictProps,
-    backupKeyPictProps,
-    receiptFormPictProps,
-    declarationRightPictProps,
-    toolkitPictProps,
-    carDefectsInteriorProps,
-    carDefectsEksteriorProps,
-    carDefectsOthersProps,
-  ]);
+    setStatus(car?.status || "");
+    setInspectionDetail(car?.inspection_detail || "");
+    setBpkbPict(car?.car_document?.bpkb_pict);
+    setStnkPict(car?.car_document?.stnk_pict);
+    setInvoicePict(car?.car_document?.invoice_pict);
+    setVinPict(car?.car_document?.vin_pict);
+    setFormAPict(car?.car_document?.form_a_pict);
+    setStnkFotocopyPict(car?.car_document?.stnk_fotocopy_pict);
+    setManualBookPict(car?.car_document?.manual_book_pict);
+    setServiceBookPict(car?.car_document?.service_book_pict);
+    setBackupKeyPict(car?.car_document?.backup_key_pict);
+    setReceiptFormPict(car?.car_document?.receipt_form_pict);
+    setDeclarationRightPict(car?.car_document?.declaration_right_pict);
+    setToolkitPict(car?.car_document?.toolkit_pict);
+
+    const imgPaths = car?.car_images?.map((carImg: any) => ({
+      id: carImg?.id,
+      img_path: carImg?.img_path,
+      _delete: false,
+    }));
+    setImgPaths(imgPaths || []);
+
+    const defectsInterior = car?.car_defects_interior?.map((defect: any) => ({
+      id: defect?.id,
+      defect_title: defect?.defect_title,
+      defect_pict: defect?.defect_pict,
+      defect_type: defect?.defect_type,
+      _delete: false,
+    }));
+    setCarDefectsInterior(defectsInterior || []);
+
+    const defectsEksterior = car?.car_defects_eksterior?.map((defect: any) => ({
+      id: defect?.id,
+      defect_title: defect?.defect_title,
+      defect_pict: defect?.defect_pict,
+      defect_type: defect?.defect_type,
+      _delete: false,
+    }));
+    setCarDefectsEksterior(defectsEksterior || []);
+
+    const defectsOther = car?.car_defects_others?.map((defect: any) => ({
+      id: defect?.id,
+      defect_title: defect?.defect_title,
+      defect_pict: defect?.defect_pict,
+      defect_type: defect?.defect_type,
+      _delete: false,
+    }));
+    setCarDefectsOthers(defectsOther || []);
+  }, [car]);
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const createCar = async ({
-    values,
-    token,
-  }: {
-    values: any;
-    token: string;
-  }) => {
-    await fetchRegister(
-      {
-        ...values,
-        inspection_detail: inspectionDetail,
+  const getInputValue = (values: any) => {
+    const carDefects: any = [];
+    const concatCarDefects = carDefects?.concat(
+      carDefectsInterior,
+      carDefectsEksterior,
+      carDefectsOthers
+    );
+
+    let body: any = {
+      brand_id: values?.brand_id,
+      car_name: values?.car_name,
+      car_availability: values?.car_availability,
+      price: values?.price,
+      current_price: values?.current_price,
+      license_plate: values?.license_plate,
+      odometer: values?.odometer,
+      manufacture_year: values?.manufacture_year,
+      car_tax: values?.car_tax,
+      fuel_type: values?.fuel_type,
+      transmission_type: values?.transmission_type,
+      defect_status: values?.defect_status,
+      is_flooded: values?.is_flooded === "1" ? true : false,
+      auction_date: values?.auction_date,
+      auction_session_run: values?.auction_session_run,
+      car_documents: {
+        bpkb_status: values?.bpkb_status === "1" ? true : false,
+        stnk_status: values?.stnk_status === "1" ? true : false,
+        invoice_status: values?.invoice_status === "1" ? true : false,
+        vin_status: values?.vin_status === "1" ? true : false,
+        form_a_status: values?.form_a_status === "1" ? true : false,
+        stnk_fotocopy_status:
+          values?.stnk_fotocopy_status === "1" ? true : false,
+        manual_book_status: values?.manual_book_status === "1" ? true : false,
+        service_book_status: values?.service_book_status === "1" ? true : false,
+        backup_key_status: values?.backup_key_status === "1" ? true : false,
+        receipt_form_status: values?.receipt_form_status === "1" ? true : false,
+        declaration_right_status:
+          values?.declaration_right_status === "1" ? true : false,
+        toolkit_status: values?.toolkit_status === "1" ? true : false,
         bpkb_pict: bpkbPict,
         stnk_pict: stnkPict,
         invoice_pict: invoicePict,
@@ -232,13 +186,28 @@ export default function CreateUpdateCar({
         receipt_form_pict: receiptFormPict,
         declaration_right_pict: declarationRightPict,
         toolkit_pict: toolkitPict,
-        img_paths: imgPaths,
-        car_defects_interior: carDefectsInterior,
-        car_defects_eksterior: carDefectsEksterior,
-        car_defects_others: carDefectsOthers,
       },
-      token
-    )
+      car_videos: [{ video_file: values?.video_file }],
+      car_images: imgPaths,
+      car_defects: concatCarDefects,
+    };
+
+    if (type === "update") {
+      body.status = status;
+    }
+
+    return body;
+  };
+
+  const createCar = async ({
+    values,
+    token,
+  }: {
+    values: any;
+    token: string;
+  }) => {
+    const body = getInputValue(values);
+    await fetchCreateCar(body, token)
       .then((response) => {
         setIsLoading(false);
         router.push("/car");
@@ -265,31 +234,8 @@ export default function CreateUpdateCar({
     values: any;
     token: string;
   }) => {
-    await fetchUpdateUser(
-      id,
-      {
-        ...values,
-        inspection_detail: inspectionDetail,
-        bpkb_pict: bpkbPict,
-        stnk_pict: stnkPict,
-        invoice_pict: invoicePict,
-        vin_pict: vinPict,
-        form_a_pict: formAPict,
-        stnk_fotocopy_pict: stnkFotocopyPict,
-        manual_book_pict: manualBookPict,
-        service_book_pict: serviceBookPict,
-        backup_key_pict: backupKeyPict,
-        receipt_form_pict: receiptFormPict,
-        declaration_right_pict: declarationRightPict,
-        toolkit_pict: toolkitPict,
-        img_paths: imgPaths,
-        car_defects_interior: carDefectsInterior,
-        car_defects_eksterior: carDefectsEksterior,
-        car_defects_others: carDefectsOthers,
-        status,
-      },
-      token
-    )
+    const body = getInputValue(values);
+    await fetchUpdateCar(id, body, token)
       .then((response) => {
         setIsLoading(false);
         router.push("/car");
@@ -321,25 +267,32 @@ export default function CreateUpdateCar({
   };
 
   const handleAddImgPaths = () => {
-    setImgPaths([...imgPaths, ""]);
+    setImgPaths([...imgPaths, { id: undefined, img_path: "", _delete: false }]);
   };
 
   const handleChangeImgPaths = (index: number, value: string) => {
     const temp = [...imgPaths];
-    temp[index] = value;
+    temp[index].img_path = value;
     setImgPaths(temp);
   };
 
   const handleRemoveImgPaths = (index: any) => {
     const values = [...imgPaths];
-    values.splice(index, 1);
+    if (!values[index].id) values.splice(index, 1);
+    else values[index]._delete = true;
     setImgPaths(values);
   };
 
   const handleAddCarDefectsInterior = () => {
     setCarDefectsInterior([
       ...carDefectsInterior,
-      { defect_title: "", defect_pict: "", defect_type: "Interior" },
+      {
+        id: undefined,
+        defect_title: "",
+        defect_pict: "",
+        defect_type: "Interior",
+        _delete: false,
+      },
     ]);
   };
 
@@ -360,14 +313,21 @@ export default function CreateUpdateCar({
 
   const handleRemoveCarDefectsInterior = (index: any) => {
     const values = [...carDefectsInterior];
-    values.splice(index, 1);
+    if (!values[index].id) values.splice(index, 1);
+    else values[index]._delete = true;
     setCarDefectsInterior(values);
   };
 
   const handleAddCarDefectsEksterior = () => {
     setCarDefectsEksterior([
       ...carDefectsEksterior,
-      { defect_title: "", defect_pict: "", defect_type: "Eksterior" },
+      {
+        id: undefined,
+        defect_title: "",
+        defect_pict: "",
+        defect_type: "Eksterior",
+        _delete: false,
+      },
     ]);
   };
 
@@ -388,14 +348,21 @@ export default function CreateUpdateCar({
 
   const handleRemoveCarDefectsEksterior = (index: any) => {
     const values = [...carDefectsEksterior];
-    values.splice(index, 1);
+    if (!values[index].id) values.splice(index, 1);
+    else values[index]._delete = true;
     setCarDefectsEksterior(values);
   };
 
   const handleAddCarDefectsOther = () => {
     setCarDefectsOthers([
       ...carDefectsOthers,
-      { defect_title: "", defect_pict: "", defect_type: "Others" },
+      {
+        id: undefined,
+        defect_title: "",
+        defect_pict: "",
+        defect_type: "Others",
+        _delete: false,
+      },
     ]);
   };
 
@@ -416,41 +383,43 @@ export default function CreateUpdateCar({
 
   const handleRemoveCarDefectsOther = (index: any) => {
     const values = [...carDefectsOthers];
-    values.splice(index, 1);
+    if (!values[index].id) values.splice(index, 1);
+    else values[index]._delete = true;
     setCarDefectsOthers(values);
   };
   return (
     <>
       <Formik
         initialValues={{
-          brand_id: brand_id || "",
-          car_name: carName || "",
-          car_availability: carAvailability || "",
-          price: price || "",
-          current_price: currentPrice || "",
-          license_plate: licensePlate || "",
-          odometer: odometer || "",
-          manufacture_year: manufactureYear || "",
-          car_tax: carTax || "",
-          fuel_type: fuelType || "",
-          transmission_type: transmissionType || "",
-          defect_status: defectStatus || "",
-          is_flooded: isFlooded || "0",
-          auction_date: auctionDate || "",
+          brand_id: car?.brand_id || "",
+          car_name: car?.car_name || "",
+          car_availability: car?.car_availability || "",
+          price: car?.price || "",
+          current_price: car?.current_price || "",
+          license_plate: car?.license_plate || "",
+          odometer: car?.odometer || "",
+          manufacture_year: car?.manufacture_year || "",
+          car_tax: car?.car_tax || "",
+          fuel_type: car?.fuel_type || "",
+          transmission_type: car?.transmission_type || "",
+          defect_status: car?.defect_status || "",
+          is_flooded: car?.is_flooded || "0",
+          auction_date: car?.auction_date || "",
           auction_session_run: "10:00 - 15:00",
-          bpkb_status: bpkbStatus || "0",
-          stnk_status: stnkStatus || "0",
-          invoice_status: invoiceStatus || "0",
-          vin_status: vinStatus || "0",
-          form_a_status: formAStatus || "0",
-          stnk_fotocopy_status: stnkFotocopyStatus || "0",
-          manual_book_status: manualBookStatus || "0",
-          service_book_status: serviceBookStatus || "0",
-          backup_key_status: backupKeyStatus || "0",
-          receipt_form_status: receiptFormStatus || "0",
-          declaration_right_status: declarationRightStatus || "0",
-          toolkit_status: toolkitStatus || "0",
-          video_file: videoFile || "",
+          bpkb_status: car?.car_document?.bpkb_status || "0",
+          stnk_status: car?.car_document?.stnk_status || "0",
+          invoice_status: car?.car_document?.invoice_status || "0",
+          vin_status: car?.car_document?.vin_status || "0",
+          form_a_status: car?.car_document?.form_a_status || "0",
+          stnk_fotocopy_status: car?.car_document?.stnk_fotocopy_status || "0",
+          manual_book_status: car?.car_document?.manual_book_status || "0",
+          service_book_status: car?.car_document?.service_book_status || "0",
+          backup_key_status: car?.car_document?.backup_key_status || "0",
+          receipt_form_status: car?.car_document?.receipt_form_status || "0",
+          declaration_right_status:
+            car?.car_document?.declaration_right_status || "0",
+          toolkit_status: car?.car_document?.toolkit_status || "0",
+          video_file: car?.car_videos ? car?.car_videos[0]?.video_file : "",
         }}
         onSubmit={async (values) => {
           await onCreateCar(values);
@@ -768,30 +737,32 @@ export default function CreateUpdateCar({
                 {imgPaths && imgPaths?.length > 0 ? (
                   <>
                     <SimpleGrid columns={[1, 1, 2, 6]} gap="10px">
-                      {imgPaths?.map((imgPath, index) => (
-                        <Box position="relative">
-                          <UploadFile
-                            url={imgPath || ""}
-                            onChangeValue={(value) =>
-                              handleChangeImgPaths(index, value)
-                            }
-                            filePath="img_path"
-                          />
+                      {imgPaths
+                        ?.filter((fil) => !fil?._delete)
+                        ?.map((imgPath, index) => (
+                          <Box position="relative">
+                            <UploadFile
+                              url={imgPath?.img_path || ""}
+                              onChangeValue={(value) =>
+                                handleChangeImgPaths(index, value)
+                              }
+                              filePath="img_path"
+                            />
 
-                          <IconButton
-                            aria-label="Icon Delete File"
-                            position="absolute"
-                            top={-2}
-                            right={-1}
-                            onClick={() => handleRemoveImgPaths(index)}
-                            icon={<Icon icon="bx:x" fontSize="24px" />}
-                            size="sm"
-                            bgColor="bma.primary"
-                            color="white"
-                            _hover={{}}
-                          ></IconButton>
-                        </Box>
-                      ))}
+                            <IconButton
+                              aria-label="Icon Delete File"
+                              position="absolute"
+                              top={-2}
+                              right={-1}
+                              onClick={() => handleRemoveImgPaths(index)}
+                              icon={<Icon icon="bx:x" fontSize="24px" />}
+                              size="sm"
+                              bgColor="bma.primary"
+                              color="white"
+                              _hover={{}}
+                            ></IconButton>
+                          </Box>
+                        ))}
                     </SimpleGrid>
                   </>
                 ) : (
@@ -1214,49 +1185,51 @@ export default function CreateUpdateCar({
                   {carDefectsInterior && carDefectsInterior?.length > 0 ? (
                     <>
                       <SimpleGrid columns={[1, 1, 2, 6]} gap="10px">
-                        {carDefectsInterior?.map((interior, index) => (
-                          <Box position="relative">
-                            <Stack direction="column" spacing="10px">
-                              <UploadFile
-                                url={interior?.defect_pict || ""}
-                                onChangeValue={(value) =>
-                                  handleChangeCarDefectsInterior({
-                                    index,
-                                    value,
-                                    type: "defect_pict",
-                                  })
-                                }
-                                filePath="img_path"
-                              />
-                              <Input
-                                placeholder="Judul Defect Interior"
-                                value={interior?.defect_title}
-                                onChange={(e) =>
-                                  handleChangeCarDefectsInterior({
-                                    index,
-                                    value: e.target.value,
-                                    type: "defect_title",
-                                  })
-                                }
-                              ></Input>
-                            </Stack>
+                        {carDefectsInterior
+                          ?.filter((fil) => !fil?._delete)
+                          ?.map((interior, index) => (
+                            <Box position="relative">
+                              <Stack direction="column" spacing="10px">
+                                <UploadFile
+                                  url={interior?.defect_pict || ""}
+                                  onChangeValue={(value) =>
+                                    handleChangeCarDefectsInterior({
+                                      index,
+                                      value,
+                                      type: "defect_pict",
+                                    })
+                                  }
+                                  filePath="img_path"
+                                />
+                                <Input
+                                  placeholder="Judul Defect Interior"
+                                  value={interior?.defect_title}
+                                  onChange={(e) =>
+                                    handleChangeCarDefectsInterior({
+                                      index,
+                                      value: e.target.value,
+                                      type: "defect_title",
+                                    })
+                                  }
+                                ></Input>
+                              </Stack>
 
-                            <IconButton
-                              aria-label="Icon Delete File"
-                              position="absolute"
-                              top={-2}
-                              right={-1}
-                              onClick={() =>
-                                handleRemoveCarDefectsInterior(index)
-                              }
-                              icon={<Icon icon="bx:x" fontSize="24px" />}
-                              size="sm"
-                              bgColor="bma.primary"
-                              color="white"
-                              _hover={{}}
-                            ></IconButton>
-                          </Box>
-                        ))}
+                              <IconButton
+                                aria-label="Icon Delete File"
+                                position="absolute"
+                                top={-2}
+                                right={-1}
+                                onClick={() =>
+                                  handleRemoveCarDefectsInterior(index)
+                                }
+                                icon={<Icon icon="bx:x" fontSize="24px" />}
+                                size="sm"
+                                bgColor="bma.primary"
+                                color="white"
+                                _hover={{}}
+                              ></IconButton>
+                            </Box>
+                          ))}
                       </SimpleGrid>
                     </>
                   ) : (
@@ -1290,49 +1263,51 @@ export default function CreateUpdateCar({
                   {carDefectsEksterior && carDefectsEksterior?.length > 0 ? (
                     <>
                       <SimpleGrid columns={[1, 1, 2, 6]} gap="10px">
-                        {carDefectsEksterior?.map((interior, index) => (
-                          <Box position="relative">
-                            <Stack direction="column" spacing="10px">
-                              <UploadFile
-                                url={interior?.defect_pict || ""}
-                                onChangeValue={(value) =>
-                                  handleChangeCarDefectsEksterior({
-                                    index,
-                                    value,
-                                    type: "defect_pict",
-                                  })
-                                }
-                                filePath="img_path"
-                              />
-                              <Input
-                                placeholder="Judul Defect Eskterior"
-                                value={interior?.defect_title}
-                                onChange={(e) =>
-                                  handleChangeCarDefectsEksterior({
-                                    index,
-                                    value: e.target.value,
-                                    type: "defect_title",
-                                  })
-                                }
-                              ></Input>
-                            </Stack>
+                        {carDefectsEksterior
+                          ?.filter((fil) => !fil?._delete)
+                          ?.map((interior, index) => (
+                            <Box position="relative">
+                              <Stack direction="column" spacing="10px">
+                                <UploadFile
+                                  url={interior?.defect_pict || ""}
+                                  onChangeValue={(value) =>
+                                    handleChangeCarDefectsEksterior({
+                                      index,
+                                      value,
+                                      type: "defect_pict",
+                                    })
+                                  }
+                                  filePath="img_path"
+                                />
+                                <Input
+                                  placeholder="Judul Defect Eskterior"
+                                  value={interior?.defect_title}
+                                  onChange={(e) =>
+                                    handleChangeCarDefectsEksterior({
+                                      index,
+                                      value: e.target.value,
+                                      type: "defect_title",
+                                    })
+                                  }
+                                ></Input>
+                              </Stack>
 
-                            <IconButton
-                              aria-label="Icon Delete File"
-                              position="absolute"
-                              top={-2}
-                              right={-1}
-                              onClick={() =>
-                                handleRemoveCarDefectsEksterior(index)
-                              }
-                              icon={<Icon icon="bx:x" fontSize="24px" />}
-                              size="sm"
-                              bgColor="bma.primary"
-                              color="white"
-                              _hover={{}}
-                            ></IconButton>
-                          </Box>
-                        ))}
+                              <IconButton
+                                aria-label="Icon Delete File"
+                                position="absolute"
+                                top={-2}
+                                right={-1}
+                                onClick={() =>
+                                  handleRemoveCarDefectsEksterior(index)
+                                }
+                                icon={<Icon icon="bx:x" fontSize="24px" />}
+                                size="sm"
+                                bgColor="bma.primary"
+                                color="white"
+                                _hover={{}}
+                              ></IconButton>
+                            </Box>
+                          ))}
                       </SimpleGrid>
                     </>
                   ) : (
@@ -1366,47 +1341,51 @@ export default function CreateUpdateCar({
                   {carDefectsOthers && carDefectsOthers?.length > 0 ? (
                     <>
                       <SimpleGrid columns={[1, 1, 2, 6]} gap="10px">
-                        {carDefectsOthers?.map((interior, index) => (
-                          <Box position="relative">
-                            <Stack direction="column" spacing="10px">
-                              <UploadFile
-                                url={interior?.defect_pict || ""}
-                                onChangeValue={(value) =>
-                                  handleChangeCarDefectsOther({
-                                    index,
-                                    value,
-                                    type: "defect_pict",
-                                  })
-                                }
-                                filePath="img_path"
-                              />
-                              <Input
-                                placeholder="Judul Defect Others"
-                                value={interior?.defect_title}
-                                onChange={(e) =>
-                                  handleChangeCarDefectsOther({
-                                    index,
-                                    value: e.target.value,
-                                    type: "defect_title",
-                                  })
-                                }
-                              ></Input>
-                            </Stack>
+                        {carDefectsOthers
+                          ?.filter((fil) => !fil?._delete)
+                          ?.map((interior, index) => (
+                            <Box position="relative">
+                              <Stack direction="column" spacing="10px">
+                                <UploadFile
+                                  url={interior?.defect_pict || ""}
+                                  onChangeValue={(value) =>
+                                    handleChangeCarDefectsOther({
+                                      index,
+                                      value,
+                                      type: "defect_pict",
+                                    })
+                                  }
+                                  filePath="img_path"
+                                />
+                                <Input
+                                  placeholder="Judul Defect Others"
+                                  value={interior?.defect_title}
+                                  onChange={(e) =>
+                                    handleChangeCarDefectsOther({
+                                      index,
+                                      value: e.target.value,
+                                      type: "defect_title",
+                                    })
+                                  }
+                                ></Input>
+                              </Stack>
 
-                            <IconButton
-                              aria-label="Icon Delete File"
-                              position="absolute"
-                              top={-2}
-                              right={-1}
-                              onClick={() => handleRemoveCarDefectsOther(index)}
-                              icon={<Icon icon="bx:x" fontSize="24px" />}
-                              size="sm"
-                              bgColor="bma.primary"
-                              color="white"
-                              _hover={{}}
-                            ></IconButton>
-                          </Box>
-                        ))}
+                              <IconButton
+                                aria-label="Icon Delete File"
+                                position="absolute"
+                                top={-2}
+                                right={-1}
+                                onClick={() =>
+                                  handleRemoveCarDefectsOther(index)
+                                }
+                                icon={<Icon icon="bx:x" fontSize="24px" />}
+                                size="sm"
+                                bgColor="bma.primary"
+                                color="white"
+                                _hover={{}}
+                              ></IconButton>
+                            </Box>
+                          ))}
                       </SimpleGrid>
                     </>
                   ) : (

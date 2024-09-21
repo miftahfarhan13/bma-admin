@@ -23,7 +23,7 @@ import moment from "moment";
 import { formatter } from "@/utils/number";
 import AdminPaginationFooter from "@/components/AdminPaginationFooter";
 import Link from "next/link";
-import { getCars } from "@/networks/car";
+import { getCars, getCarsWithBids } from "@/networks/car";
 import ChipBidStatus from "@/components/AppComponents/ChipBidStatus";
 import DatePicker from "@/components/DatePicker";
 
@@ -40,7 +40,7 @@ export default function Account() {
   const fetchBids = (page: string, show: string, date: string) => {
     const token = localStorage.getItem("token") || "";
     setIsLoading(true);
-    getCars("true", token, page, show, keyword, date)
+    getCarsWithBids("true", token, page, show, keyword, date)
       .then((response) => {
         setData(response?.data?.result);
         setIsLoading(false);

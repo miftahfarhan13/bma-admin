@@ -19,6 +19,25 @@ export function getCars(
   );
 }
 
+export function getCarsWithBids(
+  isPaginate: string,
+  token: string,
+  page: string,
+  show: string,
+  search: string,
+  date?: string
+) {
+  let config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axiosClient.get(
+    `/bids/bids-information?is_paginate=${isPaginate}&page=${page}&per_page=${show}&search=${search}&date=${date}`,
+    config
+  );
+}
+
 export function getBidsByCarId(
   carId: string,
   isPaginate: string,
@@ -93,4 +112,28 @@ export function fetchAssignWinner(token: string, id: number, data: any) {
   };
 
   return axiosClient.post(`/cars/assign-winner/${id}`, data, config);
+}
+
+export function fetchCreateCar(data: any, token: string) {
+  let config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return axiosClient.post(`/cars`, data, config);
+}
+
+export function fetchUpdateCar(
+  id: string | undefined,
+  data: any,
+  token: string
+) {
+  let config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return axiosClient.put(`/cars/${id}`, data, config);
 }

@@ -39,7 +39,7 @@ export default function ListCar() {
     setIsLoading(true);
     getCars("true", token, page, show, keyword)
       .then((response) => {
-        setData(response?.data?.result);
+        setData(response?.data?.data);
         setIsLoading(false);
       })
       .catch((error) => {

@@ -1,3 +1,5 @@
+import useGetMostBidedCar from "@/utils/hooks/dashboard/useGetMostBidedCar";
+import useGetMostViewedCar from "@/utils/hooks/dashboard/useGetMostViewedCar";
 import {
   Box,
   SimpleGrid,
@@ -14,6 +16,8 @@ import {
 import React from "react";
 
 export default function TopPerformanceCar() {
+  const { data: mostViewedCar } = useGetMostViewedCar();
+  const { data: mostBidedCar } = useGetMostBidedCar();
   return (
     <Stack direction="column" spacing="10px">
       <Text fontWeight="700">Top Performance Car</Text>
@@ -29,21 +33,13 @@ export default function TopPerformanceCar() {
                 </Tr>
               </Thead>
               <Tbody>
-                <Tr>
-                  <Td>1</Td>
-                  <Td>Civic TC RS 1.5 AT 2022</Td>
-                  <Td isNumeric>100</Td>
-                </Tr>
-                <Tr>
-                  <Td>2</Td>
-                  <Td>Civic TC RS 1.5 AT 2022</Td>
-                  <Td isNumeric>100</Td>
-                </Tr>
-                <Tr>
-                  <Td>3</Td>
-                  <Td>Civic TC RS 1.5 AT 2022</Td>
-                  <Td isNumeric>100</Td>
-                </Tr>
+                {mostViewedCar?.map((viewed: any) => (
+                  <Tr>
+                    <Td>{viewed?.rank}</Td>
+                    <Td>{viewed?.car_name}</Td>
+                    <Td isNumeric>{viewed?.count}</Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
           </TableContainer>
@@ -59,21 +55,13 @@ export default function TopPerformanceCar() {
                 </Tr>
               </Thead>
               <Tbody>
-                <Tr>
-                  <Td>1</Td>
-                  <Td>Civic TC RS 1.5 AT 2022</Td>
-                  <Td isNumeric>100</Td>
-                </Tr>
-                <Tr>
-                  <Td>2</Td>
-                  <Td>Civic TC RS 1.5 AT 2022</Td>
-                  <Td isNumeric>100</Td>
-                </Tr>
-                <Tr>
-                  <Td>3</Td>
-                  <Td>Civic TC RS 1.5 AT 2022</Td>
-                  <Td isNumeric>100</Td>
-                </Tr>
+                {mostBidedCar?.map((bided: any) => (
+                  <Tr>
+                    <Td>{bided?.rank}</Td>
+                    <Td>{bided?.car_name}</Td>
+                    <Td isNumeric>{bided?.count}</Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
           </TableContainer>

@@ -9,7 +9,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Box, Skeleton, Stack, Text } from "@chakra-ui/react";
+import useGetChartDealerPerformance from "@/utils/hooks/dashboard/useGetChartDealerPerformance";
 
 ChartJS.register(
   CategoryScale,
@@ -21,29 +22,19 @@ ChartJS.register(
 );
 
 export default function BDPerformanceDealer() {
+  const { data, isLoading } = useGetChartDealerPerformance();
   return (
     <>
       <Box border="1px solid #DBDBDB" p="10px" borderRadius="8px">
         <Stack direction="column" spacing="10px" alignItems="center">
           <Text fontWeight="700">BD Performance (Unique Dealer)</Text>
-          <Bar
-            data={{
-              labels: ["BD A", "BD B", "BD C"],
-              datasets: [
-                { label: "BD A", data: [10, 20, 30], backgroundColor: ["#E77A7A"] },
-                {
-                  label: "BD B",
-                  data: [5, 10, 15],
-                  backgroundColor: ["#FBE569"],
-                },
-                {
-                  label: "BD C",
-                  data: [5, 10, 15],
-                  backgroundColor: ["#9DF3A6"],
-                },
-              ],
-            }}
-          />
+          {isLoading ? (
+            <>
+              <Skeleton />
+            </>
+          ) : (
+            <>{data && <Bar data={data} />}</>
+          )}
         </Stack>
       </Box>
     </>

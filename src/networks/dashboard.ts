@@ -10,10 +10,28 @@ export function getMostViewedCar(token: string) {
 }
 
 export function getMostBidedCar(token: string) {
-    let config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    return axiosClient.get(`/most-bided-car`, config);
-  }
+  let config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axiosClient.get(`/most-bided-car`, config);
+}
+
+export function getChartDealerPerformance(token: string) {
+  let config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axiosClient.get(`/bd-performances/chart/dealer`, config);
+}
+
+export function getChartCarPerformance(token: string) {
+  let config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axiosClient.get(`/bd-performances/chart/car`, config);
+}

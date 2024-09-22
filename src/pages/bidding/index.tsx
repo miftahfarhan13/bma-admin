@@ -1,5 +1,4 @@
 import {
-  Button,
   Center,
   IconButton,
   Input,
@@ -23,9 +22,9 @@ import moment from "moment";
 import { formatter } from "@/utils/number";
 import AdminPaginationFooter from "@/components/AdminPaginationFooter";
 import Link from "next/link";
-import { getCars, getCarsWithBids } from "@/networks/car";
+import { getCarsWithBids } from "@/networks/car";
 import ChipBidStatus from "@/components/AppComponents/ChipBidStatus";
-import DatePicker from "@/components/DatePicker";
+import ButtonExportBidding from "@/components/Bidding/ButtonExportBidding";
 
 export default function Account() {
   const [date, setDate] = useState("");
@@ -123,13 +122,7 @@ export default function Account() {
                 type="date"
               />
 
-              <Button
-                leftIcon={<Icon icon="bx:download" />}
-                variant="green-solid-medium"
-                width="100%"
-              >
-                Export Data
-              </Button>
+              <ButtonExportBidding />
             </Stack>
           </Stack>
 

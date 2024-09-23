@@ -112,7 +112,7 @@ export default function BDPerformance() {
                     <Tr>
                       <Th>PIC</Th>
                       <Th>Dealers Created</Th>
-                      <Th>Particiaption(# of Dealer)</Th>
+                      <Th>Participation(# of Dealer)</Th>
                       <Th>Won (# of Dealer)</Th>
                     </Tr>
                   </Thead>

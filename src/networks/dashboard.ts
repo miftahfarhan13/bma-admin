@@ -35,3 +35,12 @@ export function getChartCarPerformance(token: string) {
   };
   return axiosClient.get(`/bd-performances/chart/car`, config);
 }
+
+export function getTableDealerPerformance(token: string, search: string) {
+  let config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axiosClient.get(`/bd-performances/table?search=${search}`, config);
+}

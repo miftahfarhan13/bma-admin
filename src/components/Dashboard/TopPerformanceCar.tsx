@@ -34,7 +34,7 @@ export default function TopPerformanceCar() {
               </Thead>
               <Tbody>
                 {mostViewedCar?.map((viewed: any) => (
-                  <Tr>
+                  <Tr key={viewed?.rank}>
                     <Td>{viewed?.rank}</Td>
                     <Td>{viewed?.car_name}</Td>
                     <Td isNumeric>{viewed?.count}</Td>
@@ -56,7 +56,7 @@ export default function TopPerformanceCar() {
               </Thead>
               <Tbody>
                 {mostBidedCar?.map((bided: any) => (
-                  <Tr>
+                  <Tr key={bided?.rank}>
                     <Td>{bided?.rank}</Td>
                     <Td>{bided?.car_name}</Td>
                     <Td isNumeric>{bided?.count}</Td>

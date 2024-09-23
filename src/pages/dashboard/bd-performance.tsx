@@ -1,13 +1,11 @@
 import { SimpleGrid, Stack } from "@chakra-ui/react";
 import AdminLayout from "@/components/AppLayout/AdminLayout";
 import TabDashboard from "@/components/Dashboard/TabDashboard";
-import { useState } from "react";
-import PerformanceViewBid from "@/components/Dashboard/PerformanceViewBid";
 import BDPerformanceDealer from "@/components/Dashboard/BDPerformanceDealer";
 import BDPerformanceCar from "@/components/Dashboard/BDPerformanceCar";
+import PerformanceViewBid from "@/components/Dashboard/PerformanceViewBid";
 
 export default function BDPerformance() {
-  const [date, setDate] = useState(new Date());
   return (
     <>
       <AdminLayout name="Biding Performance" pageName="Bidding Performance">

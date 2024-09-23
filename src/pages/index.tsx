@@ -5,20 +5,12 @@ import CounterCard from "@/components/Dashboard/CounterCard";
 import TopPerformanceCar from "@/components/Dashboard/TopPerformanceCar";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import DatePicker from "@/components/DatePicker";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useEcho from "@/utils/hooks/useEcho";
 
 export default function Home() {
   const [date, setDate] = useState(new Date());
   const echo = useEcho();
-
-  useEffect(() => {
-    if (echo) {
-      echo.private("testingok").listen("Testing", (event: any) => {
-        console.log("dashboard: ", event);
-      });
-    }
-  }, []);
 
   return (
     <>

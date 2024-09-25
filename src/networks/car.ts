@@ -22,9 +22,9 @@ export function getCars(
 export function getCarsWithBids(
   isPaginate: string,
   token: string,
-  page: string,
-  show: string,
-  search: string,
+  page?: string,
+  show?: string,
+  search?: string,
   date?: string
 ) {
   let config = {

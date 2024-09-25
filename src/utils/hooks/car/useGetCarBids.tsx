@@ -1,16 +1,16 @@
-import { getCarById } from "@/networks/car";
+import { getCarsWithBids } from "@/networks/car";
 import { useEffect, useRef, useState } from "react";
 
-export default function useGetCarById({ id }: { id: string }) {
+export default function useGetCarBids({ date }: { date: string }) {
   const firstRun = useRef(true);
 
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<any>();
 
-  const fetchGetCarById = () => {
+  const fetchGetCarBids = () => {
     const token = localStorage.getItem("token") || "";
     setIsLoading(true);
-    getCarById(id, token)
+    getCarsWithBids("false", token, "", "", "", date)
       .then((response) => {
         setData(response?.data?.result);
         setIsLoading(false);
@@ -22,13 +22,13 @@ export default function useGetCarById({ id }: { id: string }) {
 
   useEffect(() => {
     if (firstRun.current) {
-      fetchGetCarById();
+      fetchGetCarBids();
       firstRun.current = false;
     }
   }, []);
 
   const refetch = () => {
-    fetchGetCarById();
+    fetchGetCarBids();
   };
 
   return {

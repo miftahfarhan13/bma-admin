@@ -16,7 +16,6 @@ import Link from "next/link";
 import ChipBidStatus from "@/components/AppComponents/ChipBidStatus";
 
 export default function TableBiddingInformation({ data }: { data: any }) {
-  console.log(data)
   return (
     <>
       <TableContainer>

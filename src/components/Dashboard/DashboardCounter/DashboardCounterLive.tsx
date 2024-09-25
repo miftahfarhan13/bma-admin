@@ -8,7 +8,7 @@ export default function DashboardCounterLive() {
   useEcho();
 
   const today = moment(new Date()).format('YYYY-MM-DD')
-  const [data, setData] = useState({});
+  const [data, setData] = useState();
 
   const { data: dataRest } = useGetDashboard({ dateProps: today });
 
@@ -16,8 +16,7 @@ export default function DashboardCounterLive() {
     window.Echo.channel("dashboard_online").listen(
       "DashboardEvent",
       async (e: any) => {
-        console.log(e)
-        setData(e?.data ? e?.data[0] : {});
+        setData(e?.data ? e?.data[0] : undefined);
       }
     );
   }, []);

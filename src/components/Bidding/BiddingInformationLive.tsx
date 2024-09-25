@@ -16,12 +16,12 @@ export default function BiddingInformationLive() {
     window.Echo.channel("car_bids_online").listen(
       "CarBidsEvent",
       async (e: any) => {
-        setData(e?.data ? e?.data : []);
+        setData(e?.data ? e?.data[0] : []);
       }
     );
   }, []);
 
-  const liveData = data?.length > 0 ? data : dataRest;
+  const liveData = data && data?.length > 0 ? data : dataRest;
 
   return <>{liveData && <TableBiddingInformation data={liveData} />}</>;
 }

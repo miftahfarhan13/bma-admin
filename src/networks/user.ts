@@ -3,9 +3,9 @@ import { axiosClient } from "./apiClient";
 export function getBdPerformances(
   isPaginate: string,
   token: string,
-  page: string,
-  show: string,
-  date: string
+  page?: string,
+  show?: string,
+  date?: string
 ) {
   let config = {
     headers: {

@@ -17,8 +17,8 @@ export default function ButtonLive({
   return (
     <Button
       size="sm"
-      variant={isLive ? "primary-solid-small" : "outline"}
-      height="30px"
+      variant={isLive ? "primary-solid-medium" : "outline"}
+      height="40px"
       width="70px"
       borderRadius="8px"
       onClick={onClick}

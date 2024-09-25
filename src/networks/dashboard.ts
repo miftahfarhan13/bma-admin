@@ -1,5 +1,14 @@
 import { axiosClient } from "./apiClient";
 
+export function getDashboard(token: string, date?: string) {
+  let config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axiosClient.get(`/dashboard?date=${date}`, config);
+}
+
 export function getMostViewedCar(token: string) {
   let config = {
     headers: {

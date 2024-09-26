@@ -2,7 +2,7 @@ import { Button, useToast } from "@chakra-ui/react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 
-export default function ButtonExportBidding({date}:{date: string}) {
+export default function ButtonExportBdPerformance({ date }: { date?: string }) {
   const toast = useToast();
   const [isLoading, setIsloading] = useState(false);
 
@@ -11,7 +11,7 @@ export default function ButtonExportBidding({date}:{date: string}) {
       setIsloading(true);
       const token = localStorage.getItem("token") || "";
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/bids/export?date=${date}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/bd-performances/export?date=${date}`,
         {
           method: "POST",
           headers: {
@@ -37,7 +37,7 @@ export default function ButtonExportBidding({date}:{date: string}) {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "bids_export.csv"; // Nama file yang akan di-download
+      a.download = "bd_performances.csv"; // Nama file yang akan di-download
       document.body.appendChild(a); // Tambahkan elemen <a> ke body
       a.click(); // Trigger download
       a.remove(); // Hapus elemen <a> setelah selesai

@@ -1,9 +1,9 @@
-import { Box, Button, Input, Spinner, Stack } from "@chakra-ui/react";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Box, Input, Spinner, Stack } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import AdminPaginationFooter from "@/components/AdminPaginationFooter";
 import { getBdPerformances } from "@/networks/user";
 import TableBdPerformance from "./TableBdPerformance";
+import ButtonExportBdPerformance from "./ButtonExportBdPerformance";
 
 export default function BdPerformanceHistorical() {
   const [date, setDate] = useState("");
@@ -76,13 +76,7 @@ export default function BdPerformanceHistorical() {
               type="date"
             />
 
-            <Button
-              leftIcon={<Icon icon="bx:download" />}
-              variant="green-solid-medium"
-              width="100%"
-            >
-              Export Data
-            </Button>
+            <ButtonExportBdPerformance date={date}/>
           </Stack>
         </Stack>
 

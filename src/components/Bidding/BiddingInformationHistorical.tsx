@@ -103,7 +103,7 @@ export default function BiddingInformationHistorical() {
             type="date"
           />
 
-          <ButtonExportBidding />
+          <ButtonExportBidding date={date}/>
         </Stack>
       </Stack>
 

@@ -8,7 +8,7 @@ export default function BdPerformanceLive() {
   useEcho();
 
   const today = moment(new Date()).format("YYYY-MM-DD");
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
 
   const { data: dataRest } = useGetBdPerformance({ dateProps: today });
 

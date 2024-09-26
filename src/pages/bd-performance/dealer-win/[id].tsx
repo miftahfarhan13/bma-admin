@@ -19,6 +19,7 @@ import AdminPaginationFooter from "@/components/AdminPaginationFooter";
 import { getBdDealerParticipation, getBdDealerWin } from "@/networks/user";
 import { GetServerSideProps } from "next";
 import AccountCard from "@/components/Account/AccountCard";
+import { formatter } from "@/utils/number";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
@@ -116,6 +117,7 @@ export default function BdDealerWin({ id }: { id: string }) {
                     <Th>Car</Th>
                     <Th>Bidding Start Date</Th>
                     <Th>Marketplace</Th>
+                    <Th>Win Price</Th>
                     <Th>Nama Dealer</Th>
                   </Tr>
                 </Thead>
@@ -126,6 +128,9 @@ export default function BdDealerWin({ id }: { id: string }) {
                       <Td>{bd?.car_name}</Td>
                       <Td>{bd?.session_time_start}</Td>
                       <Td>{bd?.is_active === 1 ? "Open" : "Close"}</Td>
+                      <Td fontWeight="700">
+                        Rp {formatter.format(bd?.highest_bid_amount)}
+                      </Td>
                       <Td>
                         <Stack
                           direction="row"

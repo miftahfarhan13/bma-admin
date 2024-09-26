@@ -16,12 +16,13 @@ export default function BdPerformanceLive() {
     window.Echo.channel("car_dealer_online").listen(
       "CarDealerEvent",
       async (e: any) => {
+        console.log(e)
         setData(e?.data ? e?.data[0] : undefined);
       }
     );
   }, []);
 
-  const liveData = data && data?.length > 0 ? data : dataRest;
+  const liveData = data  ? data : dataRest;
 
   return (
     <>

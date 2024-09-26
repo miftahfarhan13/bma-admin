@@ -335,123 +335,137 @@ export default function CreateUpdateAccount({
                 </Stack>
               </Stack>
             </Box>
-            <Box p="10px" borderRadius="8px" border="1px solid #DBDBDB">
-              <Stack direction="column" spacing="10px">
-                <Text fontWeight="700">Info Deposit</Text>
-                <Stack direction="column" spacing="5px">
-                  <Text fontSize="14px" color="grey">
-                    Status Deposit
-                  </Text>
-                  <RadioGroup onChange={setStatusDeposit} value={statusDeposit}>
-                    <Stack direction="row" spacing="20px">
-                      <Radio value="1" colorScheme="red">
-                        Ya
-                      </Radio>
-                      <Radio value="0" colorScheme="red">
-                        Tidak
-                      </Radio>
+            {accountRole !== "business" ? (
+              <>
+                <Box p="10px" borderRadius="8px" border="1px solid #DBDBDB">
+                  <Stack direction="column" spacing="10px">
+                    <Text fontWeight="700">Info Deposit</Text>
+                    <Stack direction="column" spacing="5px">
+                      <Text fontSize="14px" color="grey">
+                        Status Deposit
+                      </Text>
+                      <RadioGroup
+                        onChange={setStatusDeposit}
+                        value={statusDeposit}
+                      >
+                        <Stack direction="row" spacing="20px">
+                          <Radio value="1" colorScheme="red">
+                            Ya
+                          </Radio>
+                          <Radio value="0" colorScheme="red">
+                            Tidak
+                          </Radio>
+                        </Stack>
+                      </RadioGroup>
                     </Stack>
-                  </RadioGroup>
-                </Stack>
-                <SimpleGrid columns={[1, 1, 2, 2]} gap="10px">
-                  <Stack direction="column" spacing="5px">
-                    <Text fontSize="14px" color="grey">
-                      Nominal Deposit
-                    </Text>
-                    <Field name="deposit_nominal">
-                      {({ field }: FieldAttributes<any>) => (
-                        <InputGroup>
-                          <InputLeftElement pointerEvents="none">
-                            Rp
-                          </InputLeftElement>{" "}
+                    <SimpleGrid columns={[1, 1, 2, 2]} gap="10px">
+                      <Stack direction="column" spacing="5px">
+                        <Text fontSize="14px" color="grey">
+                          Nominal Deposit
+                        </Text>
+                        <Field name="deposit_nominal">
+                          {({ field }: FieldAttributes<any>) => (
+                            <InputGroup>
+                              <InputLeftElement pointerEvents="none">
+                                Rp
+                              </InputLeftElement>{" "}
+                              <Input
+                                type="number"
+                                placeholder="Nominal Deposit"
+                                onWheel={(e) => e.currentTarget.blur()}
+                                required={statusDeposit === "1"}
+                                {...field}
+                              />
+                            </InputGroup>
+                          )}
+                        </Field>
+                      </Stack>
+                      <Stack direction="column" spacing="5px">
+                        <Text fontSize="14px" color="grey">
+                          Tanggal Deposit
+                        </Text>
+                        <Box width="100%" zIndex="99">
+                          <DatePicker
+                            selected={date}
+                            onChange={(event) => setDate(new Date(event || ""))}
+                          />
+                        </Box>
+                      </Stack>
+                    </SimpleGrid>
+                    <Stack direction="column" spacing="5px">
+                      <Text fontSize="14px" color="grey">
+                        Nama Rekening
+                      </Text>
+                      <Field name="account_name">
+                        {({ field }: FieldAttributes<any>) => (
                           <Input
-                            type="number"
-                            placeholder="Nominal Deposit"
-                            onWheel={(e) => e.currentTarget.blur()}
-                            required={statusDeposit === "1"}
+                            type="text"
+                            placeholder="Nama Rekening"
+                            autoComplete="new-password"
                             {...field}
                           />
-                        </InputGroup>
-                      )}
-                    </Field>
-                  </Stack>
-                  <Stack direction="column" spacing="5px">
-                    <Text fontSize="14px" color="grey">
-                      Tanggal Deposit
-                    </Text>
-                    <Box width="100%" zIndex="99">
-                      <DatePicker
-                        selected={date}
-                        onChange={(event) => setDate(new Date(event || ""))}
-                      />
-                    </Box>
-                  </Stack>
-                </SimpleGrid>
-                <Stack direction="column" spacing="5px">
-                  <Text fontSize="14px" color="grey">
-                    Nama Rekening
-                  </Text>
-                  <Field name="account_name">
-                    {({ field }: FieldAttributes<any>) => (
-                      <Input
-                        type="text"
-                        placeholder="Nama Rekening"
-                        autoComplete="new-password"
-                        {...field}
-                      />
-                    )}
-                  </Field>
-                </Stack>
-                <Stack direction="column" spacing="5px">
-                  <Text fontSize="14px" color="grey">
-                    Nomor Rekening
-                  </Text>
-                  <Field name="account_number">
-                    {({ field }: FieldAttributes<any>) => (
-                      <Input
-                        type="text"
-                        placeholder="Nomor Rekening"
-                        onWheel={(e) => e.currentTarget.blur()}
-                        {...field}
-                      />
-                    )}
-                  </Field>
-                </Stack>
-                <Stack direction="column" spacing="5px">
-                  <Text fontSize="14px" color="grey">
-                    Nama Bank
-                  </Text>
-                  <Field name="bank_name">
-                    {({ field }: FieldAttributes<any>) => (
-                      <Input type="text" placeholder="Nama Bank" {...field} />
-                    )}
-                  </Field>
-                </Stack>
-                <SimpleGrid columns={[1, 1, 2, 2]} gap="10px">
-                  <Stack direction="column" spacing="5px">
-                    <Text fontSize="14px" color="grey">
-                      Foto Buku Tabungan
-                    </Text>
-                    <UploadFile
-                      url={imageSavingBook || ""}
-                      filePath="deposit"
-                      onChangeValue={(value) => setImageSavingBook(value)}
-                    />
-                  </Stack>
+                        )}
+                      </Field>
+                    </Stack>
+                    <Stack direction="column" spacing="5px">
+                      <Text fontSize="14px" color="grey">
+                        Nomor Rekening
+                      </Text>
+                      <Field name="account_number">
+                        {({ field }: FieldAttributes<any>) => (
+                          <Input
+                            type="text"
+                            placeholder="Nomor Rekening"
+                            onWheel={(e) => e.currentTarget.blur()}
+                            {...field}
+                          />
+                        )}
+                      </Field>
+                    </Stack>
+                    <Stack direction="column" spacing="5px">
+                      <Text fontSize="14px" color="grey">
+                        Nama Bank
+                      </Text>
+                      <Field name="bank_name">
+                        {({ field }: FieldAttributes<any>) => (
+                          <Input
+                            type="text"
+                            placeholder="Nama Bank"
+                            {...field}
+                          />
+                        )}
+                      </Field>
+                    </Stack>
+                    <SimpleGrid columns={[1, 1, 2, 2]} gap="10px">
+                      <Stack direction="column" spacing="5px">
+                        <Text fontSize="14px" color="grey">
+                          Foto Buku Tabungan
+                        </Text>
+                        <UploadFile
+                          url={imageSavingBook || ""}
+                          filePath="deposit"
+                          onChangeValue={(value) => setImageSavingBook(value)}
+                        />
+                      </Stack>
 
-                  <Stack direction="column" spacing="5px">
-                    <Text fontSize="14px" color="grey">
-                      Foto Bukti Transfer
-                    </Text>
-                    <UploadFile
-                      url={imageProofTransfer || ""}
-                      filePath="deposit"
-                      onChangeValue={(value) => setImageProofTransfer(value)}
-                    />
+                      <Stack direction="column" spacing="5px">
+                        <Text fontSize="14px" color="grey">
+                          Foto Bukti Transfer
+                        </Text>
+                        <UploadFile
+                          url={imageProofTransfer || ""}
+                          filePath="deposit"
+                          onChangeValue={(value) =>
+                            setImageProofTransfer(value)
+                          }
+                        />
+                      </Stack>
+                    </SimpleGrid>
                   </Stack>
-                </SimpleGrid>
-              </Stack>
-            </Box>
+                </Box>
+              </>
+            ) : null}
+
             <Box p="10px" borderRadius="8px" border="1px solid #DBDBDB">
               <Stack direction="column" spacing="10px">
                 <Text fontWeight="700">Password</Text>

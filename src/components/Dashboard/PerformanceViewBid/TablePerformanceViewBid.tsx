@@ -9,6 +9,7 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import React from "react";
+import ModalDetailPerformanceViewBid from "./ModalDetailPerformanceViewBid";
 
 export default function TablePerformanceViewBid({ data }: { data: any }) {
   return (
@@ -34,20 +35,10 @@ export default function TablePerformanceViewBid({ data }: { data: any }) {
               {data?.data && data?.data?.length > 0 && (
                 <>
                   {data?.data?.map((dealer: any) => (
-                    <Tr key={dealer?.id}>
-                      <Td>{dealer?.name}</Td>
-                      <Td>
-                        {dealer?.businesses ? dealer?.businesses[0]?.name : ""}
-                      </Td>
-                      <Td isNumeric>
-                        {dealer?.latest_seen_cars_sum_seen}/{data?.total_view} (
-                        {Math.floor(dealer?.percentage_seen)}%)
-                      </Td>
-                      <Td isNumeric>
-                        {dealer?.bids_count}/{data?.total_bid} (
-                        {Math.floor(dealer?.percentage_bid)}%)
-                      </Td>
-                    </Tr>
+                    <ModalDetailPerformanceViewBid
+                      dealer={dealer}
+                      data={data}
+                    />
                   ))}
                 </>
               )}

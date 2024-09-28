@@ -53,3 +53,16 @@ export function getTableDealerPerformance(token: string, search: string) {
   };
   return axiosClient.get(`/bd-performances/table?search=${search}`, config);
 }
+
+export function getDealerPerformanceDetail(
+  token: string,
+  id: string,
+  date: string
+) {
+  let config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axiosClient.get(`/bd-performances/${id}?date=${date}`, config);
+}

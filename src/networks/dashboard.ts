@@ -9,22 +9,22 @@ export function getDashboard(token: string, date?: string) {
   return axiosClient.get(`/dashboard?date=${date}`, config);
 }
 
-export function getMostViewedCar(token: string) {
+export function getMostViewedCar(token: string, date: string) {
   let config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  return axiosClient.get(`/most-view-car`, config);
+  return axiosClient.get(`/most-view-car?date=${date}`, config);
 }
 
-export function getMostBidedCar(token: string) {
+export function getMostBidedCar(token: string, date: string) {
   let config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  return axiosClient.get(`/most-bided-car`, config);
+  return axiosClient.get(`/most-bided-car?date=${date}`, config);
 }
 
 export function getChartDealerPerformance(token: string) {

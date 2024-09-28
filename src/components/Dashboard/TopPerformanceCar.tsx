@@ -2,6 +2,7 @@ import useGetMostBidedCar from "@/utils/hooks/dashboard/useGetMostBidedCar";
 import useGetMostViewedCar from "@/utils/hooks/dashboard/useGetMostViewedCar";
 import {
   Box,
+  Input,
   SimpleGrid,
   Stack,
   Table,
@@ -13,14 +14,35 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 
 export default function TopPerformanceCar() {
-  const { data: mostViewedCar } = useGetMostViewedCar();
-  const { data: mostBidedCar } = useGetMostBidedCar();
+  const [date, setDate] = useState("");
+
+  const { data: mostViewedCar, refetch: refetchMostViewedCar } =
+    useGetMostViewedCar({ date });
+  const { data: mostBidedCar, refetch: refetchMostBidedCar } =
+    useGetMostBidedCar({ date });
   return (
     <Stack direction="column" spacing="10px">
-      <Text fontWeight="700">Top Performance Car</Text>
+      <Stack
+        direction="row"
+        alignItems="center"
+        spacing="10px"
+        justifyContent="space-between"
+      >
+        <Text fontWeight="700">Top Performance Car</Text>
+        <Input
+          w="fit-content"
+          value={date}
+          onChange={(event) => {
+            setDate(event?.target?.value);
+            refetchMostViewedCar(event?.target?.value);
+            refetchMostBidedCar(event?.target?.value);
+          }}
+          type="date"
+        />
+      </Stack>
       <SimpleGrid columns={[1, 1, 2, 2]} gap="20px">
         <Box p="10px" borderRadius="8px" border="1px solid #DBDBDB">
           <TableContainer>

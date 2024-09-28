@@ -1,16 +1,16 @@
 import { getMostViewedCar } from "@/networks/dashboard";
 import { useEffect, useRef, useState } from "react";
 
-export default function useGetMostViewedCar() {
+export default function useGetMostViewedCar({ date }: { date: string }) {
   const firstRun = useRef(true);
 
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<any>();
 
-  const fetchMostViewedCar = () => {
+  const fetchMostViewedCar = (date: string) => {
     const token = localStorage.getItem("token") || "";
     setIsLoading(true);
-    getMostViewedCar(token)
+    getMostViewedCar(token, date)
       .then((response) => {
         setData(response?.data?.data);
         setIsLoading(false);
@@ -22,13 +22,13 @@ export default function useGetMostViewedCar() {
 
   useEffect(() => {
     if (firstRun.current) {
-      fetchMostViewedCar();
+      fetchMostViewedCar(date);
       firstRun.current = false;
     }
   }, []);
 
-  const refetch = () => {
-    fetchMostViewedCar();
+  const refetch = (date: string) => {
+    fetchMostViewedCar(date);
   };
 
   return {

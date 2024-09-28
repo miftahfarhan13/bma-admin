@@ -140,6 +140,7 @@ export default function ListCar() {
                   <Th>Tanggal Lelang</Th>
                   <Th>Status Lelang</Th>
                   <Th>Leading Dealer</Th>
+                  <Th>Status Mobil</Th>
                   <Th>Action</Th>
                 </Tr>
               </Thead>
@@ -162,24 +163,33 @@ export default function ListCar() {
                     <Td>
                       {car?.bid?.length > 0 ? car?.bid[0]?.user?.name : "-"}
                     </Td>
+                    <Td>{car?.status}</Td>
                     <Td>
-                      <Stack direction="row" alignItems="center" spacing="10px">
-                        <Link href={`/car/update/${car?.id}`}>
-                          <IconButton
-                            _hover={{}}
-                            bgColor="#65DE78"
-                            color="white"
-                            icon={<Icon icon="bx:edit" />}
-                            aria-label=""
-                          />
-                        </Link>
-                        <ModalDeleteCar
-                          id={car?.id}
-                          onSuccess={() =>
-                            fetchCars(pageIndex.toString(), show)
-                          }
-                        />
-                      </Stack>
+                      {car?.status !== "Terjual" && (
+                        <>
+                          <Stack
+                            direction="row"
+                            alignItems="center"
+                            spacing="10px"
+                          >
+                            <Link href={`/car/update/${car?.id}`}>
+                              <IconButton
+                                _hover={{}}
+                                bgColor="#65DE78"
+                                color="white"
+                                icon={<Icon icon="bx:edit" />}
+                                aria-label=""
+                              />
+                            </Link>
+                            <ModalDeleteCar
+                              id={car?.id}
+                              onSuccess={() =>
+                                fetchCars(pageIndex.toString(), show)
+                              }
+                            />
+                          </Stack>
+                        </>
+                      )}
                     </Td>
                   </Tr>
                 ))}

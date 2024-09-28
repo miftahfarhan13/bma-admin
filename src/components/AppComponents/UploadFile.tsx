@@ -115,7 +115,7 @@ function UploadFile({
               height="150px"
               src={
                 fileToUpload
-                  ? `http://127.0.0.1:8000/storage/${fileToUpload}`
+                  ? `${process.env.NEXT_PUBLIC_API_URL}/storage/${fileToUpload}`
                   : "/images/default-image.jpeg"
               }
               alt="Foto"

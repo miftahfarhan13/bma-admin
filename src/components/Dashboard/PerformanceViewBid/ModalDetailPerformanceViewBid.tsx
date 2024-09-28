@@ -31,7 +31,8 @@ export default function ModalDetailPerformanceViewBid({
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const id = dealer?.id;
-  const date = moment(new Date()).format("YYYY-MM-DD");
+  const today = new Date();
+  const date = moment(today).format("YYYY-MM-DD");
   const { data: detail, isLoading } = useGetDealerPerformanceDetail({
     id,
     date,
@@ -75,6 +76,18 @@ export default function ModalDetailPerformanceViewBid({
                     BD
                   </Text>{" "}
                   : {dealer?.businesses ? dealer?.businesses[0]?.name : ""}
+                </Text>
+                <Text>
+                  <Text as="span" fontWeight="700">
+                    Date
+                  </Text>{" "}
+                  : {moment(today).format('DD MMMM YYYY')}
+                </Text>
+                <Text>
+                  <Text as="span" fontWeight="700">
+                    Session
+                  </Text>{" "}
+                  : 10:00 - 15:00
                 </Text>
               </Stack>
 

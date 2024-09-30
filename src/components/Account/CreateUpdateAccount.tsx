@@ -41,6 +41,7 @@ export default function CreateUpdateAccount({
   isDeposit = "0",
   savingBookUrl,
   proofTransferUrl,
+  ktpUrl,
   type,
 }: {
   id?: string;
@@ -60,6 +61,7 @@ export default function CreateUpdateAccount({
   isDeposit?: string;
   savingBookUrl?: string;
   proofTransferUrl?: string;
+  ktpUrl?: string
   type: string;
 }) {
   const router = useRouter();
@@ -79,6 +81,9 @@ export default function CreateUpdateAccount({
   const [imageProofTransfer, setImageProofTransfer] = useState<
     string | undefined
   >("");
+  const [imageKtp, setImagetKtp] = useState<string | undefined>(
+    ""
+  );
 
   useEffect(() => {
     setStatusActivation(isActive);
@@ -87,6 +92,8 @@ export default function CreateUpdateAccount({
     setAccountRole(role);
     setImageSavingBook(savingBookUrl);
     setImageProofTransfer(proofTransferUrl);
+    setImageProofTransfer(proofTransferUrl);
+    setImagetKtp(ktpUrl);
     setAccountBd(businessUserId);
   }, [
     isActive,
@@ -95,6 +102,7 @@ export default function CreateUpdateAccount({
     role,
     savingBookUrl,
     proofTransferUrl,
+    ktpUrl,
     businessUserId,
   ]);
 
@@ -120,6 +128,7 @@ export default function CreateUpdateAccount({
         role: roleId,
         saving_book_url: imageSavingBook,
         proof_transfer_url: imageProofTransfer,
+        ktp_url: imageKtp,
         account_business_id: parseInt(accountBd || ""),
       },
       token
@@ -164,6 +173,7 @@ export default function CreateUpdateAccount({
         role: roleId,
         saving_book_url: imageSavingBook,
         proof_transfer_url: imageProofTransfer,
+        ktp_url: imageKtp,
         account_business_id: parseInt(accountBd || ""),
       },
       token
@@ -436,7 +446,7 @@ export default function CreateUpdateAccount({
                         )}
                       </Field>
                     </Stack>
-                    <SimpleGrid columns={[1, 1, 2, 2]} gap="10px">
+                    <SimpleGrid columns={[1, 1, 2, 3]} gap="10px">
                       <Stack direction="column" spacing="5px">
                         <Text fontSize="14px" color="grey">
                           Foto Buku Tabungan
@@ -458,6 +468,16 @@ export default function CreateUpdateAccount({
                           onChangeValue={(value) =>
                             setImageProofTransfer(value)
                           }
+                        />
+                      </Stack>
+                      <Stack direction="column" spacing="5px">
+                        <Text fontSize="14px" color="grey">
+                          Foto KTP
+                        </Text>
+                        <UploadFile
+                          url={imageKtp || ""}
+                          filePath="ktp"
+                          onChangeValue={(value) => setImagetKtp(value)}
                         />
                       </Stack>
                     </SimpleGrid>

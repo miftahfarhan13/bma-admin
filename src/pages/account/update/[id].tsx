@@ -36,6 +36,7 @@ export default function UpdateAccount({ id }: { id: string }) {
               bankName={data?.bank_name}
               savingBookUrl={data?.saving_book_url}
               proofTransferUrl={data?.proof_transfer_url}
+              ktpUrl={data?.ktp_url}
               type="update"
             />
           </>

@@ -34,6 +34,7 @@ export default function TableBiddingInformation({ data }: { data: any }) {
               <Th>Log View</Th>
               <Th>Status Lelang</Th>
               <Th>Leading Dealer</Th>
+              <Th>Status Mobil</Th>
               <Th>Assign Winner</Th>
             </Tr>
           </Thead>
@@ -95,6 +96,7 @@ export default function TableBiddingInformation({ data }: { data: any }) {
                   <ChipBidStatus status={car?.bidding_status} />
                 </Td>
                 <Td>{car?.bid?.length > 0 ? car?.bid[0]?.user?.name : "-"}</Td>
+                <Td>{car?.status}</Td>
                 <Td>
                   <Center>
                     {car?.bidding_status === "Menang" && (

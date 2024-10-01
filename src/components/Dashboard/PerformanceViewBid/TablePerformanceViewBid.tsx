@@ -38,6 +38,7 @@ export default function TablePerformanceViewBid({ data }: { data: any }) {
                     <ModalDetailPerformanceViewBid
                       dealer={dealer}
                       data={data}
+                      key={dealer?.id}
                     />
                   ))}
                 </>

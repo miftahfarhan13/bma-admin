@@ -17,6 +17,7 @@ export default function DashboardCounterLive() {
     window.Echo.channel("dashboard_online").listen(
       "DashboardEvent",
       async (e: any) => {
+        console.log(e)
         setData(e?.data ? e?.data[0] : undefined);
       }
     );

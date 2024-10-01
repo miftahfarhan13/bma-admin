@@ -40,7 +40,7 @@ export default function ModalDetailPerformanceViewBid({
   });
   return (
     <>
-      <Tr cursor="pointer" onClick={onOpen} key={dealer?.id}>
+      <Tr cursor="pointer" onClick={onOpen}>
         <Td>{dealer?.name}</Td>
         <Td>{dealer?.businesses ? dealer?.businesses[0]?.name : ""}</Td>
         <Td isNumeric>

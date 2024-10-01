@@ -6,7 +6,7 @@ import useEcho from "@/utils/hooks/useEcho";
 export default function PerformanceViewBidLive() {
   useEcho();
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState();
 
   const { data: dataRest } = useGetTableDealerPerformance({ search: "" });
 
@@ -14,6 +14,7 @@ export default function PerformanceViewBidLive() {
     window.Echo.channel("list_dealer_online").listen(
       "ListDealerEvent",
       async (e: any) => {
+        console.log(e)
         setData(e?.data);
       }
     );

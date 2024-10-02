@@ -11,10 +11,15 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { Icon } from "@iconify/react/dist/iconify.js";
 import Link from "next/link";
 
-export default function TableBdPerformance({ data }: { data: any }) {
+export default function TableBdPerformance({
+  data,
+  date,
+}: {
+  data: any;
+  date: string;
+}) {
   return (
     <>
       <TableContainer>
@@ -34,7 +39,7 @@ export default function TableBdPerformance({ data }: { data: any }) {
             </Tr>
           </Thead>
           <Tbody>
-            {data?.map((bd: any, index: number) => (
+            {data?.map((bd: any) => (
               <Tr key={bd?.id}>
                 <Td>
                   <Stack direction="row" alignItems="center" spacing="5px">
@@ -46,14 +51,18 @@ export default function TableBdPerformance({ data }: { data: any }) {
                   <Center>{bd?.dealers_count}</Center>
                 </Td>
                 <Td>
-                  <Link href={`/bd-performance/dealer-participation/${bd?.id}`}>
+                  <Link
+                    href={`/bd-performance/dealer-participation/${bd?.id}?date=${date}`}
+                  >
                     <Stack direction="column" alignItems="center" w="100%">
                       <Text>{bd?.dealers_bids_count}</Text>
                     </Stack>
                   </Link>
                 </Td>
                 <Td>
-                  <Link href={`/bd-performance/dealer-win/${bd?.id}`}>
+                  <Link
+                    href={`/bd-performance/dealer-win/${bd?.id}?date=${date}`}
+                  >
                     <Stack direction="column" alignItems="center" w="100%">
                       <Text>{bd?.dealers_won_cars_count}</Text>
                     </Stack>

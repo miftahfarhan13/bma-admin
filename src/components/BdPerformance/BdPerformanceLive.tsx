@@ -26,7 +26,7 @@ export default function BdPerformanceLive() {
 
   return (
     <>
-      <TableBdPerformance data={liveData} />
+      <TableBdPerformance data={liveData} date={today}/>
     </>
   );
 }

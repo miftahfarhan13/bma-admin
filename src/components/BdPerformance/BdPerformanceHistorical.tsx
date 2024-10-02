@@ -76,12 +76,12 @@ export default function BdPerformanceHistorical() {
               type="date"
             />
 
-            <ButtonExportBdPerformance date={date}/>
+            <ButtonExportBdPerformance date={date} />
           </Stack>
         </Stack>
 
         <Stack direction="column" spacing="20px">
-          <TableBdPerformance data={data?.data} />
+          <TableBdPerformance data={data?.data} date={date} />
 
           <AdminPaginationFooter
             pageIndex={pageIndex}

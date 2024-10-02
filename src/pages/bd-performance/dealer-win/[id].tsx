@@ -16,7 +16,7 @@ import {
 import AdminLayout from "@/components/AppLayout/AdminLayout";
 import { useEffect, useRef, useState } from "react";
 import AdminPaginationFooter from "@/components/AdminPaginationFooter";
-import { getBdDealerParticipation, getBdDealerWin } from "@/networks/user";
+import { getBdDealerWin } from "@/networks/user";
 import { GetServerSideProps } from "next";
 import AccountCard from "@/components/Account/AccountCard";
 import { formatter } from "@/utils/number";
@@ -25,12 +25,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       id: context.query.id,
+      date: context.query.date,
     },
   };
 };
 
-export default function BdDealerWin({ id }: { id: string }) {
-  const [date, setDate] = useState("");
+export default function BdDealerWin({
+  id,
+  date,
+}: {
+  id: string;
+  date: string;
+}) {
+  const [dateState, setDateState] = useState(date);
+
   const [show, setShow] = useState("10");
 
   const firstRun = useRef(false);
@@ -57,7 +65,7 @@ export default function BdDealerWin({ id }: { id: string }) {
 
   useEffect(() => {
     if (!firstRun.current) {
-      fetchDealerParticipation("1", show, date);
+      fetchDealerParticipation("1", show, dateState);
       firstRun.current = true;
     }
   }, []);
@@ -72,12 +80,12 @@ export default function BdDealerWin({ id }: { id: string }) {
   const changePage = (page: number) => {
     if (page < 0) return;
     if (page >= maxPage) return;
-    fetchDealerParticipation((page + 1).toString(), show, date);
+    fetchDealerParticipation((page + 1).toString(), show, dateState);
     setPageIndex(page);
   };
   const changeLimit = (limit: string) => {
     setShow(limit);
-    fetchDealerParticipation("1", limit, date);
+    fetchDealerParticipation("1", limit, dateState);
   };
   // --
   return (
@@ -93,9 +101,9 @@ export default function BdDealerWin({ id }: { id: string }) {
           >
             <Stack>
               <Input
-                value={date}
+                value={dateState}
                 onChange={(event) => {
-                  setDate(event?.target?.value);
+                  setDateState(event?.target?.value);
                   fetchDealerParticipation(
                     (pageIndex + 1).toString(),
                     show,

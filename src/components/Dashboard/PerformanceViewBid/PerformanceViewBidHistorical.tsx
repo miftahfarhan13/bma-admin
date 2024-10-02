@@ -29,7 +29,7 @@ export default function PerformanceViewBidHistorical() {
         />
       </InputGroup>
 
-      <TablePerformanceViewBid data={data} />
+      <TablePerformanceViewBid data={data} isUseFilter={false} />
     </>
   );
 }

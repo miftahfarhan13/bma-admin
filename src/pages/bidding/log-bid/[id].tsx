@@ -135,6 +135,7 @@ export default function LogBid({ id }: { id: string }) {
                     <Th>Plat Nomer</Th>
                     <Th>Tanggal Lelang</Th>
                     <Th>Dealer</Th>
+                    <Th>BD</Th>
                     <Th>Nominal Bidding</Th>
                   </Tr>
                 </Thead>
@@ -150,7 +151,7 @@ export default function LogBid({ id }: { id: string }) {
                         )}
                       </Td>
                       <Td>{car?.user?.name}</Td>
-
+                      <Td>{car?.user?.businesses?.length > 0 ? car?.user?.businesses[0]?.name : ""}</Td>
                       <Td fontWeight="700">
                         Rp {formatter.format(car?.amount)}
                       </Td>

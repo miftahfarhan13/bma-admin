@@ -133,6 +133,7 @@ export default function LogView({ id }: { id: string }) {
                     <Th>Tipe Mobil</Th>
                     <Th>Plat Nomer</Th>
                     <Th>Dealer</Th>
+                    <Th>BD</Th>
                     <Th>Total View</Th>
                     <Th>Tanggal Lelang</Th>
                   </Tr>
@@ -144,6 +145,7 @@ export default function LogView({ id }: { id: string }) {
                       <Td>{car?.car?.car_name}</Td>
                       <Td>{car?.car?.license_plate}</Td>
                       <Td>{car?.user?.name}</Td>
+                      <Td>{car?.user?.businesses?.length > 0 ? car?.user?.businesses[0]?.name : ""}</Td>
                       <Td>{car?.seen}</Td>
                       <Td>
                         {moment(new Date(car?.updated_at)).format(

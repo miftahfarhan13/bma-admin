@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Center,
   Stack,
   Table,
   TableContainer,
@@ -21,9 +22,15 @@ export default function TableBdPerformance({ data }: { data: any }) {
           <Thead>
             <Tr>
               <Th>PIC</Th>
-              <Th>Dealers Created</Th>
-              <Th>Participation(# of Dealer)</Th>
-              <Th>Won (# of Dealer)</Th>
+              <Th>
+                <Center>Dealers Created</Center>
+              </Th>
+              <Th>
+                <Center>Participation(# of Dealer)</Center>
+              </Th>
+              <Th>
+                <Center>Won (# of Dealer)</Center>
+              </Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -35,20 +42,20 @@ export default function TableBdPerformance({ data }: { data: any }) {
                     <Text>{bd?.name}</Text>
                   </Stack>
                 </Td>
-                <Td>{bd?.dealers_count}</Td>
+                <Td>
+                  <Center>{bd?.dealers_count}</Center>
+                </Td>
                 <Td>
                   <Link href={`/bd-performance/dealer-participation/${bd?.id}`}>
-                    <Stack direction="row" alignItems="center" spacing="5px">
+                    <Stack direction="column" alignItems="center" w="100%">
                       <Text>{bd?.dealers_bids_count}</Text>
-                      <Icon icon="ion:eye-outline" />
                     </Stack>
                   </Link>
                 </Td>
                 <Td>
                   <Link href={`/bd-performance/dealer-win/${bd?.id}`}>
-                    <Stack direction="row" alignItems="center" spacing="5px">
+                    <Stack direction="column" alignItems="center" w="100%">
                       <Text>{bd?.dealers_won_cars_count}</Text>
-                      <Icon icon="ion:eye-outline" />
                     </Stack>
                   </Link>
                 </Td>

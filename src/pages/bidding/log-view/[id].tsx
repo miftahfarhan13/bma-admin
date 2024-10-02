@@ -147,7 +147,7 @@ export default function LogView({ id }: { id: string }) {
                       <Td>{car?.seen}</Td>
                       <Td>
                         {moment(new Date(car?.updated_at)).format(
-                          "DD MMMM YYYY, HH:mm"
+                          "DD MMMM YYYY, HH:mm:ss"
                         )}
                       </Td>
                     </Tr>

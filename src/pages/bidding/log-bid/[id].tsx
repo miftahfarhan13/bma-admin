@@ -146,7 +146,7 @@ export default function LogBid({ id }: { id: string }) {
                       <Td>{car?.car?.license_plate}</Td>
                       <Td>
                         {moment(new Date(car?.created_at)).format(
-                          "DD MMMM YYYY, HH:mm"
+                          "DD MMMM YYYY, HH:mm:ss"
                         )}
                       </Td>
                       <Td>{car?.user?.name}</Td>

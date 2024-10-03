@@ -14,6 +14,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import Link from "next/link";
 import React, { useState } from "react";
 
 export default function TopPerformanceCar() {
@@ -59,7 +60,11 @@ export default function TopPerformanceCar() {
                   <Tr key={viewed?.rank}>
                     <Td>{viewed?.rank}</Td>
                     <Td>{viewed?.car_name}</Td>
-                    <Td isNumeric>{viewed?.count}</Td>
+                    <Td isNumeric>
+                      <Link href={`/bidding/log-view/${viewed?.id}`}>
+                        {viewed?.count}
+                      </Link>
+                    </Td>
                   </Tr>
                 ))}
               </Tbody>
@@ -81,7 +86,11 @@ export default function TopPerformanceCar() {
                   <Tr key={bided?.rank}>
                     <Td>{bided?.rank}</Td>
                     <Td>{bided?.car_name}</Td>
-                    <Td isNumeric>{bided?.count}</Td>
+                    <Td isNumeric>
+                      <Link href={`/bidding/log-bid/${bided?.id}`}>
+                        {bided?.count}
+                      </Link>
+                    </Td>
                   </Tr>
                 ))}
               </Tbody>

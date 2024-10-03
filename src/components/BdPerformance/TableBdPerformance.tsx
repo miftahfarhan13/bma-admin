@@ -31,7 +31,10 @@ export default function TableBdPerformance({
                 <Center>Dealers Created</Center>
               </Th>
               <Th>
-                <Center>Participation(# of Dealer)</Center>
+                <Center>Participation View(# of Dealer)</Center>
+              </Th>
+              <Th>
+                <Center>Participation Bid(# of Dealer)</Center>
               </Th>
               <Th>
                 <Center>Won (# of Dealer)</Center>
@@ -49,6 +52,11 @@ export default function TableBdPerformance({
                 </Td>
                 <Td>
                   <Center>{bd?.dealers_count}</Center>
+                </Td>
+                <Td>
+                  <Stack direction="column" alignItems="center" w="100%">
+                    <Text>{bd?.dealers_latest_seen_cars || 0}</Text>
+                  </Stack>
                 </Td>
                 <Td>
                   <Link

@@ -24,6 +24,7 @@ import { getBidsByCarId } from "@/networks/car";
 import { GetServerSideProps } from "next";
 import CarDetailCard from "@/components/Car/CarDetailCard";
 import useGetCarById from "@/utils/hooks/car/useGetCarById";
+import BidSummaryTable from "@/components/Bidding/BidSummaryTable";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
@@ -99,6 +100,8 @@ export default function LogBid({ id }: { id: string }) {
         <Stack direction="column" spacing={["20px", "20px", "40px", "40px"]}>
           <CarDetailCard car={car} />
 
+          <BidSummaryTable carId={id} />
+
           <Stack direction="column" spacing="10px">
             <Text fontWeight="700" fontSize="18px">
               Log Bid
@@ -151,7 +154,11 @@ export default function LogBid({ id }: { id: string }) {
                         )}
                       </Td>
                       <Td>{car?.user?.name}</Td>
-                      <Td>{car?.user?.businesses?.length > 0 ? car?.user?.businesses[0]?.name : ""}</Td>
+                      <Td>
+                        {car?.user?.businesses?.length > 0
+                          ? car?.user?.businesses[0]?.name
+                          : ""}
+                      </Td>
                       <Td fontWeight="700">
                         Rp {formatter.format(car?.amount)}
                       </Td>

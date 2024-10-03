@@ -57,6 +57,24 @@ export function getBidsByCarId(
   );
 }
 
+export function getBidsSummaryByCarId(carId: string, token: string) {
+  let config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axiosClient.get(`/cars/bids/${carId}/summary`, config);
+}
+
+export function getLastSeenSummaryByCarId(carId: string, token: string) {
+  let config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axiosClient.get(`/cars/last-seen/${carId}/summary`, config);
+}
+
 export function getLastSeenByCarId(
   carId: string,
   isPaginate: string,
@@ -137,7 +155,6 @@ export function fetchUpdateCar(
 
   return axiosClient.put(`/cars/${id}`, data, config);
 }
-
 
 export function deleteCar(token: string, id: number) {
   let config = {

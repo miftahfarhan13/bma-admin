@@ -23,6 +23,7 @@ import { getLastSeenByCarId } from "@/networks/car";
 import { GetServerSideProps } from "next";
 import useGetCarById from "@/utils/hooks/car/useGetCarById";
 import CarDetailCard from "@/components/Car/CarDetailCard";
+import LastSeenSummaryTable from "@/components/Bidding/LastSeenSummaryTable";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
@@ -98,6 +99,8 @@ export default function LogView({ id }: { id: string }) {
         <Stack direction="column" spacing={["20px", "20px", "40px", "40px"]}>
           <CarDetailCard car={car} />
 
+          <LastSeenSummaryTable carId={id} />
+
           <Stack direction="column" spacing="10px">
             <Text fontWeight="700" fontSize="18px">
               Log View
@@ -145,7 +148,11 @@ export default function LogView({ id }: { id: string }) {
                       <Td>{car?.car?.car_name}</Td>
                       <Td>{car?.car?.license_plate}</Td>
                       <Td>{car?.user?.name}</Td>
-                      <Td>{car?.user?.businesses?.length > 0 ? car?.user?.businesses[0]?.name : ""}</Td>
+                      <Td>
+                        {car?.user?.businesses?.length > 0
+                          ? car?.user?.businesses[0]?.name
+                          : ""}
+                      </Td>
                       <Td>{car?.seen}</Td>
                       <Td>
                         {moment(new Date(car?.updated_at)).format(

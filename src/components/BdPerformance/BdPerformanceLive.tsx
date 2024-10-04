@@ -10,23 +10,32 @@ export default function BdPerformanceLive() {
   const today = moment(new Date()).format("YYYY-MM-DD");
   const [data, setData] = useState();
 
-  const { data: dataRest } = useGetBdPerformance({ dateProps: today });
+  const { data: dataRest } = useGetBdPerformance({
+    startDate: today,
+    endDate: today,
+  });
 
   useEffect(() => {
     window.Echo.channel("car_dealer_online").listen(
       "CarDealerEvent",
       async (e: any) => {
-        console.log(e)
+        console.log(e);
         setData(e?.data ? e?.data[0] : undefined);
       }
     );
   }, []);
 
-  const liveData = data  ? data : dataRest;
+  const liveData = data ? data : dataRest;
 
   return (
     <>
-      <TableBdPerformance data={liveData} date={today}/>
+      <TableBdPerformance
+        data={liveData}
+        startDate={today}
+        endDate={today}
+        date=""
+        isRange={true}
+      />
     </>
   );
 }

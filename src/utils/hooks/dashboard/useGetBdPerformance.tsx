@@ -2,19 +2,30 @@ import { getBdPerformances } from "@/networks/user";
 import { useEffect, useRef, useState } from "react";
 
 export default function useGetBdPerformance({
-  dateProps,
+  startDate,
+  endDate,
 }: {
-  dateProps?: string;
+  startDate: string;
+  endDate: string;
 }) {
   const firstRun = useRef(true);
 
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<any>();
 
-  const fetchDashboard = (date?: string) => {
+  const fetchDashboard = (startDate: string, endDate: string) => {
     const token = localStorage.getItem("token") || "";
     setIsLoading(true);
-    getBdPerformances("false", token, "", "", date)
+    getBdPerformances({
+      isPaginate: "false",
+      token,
+      page: "",
+      show: "",
+      date: "",
+      startDate,
+      endDate,
+      isRange: true
+    })
       .then((response) => {
         setData(response?.data?.result);
         setIsLoading(false);
@@ -26,13 +37,13 @@ export default function useGetBdPerformance({
 
   useEffect(() => {
     if (firstRun.current) {
-      fetchDashboard(dateProps);
+      fetchDashboard(startDate, endDate);
       firstRun.current = false;
     }
   }, []);
 
-  const refetch = (date?: string) => {
-    fetchDashboard(date);
+  const refetch = (startDate: string, endDate: string) => {
+    fetchDashboard(startDate, endDate);
   };
 
   return {

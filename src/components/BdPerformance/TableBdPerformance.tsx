@@ -15,9 +15,15 @@ import Link from "next/link";
 
 export default function TableBdPerformance({
   data,
+  startDate,
+  endDate,
+  isRange,
   date,
 }: {
   data: any;
+  startDate: string;
+  endDate: string;
+  isRange: boolean;
   date: string;
 }) {
   return (
@@ -60,7 +66,11 @@ export default function TableBdPerformance({
                 </Td>
                 <Td>
                   <Link
-                    href={`/bd-performance/dealer-participation/${bd?.id}?date=${date}`}
+                    href={
+                      isRange
+                        ? `/bd-performance/dealer-participation/${bd?.id}?start_date=${startDate}&end_date=${endDate}`
+                        : `/bd-performance/dealer-participation/${bd?.id}?date=${date}`
+                    }
                   >
                     <Stack direction="column" alignItems="center" w="100%">
                       <Text>{bd?.dealers_bids_count}</Text>
@@ -69,7 +79,11 @@ export default function TableBdPerformance({
                 </Td>
                 <Td>
                   <Link
-                    href={`/bd-performance/dealer-win/${bd?.id}?date=${date}`}
+                    href={
+                      isRange
+                        ? `/bd-performance/dealer-win/${bd?.id}?start_date=${startDate}&end_date=${endDate}`
+                        : `/bd-performance/dealer-win/${bd?.id}?date=${date}`
+                    }
                   >
                     <Stack direction="column" alignItems="center" w="100%">
                       <Text>{bd?.dealers_won_cars_count}</Text>

@@ -20,24 +20,28 @@ import { getBdDealerWin } from "@/networks/user";
 import { GetServerSideProps } from "next";
 import AccountCard from "@/components/Account/AccountCard";
 import { formatter } from "@/utils/number";
+import SelectDateRange from "@/components/AppComponents/SelectDateRange";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       id: context.query.id,
-      date: context.query.date,
+      start_date: context.query.start_date,
+      end_date: context.query.end_date,
     },
   };
 };
 
 export default function BdDealerWin({
   id,
-  date,
+  start_date,
+  end_date,
 }: {
   id: string;
-  date: string;
+  start_date: string;
+  end_date: string;
 }) {
-  const [dateState, setDateState] = useState(date);
+  const [dateRanges, setDateRanges] = useState([start_date, end_date]);
 
   const [show, setShow] = useState("10");
 
@@ -49,11 +53,22 @@ export default function BdDealerWin({
   const fetchDealerParticipation = (
     page: string,
     show: string,
-    date: string
+    startDate: string,
+    endDate: string
   ) => {
     const token = localStorage.getItem("token") || "";
     setIsLoading(true);
-    getBdDealerWin(id, "true", token, page, show, date)
+    getBdDealerWin({
+      id,
+      isPaginate: "true",
+      token,
+      page,
+      show,
+      date: "",
+      startDate,
+      endDate,
+      isRange: true,
+    })
       .then((response) => {
         setData(response?.data?.result);
         setIsLoading(false);
@@ -65,7 +80,7 @@ export default function BdDealerWin({
 
   useEffect(() => {
     if (!firstRun.current) {
-      fetchDealerParticipation("1", show, dateState);
+      fetchDealerParticipation("1", show, dateRanges[0], dateRanges[1]);
       firstRun.current = true;
     }
   }, []);
@@ -80,12 +95,17 @@ export default function BdDealerWin({
   const changePage = (page: number) => {
     if (page < 0) return;
     if (page >= maxPage) return;
-    fetchDealerParticipation((page + 1).toString(), show, dateState);
+    fetchDealerParticipation(
+      (page + 1).toString(),
+      show,
+      dateRanges[0],
+      dateRanges[1]
+    );
     setPageIndex(page);
   };
   const changeLimit = (limit: string) => {
     setShow(limit);
-    fetchDealerParticipation("1", limit, dateState);
+    fetchDealerParticipation("1", limit, dateRanges[0], dateRanges[1]);
   };
   // --
   return (
@@ -99,20 +119,18 @@ export default function BdDealerWin({
             alignItems="center"
             spacing="10px"
           >
-            <Stack>
-              <Input
-                value={dateState}
-                onChange={(event) => {
-                  setDateState(event?.target?.value);
-                  fetchDealerParticipation(
-                    (pageIndex + 1).toString(),
-                    show,
-                    event?.target?.value
-                  );
-                }}
-                type="date"
-              />
-            </Stack>
+            <SelectDateRange
+              dateRanges={dateRanges}
+              onChangeDateRanges={(value) => {
+                setDateRanges(value);
+                fetchDealerParticipation(
+                  (pageIndex + 1).toString(),
+                  show,
+                  value[0],
+                  value[1]
+                );
+              }}
+            />
             <Box>{isLoading && <Spinner />}</Box>
           </Stack>
 

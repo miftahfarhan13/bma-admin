@@ -19,23 +19,44 @@ export function getCars(
   );
 }
 
-export function getCarsWithBids(
-  isPaginate: string,
-  token: string,
-  page?: string,
-  show?: string,
-  search?: string,
-  date?: string
-) {
+export function getCarsWithBids({
+  isPaginate,
+  token,
+  page,
+  show,
+  search,
+  date,
+  startDate,
+  endDate,
+  isRange,
+}: {
+  isPaginate: string;
+  token: string;
+  page?: string;
+  show?: string;
+  search?: string;
+  date?: string;
+  startDate?: string;
+  endDate?: string;
+  isRange?: boolean;
+}) {
   let config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  return axiosClient.get(
-    `/bids/bids-information?is_paginate=${isPaginate}&page=${page}&per_page=${show}&search=${search}&date=${date}`,
-    config
-  );
+
+  if (isRange) {
+    return axiosClient.get(
+      `/bids/bids-information?is_paginate=${isPaginate}&page=${page}&per_page=${show}&search=${search}&start_date=${startDate}&end_date=${endDate}`,
+      config
+    );
+  } else {
+    return axiosClient.get(
+      `/bids/bids-information?is_paginate=${isPaginate}&page=${page}&per_page=${show}&search=${search}&date=${date}`,
+      config
+    );
+  }
 }
 
 export function getBidsByCarId(

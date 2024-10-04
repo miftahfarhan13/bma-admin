@@ -10,7 +10,15 @@ export default function useGetCarBids({ date }: { date: string }) {
   const fetchGetCarBids = () => {
     const token = localStorage.getItem("token") || "";
     setIsLoading(true);
-    getCarsWithBids("false", token, "", "", "", date)
+    getCarsWithBids({
+      isPaginate: "false",
+      token,
+      page: "",
+      show: "",
+      search: "",
+      date,
+      isRange: false,
+    })
       .then((response) => {
         setData(response?.data?.result);
         setIsLoading(false);

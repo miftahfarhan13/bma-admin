@@ -2,7 +2,13 @@ import { Button, useToast } from "@chakra-ui/react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useState } from "react";
 
-export default function ButtonExportBidding({date}:{date: string}) {
+export default function ButtonExportBidding({
+  startDate,
+  endDate,
+}: {
+  startDate: string;
+  endDate: string;
+}) {
   const toast = useToast();
   const [isLoading, setIsloading] = useState(false);
 
@@ -11,7 +17,7 @@ export default function ButtonExportBidding({date}:{date: string}) {
       setIsloading(true);
       const token = localStorage.getItem("token") || "";
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/bids/export?date=${date}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/bids/export?start_date=${startDate}&end_date=${endDate}`,
         {
           method: "POST",
           headers: {

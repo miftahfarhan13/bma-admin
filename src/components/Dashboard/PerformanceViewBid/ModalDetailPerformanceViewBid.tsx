@@ -53,7 +53,7 @@ export default function ModalDetailPerformanceViewBid({
         </Td>
       </Tr>
 
-      <Modal size="xl" isCentered isOpen={isOpen} onClose={onClose}>
+      <Modal size="3xl" isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalBody p="20px" position="relative">

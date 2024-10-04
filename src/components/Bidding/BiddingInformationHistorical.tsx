@@ -12,9 +12,10 @@ import AdminPaginationFooter from "@/components/AdminPaginationFooter";
 import { getCarsWithBids } from "@/networks/car";
 import ButtonExportBidding from "@/components/Bidding/ButtonExportBidding";
 import TableBiddingInformation from "@/components/Bidding/TableBiddingInformation";
+import SelectDateRange from "../AppComponents/SelectDateRange";
 
 export default function BiddingInformationHistorical() {
-  const [date, setDate] = useState("");
+  const [dateRanges, setDateRanges] = useState(["", ""]);
   const [show, setShow] = useState("10");
   const [keyword, setKeyword] = useState("");
 
@@ -23,10 +24,24 @@ export default function BiddingInformationHistorical() {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<any>();
 
-  const fetchBids = (page: string, show: string, date: string) => {
+  const fetchBids = (
+    page: string,
+    show: string,
+    startDate: string,
+    endDate: string
+  ) => {
     const token = localStorage.getItem("token") || "";
     setIsLoading(true);
-    getCarsWithBids("true", token, page, show, keyword, date)
+    getCarsWithBids({
+      isPaginate: "true",
+      token,
+      page,
+      show,
+      search: keyword,
+      startDate,
+      endDate,
+      isRange: true,
+    })
       .then((response) => {
         setData(response?.data?.result);
         setIsLoading(false);
@@ -38,7 +53,7 @@ export default function BiddingInformationHistorical() {
 
   useEffect(() => {
     if (!firstRun.current) {
-      fetchBids("1", show, date);
+      fetchBids("1", show, dateRanges[0], dateRanges[1]);
       firstRun.current = true;
     }
   }, []);
@@ -47,7 +62,7 @@ export default function BiddingInformationHistorical() {
   useDebounce(
     () => {
       if (firstRun.current) {
-        fetchBids("1", show, date);
+        fetchBids("1", show, dateRanges[0], dateRanges[1]);
       }
     },
     [keyword],
@@ -64,12 +79,12 @@ export default function BiddingInformationHistorical() {
   const changePage = (page: number) => {
     if (page < 0) return;
     if (page >= maxPage) return;
-    fetchBids((page + 1).toString(), show, date);
+    fetchBids((page + 1).toString(), show, dateRanges[0], dateRanges[1]);
     setPageIndex(page);
   };
   const changeLimit = (limit: string) => {
     setShow(limit);
-    fetchBids("1", limit, date);
+    fetchBids("1", limit, dateRanges[0], dateRanges[1]);
   };
   // --
   return (
@@ -94,16 +109,17 @@ export default function BiddingInformationHistorical() {
           {isLoading && <Spinner />}
         </Stack>
         <Stack direction="row" spacing="10px" alignSelf="end">
-          <Input
-            value={date}
-            onChange={(event) => {
-              setDate(event?.target?.value);
-              fetchBids((pageIndex + 1).toString(), show, event?.target?.value);
+          <SelectDateRange
+            dateRanges={dateRanges}
+            onChangeDateRanges={(value) => {
+              setDateRanges(value);
+              fetchBids((pageIndex + 1).toString(), show, value[0], value[1]);
             }}
-            type="date"
           />
-
-          <ButtonExportBidding date={date}/>
+          <ButtonExportBidding
+            startDate={dateRanges[0]}
+            endDate={dateRanges[1]}
+          />
         </Stack>
       </Stack>
 

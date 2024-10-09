@@ -25,6 +25,7 @@ export default function TableMostViewedCar({
               <Tr>
                 <Th>No</Th>
                 <Th>Most View Car</Th>
+                <Th>Leading Dealer</Th>
                 <Th isNumeric>Total</Th>
               </Tr>
             </Thead>
@@ -33,6 +34,7 @@ export default function TableMostViewedCar({
                 <Tr key={viewed?.rank}>
                   <Td>{viewed?.rank}</Td>
                   <Td>{viewed?.car_name}</Td>
+                  <Td>{viewed?.leading_dealer?.name}</Td>
                   <Td isNumeric>
                     <Link href={`/bidding/log-view/${viewed?.id}`}>
                       {viewed?.count}

@@ -1,10 +1,13 @@
 import {
+  Box,
   Center,
   IconButton,
+  Stack,
   Table,
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -14,8 +17,32 @@ import moment from "moment";
 import { formatter } from "@/utils/number";
 import Link from "next/link";
 import ChipBidStatus from "@/components/AppComponents/ChipBidStatus";
+import { useState } from "react";
 
 export default function TableBiddingInformation({ data }: { data: any }) {
+  const [sortConfig, setSortConfig] = useState({
+    key: "name",
+    direction: "asc",
+  });
+
+  const handleSort = (key: string) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedBiddingInformation = [...(data || [])].sort((a, b) => {
+    if (a[sortConfig.key] < b[sortConfig.key]) {
+      return sortConfig.direction === "asc" ? -1 : 1;
+    }
+    if (a[sortConfig.key] > b[sortConfig.key]) {
+      return sortConfig.direction === "asc" ? 1 : -1;
+    }
+    return 0;
+  });
+
   return (
     <>
       <TableContainer>
@@ -32,14 +59,24 @@ export default function TableBiddingInformation({ data }: { data: any }) {
               <Th>Tanggal Lelang</Th>
               <Th>Log Bidding</Th>
               <Th>Log View</Th>
-              <Th>Status Lelang</Th>
+              <Th>
+                <Stack direction="row" alignItems="center" spacing="5px">
+                  <Text>Status Lelang</Text>
+                  <Box
+                    cursor="pointer"
+                    onClick={() => handleSort("bidding_status")}
+                  >
+                    <Icon icon="bx:sort" />
+                  </Box>
+                </Stack>
+              </Th>
               <Th>Leading Dealer</Th>
               <Th>Status Mobil</Th>
               <Th>Assign Winner</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {data?.map((car: any, index: number) => (
+            {sortedBiddingInformation?.map((car: any, index: number) => (
               <Tr key={car?.id}>
                 <Td>{index + 1}</Td>
                 <Td>{car?.brand?.brand_name}</Td>

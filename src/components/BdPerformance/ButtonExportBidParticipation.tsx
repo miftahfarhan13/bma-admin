@@ -45,7 +45,7 @@ export default function ButtonExportBidParticipation({
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "bd_performances.csv"; // Nama file yang akan di-download
+      a.download = "bd_performances_bid_participation.csv"; // Nama file yang akan di-download
       document.body.appendChild(a); // Tambahkan elemen <a> ke body
       a.click(); // Trigger download
       a.remove(); // Hapus elemen <a> setelah selesai

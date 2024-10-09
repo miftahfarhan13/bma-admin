@@ -57,12 +57,30 @@ export default function TableBdPerformance({
                   </Stack>
                 </Td>
                 <Td>
-                  <Center>{bd?.dealers_count}</Center>
+                  <Link
+                    href={
+                      isRange
+                        ? `/bd-performance/dealers/${bd?.id}?start_date=${startDate}&end_date=${endDate}`
+                        : `/bd-performance/dealers/${bd?.id}?date=${date}`
+                    }
+                  >
+                    <Stack direction="column" alignItems="center" w="100%">
+                      <Text>{bd?.dealers_count}</Text>
+                    </Stack>
+                  </Link>
                 </Td>
                 <Td>
-                  <Stack direction="column" alignItems="center" w="100%">
-                    <Text>{bd?.dealers_latest_seen_cars || 0}</Text>
-                  </Stack>
+                  <Link
+                    href={
+                      isRange
+                        ? `/bd-performance/dealer-view/${bd?.id}?start_date=${startDate}&end_date=${endDate}`
+                        : `/bd-performance/dealer-view/${bd?.id}?date=${date}`
+                    }
+                  >
+                    <Stack direction="column" alignItems="center" w="100%">
+                      <Text>{bd?.dealers_latest_seen_cars || 0}</Text>
+                    </Stack>
+                  </Link>
                 </Td>
                 <Td>
                   <Link

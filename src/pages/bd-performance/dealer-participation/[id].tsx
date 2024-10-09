@@ -19,6 +19,7 @@ import { getBdDealerParticipation } from "@/networks/user";
 import { GetServerSideProps } from "next";
 import AccountCard from "@/components/Account/AccountCard";
 import SelectDateRange from "@/components/AppComponents/SelectDateRange";
+import ButtonExportBidParticipation from "@/components/BdPerformance/ButtonExportBidParticipation";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
@@ -129,6 +130,11 @@ export default function BdDealerParticipation({
                     value[1]
                   );
                 }}
+              />
+              <ButtonExportBidParticipation
+                id={id}
+                startDate={dateRanges[0]}
+                endDate={dateRanges[1]}
               />
             </Stack>
             <Box>{isLoading && <Spinner />}</Box>

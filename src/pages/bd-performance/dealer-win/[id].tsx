@@ -21,6 +21,7 @@ import { GetServerSideProps } from "next";
 import AccountCard from "@/components/Account/AccountCard";
 import { formatter } from "@/utils/number";
 import SelectDateRange from "@/components/AppComponents/SelectDateRange";
+import ButtonExportWonParticipation from "@/components/BdPerformance/ButtonExportWonParticipation";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
@@ -119,18 +120,25 @@ export default function BdDealerWin({
             alignItems="center"
             spacing="10px"
           >
-            <SelectDateRange
-              dateRanges={dateRanges}
-              onChangeDateRanges={(value) => {
-                setDateRanges(value);
-                fetchDealerParticipation(
-                  (pageIndex + 1).toString(),
-                  show,
-                  value[0],
-                  value[1]
-                );
-              }}
-            />
+            <Stack direction="row" spacing="10px" alignSelf="end">
+              <SelectDateRange
+                dateRanges={dateRanges}
+                onChangeDateRanges={(value) => {
+                  setDateRanges(value);
+                  fetchDealerParticipation(
+                    (pageIndex + 1).toString(),
+                    show,
+                    value[0],
+                    value[1]
+                  );
+                }}
+              />
+              <ButtonExportWonParticipation
+                id={id}
+                startDate={dateRanges[0]}
+                endDate={dateRanges[1]}
+              />
+            </Stack>
             <Box>{isLoading && <Spinner />}</Box>
           </Stack>
 

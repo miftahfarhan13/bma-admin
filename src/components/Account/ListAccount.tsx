@@ -149,6 +149,7 @@ export default function ListAccount() {
                   <Th>Nominal Deposit</Th>
                   <Th>Participation by Car</Th>
                   <Th>Total Menang</Th>
+                  <Th>Total Menang dan Terjual</Th>
                   <Th>Akun Dibuat</Th>
                   <Th>Action</Th>
                 </Tr>
@@ -185,6 +186,7 @@ export default function ListAccount() {
                     <Td>Rp {formatter.format(user?.deposit_nominal)}</Td>
                     <Td>{user?.bids_count}</Td>
                     <Td>{user?.won_cars_count}</Td>
+                    <Td>{user?.won_cars_terjual_count}</Td>
                     <Td>
                       {moment(new Date(user?.created_at)).format(
                         "MMMM DD, YYYY"

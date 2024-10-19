@@ -54,7 +54,9 @@ export default function DashboardCounterData({ data }: { data: any }) {
       <CounterCard
         icon="mdi:car-side"
         label="Buy Now"
-        value={`${data?.total_buy_now}/${data?.total_cars} (${data?.percentage_buy_now}%)`}
+        value={`${data?.total_buy_now || 0}/${data?.total_cars || 0} (${
+          data?.percentage_buy_now || 0
+        }%)`}
       />
     </>
   );

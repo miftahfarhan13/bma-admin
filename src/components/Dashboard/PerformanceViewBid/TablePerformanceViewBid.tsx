@@ -20,8 +20,10 @@ export default function TablePerformanceViewBid({
   keyword?: string;
   isUseFilter: boolean;
 }) {
-  const filteredData = data?.data?.filter((fil: any) =>
-    fil?.name?.toLowerCase()?.includes(keyword?.toLowerCase())
+  const filteredData = data?.data?.filter(
+    (fil: any) =>
+      fil?.name?.toLowerCase()?.includes(keyword?.toLowerCase()) ||
+      fil?.businesses[0]?.name?.toLowerCase()?.includes(keyword?.toLowerCase())
   );
   const unfilteredData = data?.data;
   const datas = isUseFilter ? filteredData : unfilteredData;

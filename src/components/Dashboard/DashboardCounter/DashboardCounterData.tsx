@@ -46,10 +46,15 @@ export default function DashboardCounterData({ data }: { data: any }) {
         label="SA Cars"
         value={data?.percentage_bided_cars_by_availability?.["SA Cars"]}
       />
-      <CounterCard
+      {/* <CounterCard
         icon="mdi:car-side"
         label="Corp Cars"
         value={data?.percentage_bided_cars_by_availability?.Corporate}
+      /> */}
+      <CounterCard
+        icon="mdi:car-side"
+        label="Buy Now"
+        value={`${data?.total_buy_now}/${data?.total_cars} (${data?.percentage_buy_now}%)`}
       />
     </>
   );

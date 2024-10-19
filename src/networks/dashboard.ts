@@ -45,13 +45,18 @@ export function getChartCarPerformance(token: string) {
   return axiosClient.get(`/bd-performances/chart/car`, config);
 }
 
-export function getTableDealerPerformance(token: string, search: string) {
+export function getTableDealerPerformance(
+  token: string,
+  search: string,
+  startDate: string,
+  endDate: string
+) {
   let config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  return axiosClient.get(`/bd-performances/table?search=${search}`, config);
+  return axiosClient.get(`/bd-performances/table?search=${search}&start_date=${startDate}&end_date=${endDate}`, config);
 }
 
 export function getDealerPerformanceDetail(

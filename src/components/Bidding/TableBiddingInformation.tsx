@@ -53,6 +53,7 @@ export default function TableBiddingInformation({ data }: { data: any }) {
               <Th>Merek Mobil</Th>
               <Th>Tipe Mobil</Th>
               <Th>Harga Open</Th>
+              <Th>Harga Max Bid</Th>
               <Th>Harga Terbentuk</Th>
               <Th>Beli Sekarang</Th>
               <Th>Plat Nomer</Th>
@@ -82,6 +83,9 @@ export default function TableBiddingInformation({ data }: { data: any }) {
                 <Td>{car?.brand?.brand_name}</Td>
                 <Td>{car?.car_name}</Td>
                 <Td fontWeight="700">Rp {formatter.format(car?.price)}</Td>
+                <Td fontWeight="700">
+                  Rp {formatter.format(car?.max_bid_lock?.amount || 0)}
+                </Td>
                 <Td fontWeight="700">
                   Rp {formatter.format(car?.created_price)}
                 </Td>

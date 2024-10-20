@@ -17,9 +17,9 @@ export default function ButtonExportPerformanceViewBid({
       setIsloading(true);
       const token = localStorage.getItem("token") || "";
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/bd-performances/export?start_date=${startDate}&end_date=${endDate}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/bd-performances/table/export?start_date=${startDate}&end_date=${endDate}`,
         {
-          method: "GET",
+          method: "POST",
           headers: {
             "Content-Type": "text/csv",
             Authorization: `Bearer ${token}`,

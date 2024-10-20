@@ -72,7 +72,7 @@ export async function getChartCarPerformance({
   return await axiosClient.get(url, config);
 }
 
-export function getTableDealerPerformance(
+export async function getTableDealerPerformance(
   token: string,
   search: string,
   startDate: string,
@@ -83,10 +83,12 @@ export function getTableDealerPerformance(
       Authorization: `Bearer ${token}`,
     },
   };
-  return axiosClient.get(
-    `/bd-performances/table?search=${search}&start_date=${startDate}&end_date=${endDate}`,
-    config
-  );
+  let url = `/bd-performances/table?search=${search}`;
+
+  if (startDate) url += `&start_date=${startDate}`;
+  if (endDate) url += `&end_date=${endDate}`;
+
+  return await axiosClient.get(url, config);
 }
 
 export function getDealerPerformanceDetail(

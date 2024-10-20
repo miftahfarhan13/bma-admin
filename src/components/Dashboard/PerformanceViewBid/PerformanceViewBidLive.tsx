@@ -11,7 +11,11 @@ export default function PerformanceViewBidLive() {
   const [search, setSearch] = useState("");
   const [data, setData] = useState();
 
-  const { data: dataRest } = useGetTableDealerPerformance({ search: "" });
+  const { data: dataRest } = useGetTableDealerPerformance({
+    search: "",
+    startDate: "",
+    endDate: "",
+  });
 
   useEffect(() => {
     window.Echo.channel("list_dealer_online").listen(

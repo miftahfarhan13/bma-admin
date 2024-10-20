@@ -1,9 +1,9 @@
 import { SimpleGrid, Stack } from "@chakra-ui/react";
 import AdminLayout from "@/components/AppLayout/AdminLayout";
 import TabDashboard from "@/components/Dashboard/TabDashboard";
-import BDPerformanceDealer from "@/components/Dashboard/BDPerformanceDealer";
-import BDPerformanceCar from "@/components/Dashboard/BDPerformanceCar";
+import BDPerformanceDealer from "@/components/Dashboard/BDPerformanceDealer/BDPerformanceDealer";
 import PerformanceViewBid from "@/components/Dashboard/PerformanceViewBid";
+import BDPerformanceCar from "@/components/Dashboard/BDPerformanceCar/BDPerformanceCar";
 
 export default function BDPerformance() {
   return (

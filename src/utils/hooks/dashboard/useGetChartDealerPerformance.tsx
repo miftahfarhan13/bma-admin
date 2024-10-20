@@ -1,18 +1,22 @@
-import {
-  getChartDealerPerformance,
-} from "@/networks/dashboard";
+import { getChartDealerPerformance } from "@/networks/dashboard";
 import { useEffect, useRef, useState } from "react";
 
-export default function useGetChartDealerPerformance() {
+export default function useGetChartDealerPerformance({
+  startDate,
+  endDate,
+}: {
+  startDate: string;
+  endDate: string;
+}) {
   const firstRun = useRef(true);
 
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<any>();
 
-  const fetchMostViewedCar = () => {
+  const fetchMostViewedCar = (dateStart: string, dateEnd: string) => {
     const token = localStorage.getItem("token") || "";
     setIsLoading(true);
-    getChartDealerPerformance(token)
+    getChartDealerPerformance({ token, startDate: dateStart, endDate: dateEnd })
       .then((response) => {
         setData(response?.data?.data);
         setIsLoading(false);
@@ -24,13 +28,13 @@ export default function useGetChartDealerPerformance() {
 
   useEffect(() => {
     if (firstRun.current) {
-      fetchMostViewedCar();
+      fetchMostViewedCar(startDate, endDate);
       firstRun.current = false;
     }
   }, []);
 
-  const refetch = () => {
-    fetchMostViewedCar();
+  const refetch = (startDate: string, endDate: string) => {
+    fetchMostViewedCar(startDate, endDate);
   };
 
   return {

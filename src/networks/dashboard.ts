@@ -27,22 +27,49 @@ export function getMostBidedCar(token: string, date: string) {
   return axiosClient.get(`/most-bided-car?date=${date}`, config);
 }
 
-export function getChartDealerPerformance(token: string) {
+export async function getChartDealerPerformance({
+  token,
+  startDate,
+  endDate,
+}: {
+  token: string;
+  startDate?: string;
+  endDate?: string;
+}) {
   let config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  return axiosClient.get(`/bd-performances/chart/dealer`, config);
+
+  let url = `/bd-performances/chart/dealer`;
+
+  if (startDate) url += `?start_date=${startDate}`;
+  if (endDate) url += `&end_date=${endDate}`;
+
+  return await axiosClient.get(url, config);
 }
 
-export function getChartCarPerformance(token: string) {
+export async function getChartCarPerformance({
+  token,
+  startDate,
+  endDate,
+}: {
+  token: string;
+  startDate?: string;
+  endDate?: string;
+}) {
   let config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  return axiosClient.get(`/bd-performances/chart/car`, config);
+  let url = `/bd-performances/chart/car`;
+
+  if (startDate) url += `?start_date=${startDate}`;
+  if (endDate) url += `&end_date=${endDate}`;
+
+  return await axiosClient.get(url, config);
 }
 
 export function getTableDealerPerformance(
@@ -56,7 +83,10 @@ export function getTableDealerPerformance(
       Authorization: `Bearer ${token}`,
     },
   };
-  return axiosClient.get(`/bd-performances/table?search=${search}&start_date=${startDate}&end_date=${endDate}`, config);
+  return axiosClient.get(
+    `/bd-performances/table?search=${search}&start_date=${startDate}&end_date=${endDate}`,
+    config
+  );
 }
 
 export function getDealerPerformanceDetail(

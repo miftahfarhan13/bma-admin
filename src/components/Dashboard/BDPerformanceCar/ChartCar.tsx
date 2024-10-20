@@ -1,4 +1,4 @@
-import React from "react";
+import { Box, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -9,8 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Box, Skeleton, Stack, Text } from "@chakra-ui/react";
-import useGetChartDealerPerformance from "@/utils/hooks/dashboard/useGetChartDealerPerformance";
+import React from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -21,13 +20,19 @@ ChartJS.register(
   Legend
 );
 
-export default function BDPerformanceDealer() {
-  const { data, isLoading } = useGetChartDealerPerformance();
+export default function ChartCar({
+  isLoading,
+  data,
+}: {
+  isLoading: boolean;
+  data: any;
+}) {
   return (
     <>
       <Box border="1px solid #DBDBDB" p="10px" borderRadius="8px">
         <Stack direction="column" spacing="10px" alignItems="center">
-          <Text fontWeight="700">BD Performance (Unique Dealer)</Text>
+          <Text fontWeight="700">BD Performance (Unique Cars)</Text>
+
           {isLoading ? (
             <>
               <Skeleton />

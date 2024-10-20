@@ -1,16 +1,22 @@
 import { getChartCarPerformance } from "@/networks/dashboard";
 import { useEffect, useRef, useState } from "react";
 
-export default function useGetChartCarPerformance() {
+export default function useGetChartCarPerformance({
+  startDate,
+  endDate,
+}: {
+  startDate: string;
+  endDate: string;
+}) {
   const firstRun = useRef(true);
 
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<any>();
 
-  const fetchMostViewedCar = () => {
+  const fetchMostViewedCar = (dateStart: string, dateEnd: string) => {
     const token = localStorage.getItem("token") || "";
     setIsLoading(true);
-    getChartCarPerformance(token)
+    getChartCarPerformance({ token, startDate: dateStart, endDate: dateEnd })
       .then((response) => {
         setData(response?.data?.data);
         setIsLoading(false);
@@ -22,13 +28,13 @@ export default function useGetChartCarPerformance() {
 
   useEffect(() => {
     if (firstRun.current) {
-      fetchMostViewedCar();
+      fetchMostViewedCar(startDate, endDate);
       firstRun.current = false;
     }
   }, []);
 
-  const refetch = () => {
-    fetchMostViewedCar();
+  const refetch = (startDate: string, endDate: string) => {
+    fetchMostViewedCar(startDate, endDate);
   };
 
   return {

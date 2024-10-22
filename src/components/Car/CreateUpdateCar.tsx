@@ -404,22 +404,69 @@ export default function CreateUpdateCar({
           fuel_type: car?.fuel_type || "",
           transmission_type: car?.transmission_type || "",
           defect_status: car?.defect_status || "",
-          is_flooded: car?.is_flooded || "0",
+          is_flooded: !car?.is_flooded || car?.is_flooded === 0 ? "0" : "1",
           auction_date: car?.auction_date || "",
           auction_session_run: "10:00 - 15:00",
-          bpkb_status: car?.car_document?.bpkb_status || "0",
-          stnk_status: car?.car_document?.stnk_status || "0",
-          invoice_status: car?.car_document?.invoice_status || "0",
-          vin_status: car?.car_document?.vin_status || "0",
-          form_a_status: car?.car_document?.form_a_status || "0",
-          stnk_fotocopy_status: car?.car_document?.stnk_fotocopy_status || "0",
-          manual_book_status: car?.car_document?.manual_book_status || "0",
-          service_book_status: car?.car_document?.service_book_status || "0",
-          backup_key_status: car?.car_document?.backup_key_status || "0",
-          receipt_form_status: car?.car_document?.receipt_form_status || "0",
+          bpkb_status:
+            !car?.car_document?.bpkb_status ||
+            car?.car_document?.bpkb_status === 0
+              ? "0"
+              : "1",
+          stnk_status:
+            !car?.car_document?.stnk_status ||
+            car?.car_document?.stnk_status === 0
+              ? "0"
+              : "1",
+          invoice_status:
+            !car?.car_document?.invoice_status ||
+            car?.car_document?.invoice_status === 0
+              ? "0"
+              : "1",
+          vin_status:
+            !car?.car_document?.vin_status ||
+            car?.car_document?.vin_status === 0
+              ? "0"
+              : "1",
+          form_a_status:
+            !car?.car_document?.form_a_status ||
+            car?.car_document?.form_a_status === 0
+              ? "0"
+              : "1",
+          stnk_fotocopy_status:
+            !car?.car_document?.stnk_fotocopy_status ||
+            car?.car_document?.stnk_fotocopy_status === 0
+              ? "0"
+              : "1",
+          manual_book_status:
+            !car?.car_document?.manual_book_status ||
+            car?.car_document?.manual_book_status === 0
+              ? "0"
+              : "1",
+          service_book_status:
+            !car?.car_document?.service_book_status ||
+            car?.car_document?.service_book_status === 0
+              ? "0"
+              : "1",
+          backup_key_status:
+            !car?.car_document?.backup_key_status ||
+            car?.car_document?.backup_key_status === 0
+              ? "0"
+              : "1",
+          receipt_form_status:
+            !car?.car_document?.receipt_form_status ||
+            car?.car_document?.receipt_form_status === 0
+              ? "0"
+              : "1",
           declaration_right_status:
-            car?.car_document?.declaration_right_status || "0",
-          toolkit_status: car?.car_document?.toolkit_status || "0",
+            !car?.car_document?.declaration_right_status ||
+            car?.car_document?.declaration_right_status === 0
+              ? "0"
+              : "1",
+          toolkit_status:
+            !car?.car_document?.toolkit_status ||
+            car?.car_document?.toolkit_status === 0
+              ? "0"
+              : "1",
           video_file: car?.car_videos ? car?.car_videos[0]?.video_file : "",
         }}
         onSubmit={async (values) => {

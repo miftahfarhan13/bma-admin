@@ -20,6 +20,8 @@ import { GetServerSideProps } from "next";
 import AccountCard from "@/components/Account/AccountCard";
 import SelectDateRange from "@/components/AppComponents/SelectDateRange";
 import ButtonExportBidParticipation from "@/components/BdPerformance/ButtonExportBidParticipation";
+import { useRecoilValue } from "recoil";
+import { roleState } from "@/atom/role";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
@@ -40,6 +42,9 @@ export default function BdDealerParticipation({
   start_date: string;
   end_date: string;
 }) {
+  const role = useRecoilValue(roleState);
+  const isAdmin = role === "super-admin" || role === "admin";
+
   const [dateRanges, setDateRanges] = useState([start_date, end_date]);
   const [show, setShow] = useState("10");
 
@@ -131,11 +136,13 @@ export default function BdDealerParticipation({
                   );
                 }}
               />
-              <ButtonExportBidParticipation
-                id={id}
-                startDate={dateRanges[0]}
-                endDate={dateRanges[1]}
-              />
+              {isAdmin && (
+                <ButtonExportBidParticipation
+                  id={id}
+                  startDate={dateRanges[0]}
+                  endDate={dateRanges[1]}
+                />
+              )}
             </Stack>
             <Box>{isLoading && <Spinner />}</Box>
           </Stack>

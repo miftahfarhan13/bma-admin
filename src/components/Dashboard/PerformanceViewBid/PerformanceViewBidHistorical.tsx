@@ -6,8 +6,13 @@ import React, { useState } from "react";
 import TablePerformanceViewBid from "./TablePerformanceViewBid";
 import ButtonExportPerformanceViewBid from "./ButtonExportPerformanceViewBid";
 import SelectDateRange from "@/components/AppComponents/SelectDateRange";
+import { useRecoilValue } from "recoil";
+import { roleState } from "@/atom/role";
 
 export default function PerformanceViewBidHistorical() {
+  const role = useRecoilValue(roleState);
+  const isAdmin = role === "super-admin" || role === "admin";
+
   const [search, setSearch] = useState("");
   const [dateRanges, setDateRanges] = useState(["", ""]);
   const { data, refetch } = useGetTableDealerPerformance({
@@ -56,10 +61,12 @@ export default function PerformanceViewBidHistorical() {
               // fetchBids((pageIndex + 1).toString(), show, value[0], value[1]);
             }}
           />
-          <ButtonExportPerformanceViewBid
-            startDate={dateRanges[0]}
-            endDate={dateRanges[1]}
-          />
+          {isAdmin && (
+            <ButtonExportPerformanceViewBid
+              startDate={dateRanges[0]}
+              endDate={dateRanges[1]}
+            />
+          )}
         </Stack>
       </Stack>
 

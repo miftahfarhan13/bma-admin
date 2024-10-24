@@ -13,8 +13,13 @@ import { getCarsWithBids } from "@/networks/car";
 import ButtonExportBidding from "@/components/Bidding/ButtonExportBidding";
 import TableBiddingInformation from "@/components/Bidding/TableBiddingInformation";
 import SelectDateRange from "../AppComponents/SelectDateRange";
+import { useRecoilValue } from "recoil";
+import { roleState } from "@/atom/role";
 
 export default function BiddingInformationHistorical() {
+  const role = useRecoilValue(roleState);
+  const isAdmin = role === "super-admin" || role === "admin";
+
   const [dateRanges, setDateRanges] = useState(["", ""]);
   const [show, setShow] = useState("10");
   const [keyword, setKeyword] = useState("");
@@ -116,10 +121,12 @@ export default function BiddingInformationHistorical() {
               fetchBids((pageIndex + 1).toString(), show, value[0], value[1]);
             }}
           />
-          <ButtonExportBidding
-            startDate={dateRanges[0]}
-            endDate={dateRanges[1]}
-          />
+          {isAdmin && (
+            <ButtonExportBidding
+              startDate={dateRanges[0]}
+              endDate={dateRanges[1]}
+            />
+          )}
         </Stack>
       </Stack>
 

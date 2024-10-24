@@ -1,7 +1,5 @@
-import { Box, Flex, Image, Skeleton, Stack, Text } from "@chakra-ui/react";
-import Link from "next/link";
+import { Box, Flex, Skeleton, Stack, Text } from "@chakra-ui/react";
 import React from "react";
-import { Icon } from "@iconify/react";
 import useGetMe from "@/utils/hooks/useGetMe";
 import UserLogged from "./UserLogged";
 import Menus from "./Menus";

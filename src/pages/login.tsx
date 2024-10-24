@@ -1,3 +1,4 @@
+import { roleState } from "@/atom/role";
 import { setBearerToken } from "@/networks/apiClient";
 import { fetchLogin } from "@/networks/auth";
 // import { allowedRoles } from "@/utils/constant/roles";
@@ -13,8 +14,11 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { useSetRecoilState } from "recoil";
 
 export default function login() {
+  const setRole = useSetRecoilState(roleState);
+
   const toast = useToast();
   const router = useRouter();
 
@@ -31,16 +35,23 @@ export default function login() {
     })
       .then((response) => {
         setIsLoading(false);
+        const role =
+          response?.data?.data?.role?.length > 0
+            ? response?.data?.data?.role[0]?.name
+            : "";
+
         localStorage.setItem("token", response?.data?.data?.token);
         localStorage.setItem("email", response?.data?.data?.email);
         localStorage.setItem(
           "phone_number",
           response?.data?.data?.phone_number
         );
-
+        localStorage.setItem("role", role);
+        setRole(role);
         setBearerToken(response?.data?.data?.token);
 
         router.push("/");
+        // window.location.href = "/";
       })
       .catch((error) => {
         setIsLoading(false);
@@ -93,7 +104,12 @@ export default function login() {
                 required
               ></Input>
             </Stack>
-            <Button type="submit" variant="primary-solid-medium" width="100%">
+            <Button
+              type="submit"
+              variant="primary-solid-medium"
+              width="100%"
+              isLoading={isLoading}
+            >
               Login
             </Button>
           </Stack>

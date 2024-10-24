@@ -22,6 +22,8 @@ import AccountCard from "@/components/Account/AccountCard";
 import { formatter } from "@/utils/number";
 import SelectDateRange from "@/components/AppComponents/SelectDateRange";
 import ButtonExportWonParticipation from "@/components/BdPerformance/ButtonExportWonParticipation";
+import { useRecoilValue } from "recoil";
+import { roleState } from "@/atom/role";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
@@ -42,6 +44,9 @@ export default function BdDealerWin({
   start_date: string;
   end_date: string;
 }) {
+  const role = useRecoilValue(roleState);
+  const isAdmin = role === "super-admin" || role === "admin";
+
   const [dateRanges, setDateRanges] = useState([start_date, end_date]);
 
   const [show, setShow] = useState("10");
@@ -133,11 +138,13 @@ export default function BdDealerWin({
                   );
                 }}
               />
-              <ButtonExportWonParticipation
-                id={id}
-                startDate={dateRanges[0]}
-                endDate={dateRanges[1]}
-              />
+              {isAdmin && (
+                <ButtonExportWonParticipation
+                  id={id}
+                  startDate={dateRanges[0]}
+                  endDate={dateRanges[1]}
+                />
+              )}
             </Stack>
             <Box>{isLoading && <Spinner />}</Box>
           </Stack>

@@ -1,5 +1,5 @@
 import {
-    Avatar,
+  Avatar,
   Box,
   Center,
   Spinner,
@@ -21,6 +21,8 @@ import { GetServerSideProps } from "next";
 import AccountCard from "@/components/Account/AccountCard";
 import SelectDateRange from "@/components/AppComponents/SelectDateRange";
 import ButtonExportDealersView from "@/components/BdPerformance/ButtonExportDealersView";
+import { useRecoilValue } from "recoil";
+import { roleState } from "@/atom/role";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
@@ -41,6 +43,9 @@ export default function BdDealerView({
   start_date: string;
   end_date: string;
 }) {
+  const role = useRecoilValue(roleState);
+  const isAdmin = role === "super-admin" || role === "admin";
+
   const [dateRanges, setDateRanges] = useState([start_date, end_date]);
   const [show, setShow] = useState("10");
 
@@ -133,11 +138,13 @@ export default function BdDealerView({
                   );
                 }}
               />
-              <ButtonExportDealersView
-                id={id}
-                startDate={dateRanges[0]}
-                endDate={dateRanges[1]}
-              />
+              {isAdmin && (
+                <ButtonExportDealersView
+                  id={id}
+                  startDate={dateRanges[0]}
+                  endDate={dateRanges[1]}
+                />
+              )}
             </Stack>
             <Box>{isLoading && <Spinner />}</Box>
           </Stack>

@@ -5,8 +5,13 @@ import { getBdPerformances } from "@/networks/user";
 import TableBdPerformance from "./TableBdPerformance";
 import ButtonExportBdPerformance from "./ButtonExportBdPerformance";
 import SelectDateRange from "../AppComponents/SelectDateRange";
+import { useRecoilValue } from "recoil";
+import { roleState } from "@/atom/role";
 
 export default function BdPerformanceHistorical() {
+  const role = useRecoilValue(roleState);
+  const isAdmin = role === "super-admin" || role === "admin";
+
   const [dateRanges, setDateRanges] = useState(["", ""]);
   const [show, setShow] = useState("10");
 
@@ -76,20 +81,27 @@ export default function BdPerformanceHistorical() {
           justifyContent="space-between"
         >
           <Box>{isLoading && <Spinner />}</Box>
-          <Stack direction="row" spacing="10px" alignSelf="end">
-            <SelectDateRange
-              dateRanges={dateRanges}
-              onChangeDateRanges={(value) => {
-                setDateRanges(value);
-                fetchBids((pageIndex + 1).toString(), show, value[0], value[1]);
-              }}
-            />
+          {isAdmin && (
+            <Stack direction="row" spacing="10px" alignSelf="end">
+              <SelectDateRange
+                dateRanges={dateRanges}
+                onChangeDateRanges={(value) => {
+                  setDateRanges(value);
+                  fetchBids(
+                    (pageIndex + 1).toString(),
+                    show,
+                    value[0],
+                    value[1]
+                  );
+                }}
+              />
 
-            <ButtonExportBdPerformance
-              startDate={dateRanges[0]}
-              endDate={dateRanges[1]}
-            />
-          </Stack>
+              <ButtonExportBdPerformance
+                startDate={dateRanges[0]}
+                endDate={dateRanges[1]}
+              />
+            </Stack>
+          )}
         </Stack>
 
         <Stack direction="column" spacing="20px">

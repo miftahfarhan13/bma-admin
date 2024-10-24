@@ -1,5 +1,5 @@
 import { fetchLogout } from "@/networks/auth";
-import { Button, MenuItem } from "@chakra-ui/react";
+import { MenuItem } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 

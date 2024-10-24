@@ -18,8 +18,13 @@ import { formatter } from "@/utils/number";
 import Link from "next/link";
 import ChipBidStatus from "@/components/AppComponents/ChipBidStatus";
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { roleState } from "@/atom/role";
 
 export default function TableBiddingInformation({ data }: { data: any }) {
+  const role = useRecoilValue(roleState);
+  const isAdmin = role === "super-admin" || role === "admin";
+
   const [sortConfig, setSortConfig] = useState({
     key: "name",
     direction: "asc",
@@ -73,7 +78,7 @@ export default function TableBiddingInformation({ data }: { data: any }) {
               </Th>
               <Th>Leading Dealer</Th>
               <Th>Status Mobil</Th>
-              <Th>Assign Winner</Th>
+              {isAdmin && <Th>Assign Winner</Th>}
             </Tr>
           </Thead>
           <Tbody>
@@ -138,21 +143,23 @@ export default function TableBiddingInformation({ data }: { data: any }) {
                 </Td>
                 <Td>{car?.bid?.length > 0 ? car?.bid[0]?.user?.name : "-"}</Td>
                 <Td>{car?.status}</Td>
-                <Td>
-                  <Center>
-                    {car?.bidding_status === "Menang" && (
-                      <Link href={`/bidding/assign-winner/${car?.id}`}>
-                        <IconButton
-                          _hover={{}}
-                          bgColor="#65DE78"
-                          color="white"
-                          icon={<Icon icon="bx:edit" />}
-                          aria-label=""
-                        />
-                      </Link>
-                    )}
-                  </Center>
-                </Td>
+                {isAdmin && (
+                  <Td>
+                    <Center>
+                      {car?.bidding_status === "Menang" && (
+                        <Link href={`/bidding/assign-winner/${car?.id}`}>
+                          <IconButton
+                            _hover={{}}
+                            bgColor="#65DE78"
+                            color="white"
+                            icon={<Icon icon="bx:edit" />}
+                            aria-label=""
+                          />
+                        </Link>
+                      )}
+                    </Center>
+                  </Td>
+                )}
               </Tr>
             ))}
           </Tbody>

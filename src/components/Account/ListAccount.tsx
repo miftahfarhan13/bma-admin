@@ -25,8 +25,13 @@ import { formatter } from "@/utils/number";
 import AdminPaginationFooter from "@/components/AdminPaginationFooter";
 import Link from "next/link";
 import ModalDeleteAccount from "@/components/Account/ModalDeleteAccount";
+import { useRecoilValue } from "recoil";
+import { roleState } from "@/atom/role";
 
 export default function ListAccount() {
+  const role = useRecoilValue(roleState);
+  const isAdmin = role === "super-admin" || role === "admin";
+
   const [show, setShow] = useState("10");
   const [keyword, setKeyword] = useState("");
 
@@ -113,26 +118,28 @@ export default function ListAccount() {
             </InputGroup>
             {isLoading && <Spinner />}
           </Stack>
-          <Stack direction="row" alignItems="center" spacing="10px">
-            <Link href="/account/create?role=business">
-              <Button
-                leftIcon={<Icon icon="bxs:plus-circle" />}
-                variant="primary-solid-medium"
-                w={["100%", "100%", "fit-content", "fit-content"]}
-              >
-                Add BD
-              </Button>
-            </Link>
-            <Link href="/account/create?role=dealer">
-              <Button
-                leftIcon={<Icon icon="bxs:plus-circle" />}
-                variant="primary-solid-medium"
-                w={["100%", "100%", "fit-content", "fit-content"]}
-              >
-                Add Dealer
-              </Button>
-            </Link>
-          </Stack>
+          {isAdmin && (
+            <Stack direction="row" alignItems="center" spacing="10px">
+              <Link href="/account/create?role=business">
+                <Button
+                  leftIcon={<Icon icon="bxs:plus-circle" />}
+                  variant="primary-solid-medium"
+                  w={["100%", "100%", "fit-content", "fit-content"]}
+                >
+                  Add BD
+                </Button>
+              </Link>
+              <Link href="/account/create?role=dealer">
+                <Button
+                  leftIcon={<Icon icon="bxs:plus-circle" />}
+                  variant="primary-solid-medium"
+                  w={["100%", "100%", "fit-content", "fit-content"]}
+                >
+                  Add Dealer
+                </Button>
+              </Link>
+            </Stack>
+          )}
         </Stack>
 
         <Stack direction="column" spacing="20px">
@@ -151,7 +158,7 @@ export default function ListAccount() {
                   <Th>Total Menang</Th>
                   <Th>Total Menang dan Terjual</Th>
                   <Th>Akun Dibuat</Th>
-                  <Th>Action</Th>
+                  {isAdmin && <Th>Action</Th>}
                 </Tr>
               </Thead>
               <Tbody>
@@ -192,25 +199,31 @@ export default function ListAccount() {
                         "MMMM DD, YYYY"
                       )}
                     </Td>
-                    <Td>
-                      <Stack direction="row" alignItems="center" spacing="10px">
-                        <Link href={`/account/update/${user?.id}`}>
-                          <IconButton
-                            _hover={{}}
-                            bgColor="#65DE78"
-                            color="white"
-                            icon={<Icon icon="bx:edit" />}
-                            aria-label=""
+                    {isAdmin && (
+                      <Td>
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          spacing="10px"
+                        >
+                          <Link href={`/account/update/${user?.id}`}>
+                            <IconButton
+                              _hover={{}}
+                              bgColor="#65DE78"
+                              color="white"
+                              icon={<Icon icon="bx:edit" />}
+                              aria-label=""
+                            />
+                          </Link>
+                          <ModalDeleteAccount
+                            id={user?.id}
+                            onSuccess={() =>
+                              fetchUsers(pageIndex.toString(), show)
+                            }
                           />
-                        </Link>
-                        <ModalDeleteAccount
-                          id={user?.id}
-                          onSuccess={() =>
-                            fetchUsers(pageIndex.toString(), show)
-                          }
-                        />
-                      </Stack>
-                    </Td>
+                        </Stack>
+                      </Td>
+                    )}
                   </Tr>
                 ))}
               </Tbody>

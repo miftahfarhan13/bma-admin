@@ -24,8 +24,12 @@ import Link from "next/link";
 import { getCars } from "@/networks/car";
 import ChipBidStatus from "../AppComponents/ChipBidStatus";
 import ModalDeleteCar from "./ModalDeleteCar";
+import { useRecoilValue } from "recoil";
+import { roleState } from "@/atom/role";
 
 export default function ListCar() {
+  const role = useRecoilValue(roleState);
+  const isAdmin = role === "super-admin" || role === "admin";
   const [show, setShow] = useState("10");
   const [keyword, setKeyword] = useState("");
 
@@ -105,26 +109,29 @@ export default function ListCar() {
             </InputGroup>
             {isLoading && <Spinner />}
           </Stack>
-          <Stack direction="row" alignItems="center" spacing="10px">
-            <Link href="/car/brand">
-              <Button
-                leftIcon={<Icon icon="bxs:tag" />}
-                variant="primary-solid-medium"
-                w={["100%", "100%", "fit-content", "fit-content"]}
-              >
-                Add Merek
-              </Button>
-            </Link>
-            <Link href="/car/create">
-              <Button
-                leftIcon={<Icon icon="bxs:plus-circle" />}
-                variant="primary-solid-medium"
-                w={["100%", "100%", "fit-content", "fit-content"]}
-              >
-                Add Car
-              </Button>
-            </Link>
-          </Stack>
+
+          {isAdmin && (
+            <Stack direction="row" alignItems="center" spacing="10px">
+              <Link href="/car/brand">
+                <Button
+                  leftIcon={<Icon icon="bxs:tag" />}
+                  variant="primary-solid-medium"
+                  w={["100%", "100%", "fit-content", "fit-content"]}
+                >
+                  Add Merek
+                </Button>
+              </Link>
+              <Link href="/car/create">
+                <Button
+                  leftIcon={<Icon icon="bxs:plus-circle" />}
+                  variant="primary-solid-medium"
+                  w={["100%", "100%", "fit-content", "fit-content"]}
+                >
+                  Add Car
+                </Button>
+              </Link>
+            </Stack>
+          )}
         </Stack>
 
         <Stack direction="column" spacing="20px">
@@ -141,7 +148,7 @@ export default function ListCar() {
                   <Th>Status Lelang</Th>
                   <Th>Leading Dealer</Th>
                   <Th>Status Mobil</Th>
-                  <Th>Action</Th>
+                  {isAdmin && <Th>Action</Th>}
                 </Tr>
               </Thead>
               <Tbody>
@@ -164,33 +171,35 @@ export default function ListCar() {
                       {car?.bid?.length > 0 ? car?.bid[0]?.user?.name : "-"}
                     </Td>
                     <Td>{car?.status}</Td>
-                    <Td>
-                      {car?.status !== "Terjual" && (
-                        <>
-                          <Stack
-                            direction="row"
-                            alignItems="center"
-                            spacing="10px"
-                          >
-                            <Link href={`/car/update/${car?.id}`}>
-                              <IconButton
-                                _hover={{}}
-                                bgColor="#65DE78"
-                                color="white"
-                                icon={<Icon icon="bx:edit" />}
-                                aria-label=""
+                    {isAdmin && (
+                      <Td>
+                        {car?.status !== "Terjual" && (
+                          <>
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              spacing="10px"
+                            >
+                              <Link href={`/car/update/${car?.id}`}>
+                                <IconButton
+                                  _hover={{}}
+                                  bgColor="#65DE78"
+                                  color="white"
+                                  icon={<Icon icon="bx:edit" />}
+                                  aria-label=""
+                                />
+                              </Link>
+                              <ModalDeleteCar
+                                id={car?.id}
+                                onSuccess={() =>
+                                  fetchCars(pageIndex.toString(), show)
+                                }
                               />
-                            </Link>
-                            <ModalDeleteCar
-                              id={car?.id}
-                              onSuccess={() =>
-                                fetchCars(pageIndex.toString(), show)
-                              }
-                            />
-                          </Stack>
-                        </>
-                      )}
-                    </Td>
+                            </Stack>
+                          </>
+                        )}
+                      </Td>
+                    )}
                   </Tr>
                 ))}
               </Tbody>

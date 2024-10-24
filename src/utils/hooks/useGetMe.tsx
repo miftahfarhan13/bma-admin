@@ -1,8 +1,11 @@
+import { roleState } from "@/atom/role";
 import { fetchLoggedUser } from "@/networks/auth";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import { useSetRecoilState } from "recoil";
 
 export default function useGetMe() {
+  const setRole = useSetRecoilState(roleState);
   const router = useRouter();
   const firstRun = useRef(true);
 
@@ -15,9 +18,17 @@ export default function useGetMe() {
       .then((response) => {
         setIsLoading(false);
         setUser(response?.data?.data);
+        const roles =
+          response?.data?.data?.roles?.length > 0
+            ? response?.data?.data?.roles[0]?.name
+            : "";
+        const localRole = localStorage.getItem("role");
+        if (!localRole) localStorage.setItem("role", roles);
+        setRole(roles);
       })
       .catch((error) => {
         setIsLoading(false);
+        localStorage.removeItem("role");
         router.push("/login");
         // console.log(error.response.data.message);
       });

@@ -106,7 +106,7 @@ export default function TableBiddingInformation({ data }: { data: any }) {
                 </Td>
                 <Td>
                   <Center>
-                    <Link href={`/bidding/log-bid/${car?.id}`}>
+                    <Link href={`/bidding/log-bid/${car?.id}`} target="_blank">
                       <IconButton
                         _hover={{}}
                         variant="ghost"
@@ -123,7 +123,7 @@ export default function TableBiddingInformation({ data }: { data: any }) {
                 </Td>
                 <Td>
                   <Center>
-                    <Link href={`/bidding/log-view/${car?.id}`}>
+                    <Link href={`/bidding/log-view/${car?.id}`} target="_blank">
                       <IconButton
                         _hover={{}}
                         variant="ghost"

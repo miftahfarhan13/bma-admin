@@ -27,10 +27,13 @@ import Link from "next/link";
 import ModalDeleteAccount from "@/components/Account/ModalDeleteAccount";
 import { useRecoilValue } from "recoil";
 import { roleState } from "@/atom/role";
+import ButtonExportAccount from "./ButtonExportAccount";
 
 export default function ListAccount() {
   const role = useRecoilValue(roleState);
   const isAdmin = role === "super-admin" || role === "admin";
+
+  const currentYear = moment(new Date()).format("YYYY");
 
   const [show, setShow] = useState("10");
   const [keyword, setKeyword] = useState("");
@@ -138,6 +141,7 @@ export default function ListAccount() {
                   Add Dealer
                 </Button>
               </Link>
+              <ButtonExportAccount year={currentYear} />
             </Stack>
           )}
         </Stack>

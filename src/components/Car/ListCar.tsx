@@ -26,6 +26,7 @@ import ChipBidStatus from "../AppComponents/ChipBidStatus";
 import ModalDeleteCar from "./ModalDeleteCar";
 import { useRecoilValue } from "recoil";
 import { roleState } from "@/atom/role";
+import ModalCreateUpdateCustomer from "./ModalCreateUpdateCustomer";
 
 export default function ListCar() {
   const role = useRecoilValue(roleState);
@@ -148,7 +149,12 @@ export default function ListCar() {
                   <Th>Status Lelang</Th>
                   <Th>Leading Dealer</Th>
                   <Th>Status Mobil</Th>
-                  {isAdmin && <Th>Action</Th>}
+                  {isAdmin && (
+                    <>
+                      <Th>Informasi Customer</Th>
+                      <Th>Action</Th>
+                    </>
+                  )}
                 </Tr>
               </Thead>
               <Tbody>
@@ -172,33 +178,46 @@ export default function ListCar() {
                     </Td>
                     <Td>{car?.status}</Td>
                     {isAdmin && (
-                      <Td>
-                        {car?.status !== "Terjual" && (
-                          <>
-                            <Stack
-                              direction="row"
-                              alignItems="center"
-                              spacing="10px"
-                            >
-                              <Link href={`/car/update/${car?.id}`}>
-                                <IconButton
-                                  _hover={{}}
-                                  bgColor="#65DE78"
-                                  color="white"
-                                  icon={<Icon icon="bx:edit" />}
-                                  aria-label=""
+                      <>
+                        <Td>
+                          <ModalCreateUpdateCustomer
+                            id={car?.id}
+                            name={car?.customer_name}
+                            email={car?.customer_email}
+                            type="update"
+                            onSuccess={() =>
+                              fetchCars(pageIndex.toString(), show)
+                            }
+                          />
+                        </Td>
+                        <Td>
+                          {car?.status !== "Terjual" && (
+                            <>
+                              <Stack
+                                direction="row"
+                                alignItems="center"
+                                spacing="10px"
+                              >
+                                <Link href={`/car/update/${car?.id}`}>
+                                  <IconButton
+                                    _hover={{}}
+                                    bgColor="#65DE78"
+                                    color="white"
+                                    icon={<Icon icon="bx:edit" />}
+                                    aria-label=""
+                                  />
+                                </Link>
+                                <ModalDeleteCar
+                                  id={car?.id}
+                                  onSuccess={() =>
+                                    fetchCars(pageIndex.toString(), show)
+                                  }
                                 />
-                              </Link>
-                              <ModalDeleteCar
-                                id={car?.id}
-                                onSuccess={() =>
-                                  fetchCars(pageIndex.toString(), show)
-                                }
-                              />
-                            </Stack>
-                          </>
-                        )}
-                      </Td>
+                              </Stack>
+                            </>
+                          )}
+                        </Td>
+                      </>
                     )}
                   </Tr>
                 ))}

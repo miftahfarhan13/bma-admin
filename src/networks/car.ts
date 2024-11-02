@@ -186,3 +186,13 @@ export function deleteCar(token: string, id: number) {
 
   return axiosClient.delete(`/cars/${id}`, config);
 }
+
+export function updateCustomer(token: string, id: number, data: any) {
+  let config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return axiosClient.put(`/cars/${id}/jmm-leads`, data, config);
+}

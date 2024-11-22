@@ -17,7 +17,6 @@ export default function useGetCarBids({ date }: { date: string }) {
       show: "",
       search: "",
       date,
-      isRange: false,
     })
       .then((response) => {
         setData(response?.data?.result);

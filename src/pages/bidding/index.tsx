@@ -26,7 +26,7 @@ export default function Account() {
               </>
             ) : (
               <>
-                <BiddingInformationHistorical />
+                <BiddingInformationHistorical status=""/>
               </>
             )}
           </Stack>

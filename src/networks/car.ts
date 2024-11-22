@@ -19,7 +19,49 @@ export function getCars(
   );
 }
 
-export function getCarsWithBids({
+// export function getCarsWithBids({
+//   isPaginate,
+//   token,
+//   page,
+//   show,
+//   search,
+//   date,
+//   startDate,
+//   endDate,
+//   isRange,
+//   status,
+// }: {
+//   isPaginate: string;
+//   token: string;
+//   page?: string;
+//   show?: string;
+//   search?: string;
+//   date?: string;
+//   startDate?: string;
+//   endDate?: string;
+//   isRange?: boolean;
+//   status?: boolean;
+// }) {
+//   let config = {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   };
+
+//   if (isRange) {
+//     return axiosClient.get(
+//       `/bids/bids-information?is_paginate=${isPaginate}&page=${page}&per_page=${show}&search=${search}&start_date=${startDate}&end_date=${endDate}`,
+//       config
+//     );
+//   } else {
+//     return axiosClient.get(
+//       `/bids/bids-information?is_paginate=${isPaginate}&page=${page}&per_page=${show}&search=${search}&date=${date}`,
+//       config
+//     );
+//   }
+// }
+
+export const getCarsWithBids = async ({
   isPaginate,
   token,
   page,
@@ -28,7 +70,7 @@ export function getCarsWithBids({
   date,
   startDate,
   endDate,
-  isRange,
+  status,
 }: {
   isPaginate: string;
   token: string;
@@ -38,26 +80,26 @@ export function getCarsWithBids({
   date?: string;
   startDate?: string;
   endDate?: string;
-  isRange?: boolean;
-}) {
+  status?: string;
+}) => {
   let config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
-  if (isRange) {
-    return axiosClient.get(
-      `/bids/bids-information?is_paginate=${isPaginate}&page=${page}&per_page=${show}&search=${search}&start_date=${startDate}&end_date=${endDate}`,
-      config
-    );
-  } else {
-    return axiosClient.get(
-      `/bids/bids-information?is_paginate=${isPaginate}&page=${page}&per_page=${show}&search=${search}&date=${date}`,
-      config
-    );
-  }
-}
+  let url = `/bids/bids-information?is_paginate=${isPaginate}`;
+
+  if (page) url += `&page=${page}`;
+  if (search) url += `&search=${search}`;
+  if (show) url += `&per_page=${show}`;
+  if (startDate) url += `&start_date=${startDate}`;
+  if (endDate) url += `&end_date=${endDate}`;
+  if (date) url += `&date=${date}`;
+  if (status) url += `&bidding_status=${status}`;
+
+  return axiosClient.get(url, config);
+};
 
 export function getBidsByCarId(
   carId: string,

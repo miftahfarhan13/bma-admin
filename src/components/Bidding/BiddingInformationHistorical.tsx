@@ -16,7 +16,11 @@ import SelectDateRange from "../AppComponents/SelectDateRange";
 import { useRecoilValue } from "recoil";
 import { roleState } from "@/atom/role";
 
-export default function BiddingInformationHistorical() {
+export default function BiddingInformationHistorical({
+  status,
+}: {
+  status?: string;
+}) {
   const role = useRecoilValue(roleState);
   const isAdmin = role === "super-admin" || role === "admin";
 
@@ -45,7 +49,7 @@ export default function BiddingInformationHistorical() {
       search: keyword,
       startDate,
       endDate,
-      isRange: true,
+      status: status || "",
     })
       .then((response) => {
         setData(response?.data?.result);
@@ -131,7 +135,7 @@ export default function BiddingInformationHistorical() {
       </Stack>
 
       <Stack direction="column" spacing="20px">
-        <TableBiddingInformation data={data?.data} />
+        <TableBiddingInformation status={status} data={data?.data} />
 
         <AdminPaginationFooter
           pageIndex={pageIndex}

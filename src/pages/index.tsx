@@ -1,10 +1,11 @@
-import { Box, Stack } from "@chakra-ui/react";
+import { Box, Stack, Text } from "@chakra-ui/react";
 import AdminLayout from "@/components/AppLayout/AdminLayout";
 import TabDashboard from "@/components/Dashboard/TabDashboard";
 import TopPerformanceCar from "@/components/Dashboard/TopPerformanceCar";
 import { useState } from "react";
 import ButtonLive from "@/components/AppComponents/ButtonLive";
 import dynamic from "next/dynamic";
+import BiddingInformationHistorical from "@/components/Bidding/BiddingInformationHistorical";
 
 const DashboardCounterHistorical = dynamic(
   () =>
@@ -53,6 +54,11 @@ export default function Home() {
           </Box>
 
           <TopPerformanceCar />
+
+          <Stack direction="column" spacing="10px">
+            <Text fontWeight="700">Bidding Information</Text>
+            <BiddingInformationHistorical status="" />
+          </Stack>
         </Stack>
       </AdminLayout>
     </>

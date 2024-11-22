@@ -21,7 +21,13 @@ import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { roleState } from "@/atom/role";
 
-export default function TableBiddingInformation({ data }: { data: any }) {
+export default function TableBiddingInformation({
+  data,
+  status,
+}: {
+  data: any;
+  status?: string;
+}) {
   const role = useRecoilValue(roleState);
   const isAdmin = role === "super-admin" || role === "admin";
 
@@ -162,6 +168,13 @@ export default function TableBiddingInformation({ data }: { data: any }) {
                 )}
               </Tr>
             ))}
+            {sortedBiddingInformation?.length === 0 && (
+              <Tr>
+                <Td colSpan={15}>
+                  <Center>Tidak ada data</Center>
+                </Td>
+              </Tr>
+            )}
           </Tbody>
         </Table>
       </TableContainer>

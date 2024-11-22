@@ -68,10 +68,8 @@ export default function BdDealerView({
       token,
       page,
       show,
-      date: "",
       startDate,
       endDate,
-      isRange: true,
     })
       .then((response) => {
         setData(response?.data?.data);
@@ -156,6 +154,7 @@ export default function BdDealerView({
                   <Tr>
                     <Th>ID Dealer</Th>
                     <Th>Dealer</Th>
+                    <Th>Email</Th>
                     <Th>
                       <Center>Total Login</Center>
                     </Th>
@@ -163,20 +162,21 @@ export default function BdDealerView({
                 </Thead>
                 <Tbody>
                   {data?.data?.map((bd: any) => (
-                    <Tr key={bd?.id}>
-                      <Td>{bd?.id}</Td>
+                    <Tr key={bd?.user_id}>
+                      <Td>{bd?.user_id}</Td>
                       <Td>
                         <Stack
                           direction="row"
                           alignItems="center"
                           spacing="5px"
                         >
-                          <Avatar name={bd?.user?.name} size="sm" />
-                          <Text>{bd?.user?.name}</Text>
+                          <Avatar name={bd?.name} size="sm" />
+                          <Text>{bd?.name}</Text>
                         </Stack>
                       </Td>
+                      <Td>{bd?.email}</Td>
                       <Td>
-                        <Center>{bd?.seen}</Center>
+                        <Center>{bd?.login_count}</Center>
                       </Td>
                     </Tr>
                   ))}

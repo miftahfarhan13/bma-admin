@@ -57,7 +57,7 @@ export default function Home() {
 
           <Stack direction="column" spacing="10px">
             <Text fontWeight="700">Bidding Information</Text>
-            <BiddingInformationHistorical status="" />
+            <BiddingInformationHistorical status="Live" />
           </Stack>
         </Stack>
       </AdminLayout>

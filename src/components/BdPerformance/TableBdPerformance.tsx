@@ -37,6 +37,11 @@ export default function TableBdPerformance({
                 <Center>Dealers Created</Center>
               </Th>
               <Th>
+                <Center>
+                  Participation <br /> Login(# of Dealer)
+                </Center>
+              </Th>
+              <Th>
                 <Center>Participation View(# of Dealer)</Center>
               </Th>
               <Th>
@@ -66,6 +71,19 @@ export default function TableBdPerformance({
                   >
                     <Stack direction="column" alignItems="center" w="100%">
                       <Text>{bd?.dealers_count}</Text>
+                    </Stack>
+                  </Link>
+                </Td>
+                <Td>
+                  <Link
+                    href={
+                      isRange
+                        ? `/bd-performance/dealer-login/${bd?.id}?start_date=${startDate}&end_date=${endDate}`
+                        : `/bd-performance/dealer-login/${bd?.id}?date=${date}`
+                    }
+                  >
+                    <Stack direction="column" alignItems="center" w="100%">
+                      <Text>{bd?.dealers_login_count || 0}</Text>
                     </Stack>
                   </Link>
                 </Td>

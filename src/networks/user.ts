@@ -194,3 +194,42 @@ export function getBdDealerView({
     );
   }
 }
+
+export function getBdDealerLogin({
+  id,
+  isPaginate,
+  token,
+  page,
+  show,
+  date,
+  startDate,
+  endDate,
+  isRange,
+}: {
+  id: string;
+  isPaginate: string;
+  token: string;
+  page: string;
+  show: string;
+  date: string;
+  startDate: string;
+  endDate: string;
+  isRange: boolean;
+}) {
+  let config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  if (isRange) {
+    return axiosClient.get(
+      `/bd-performances/dealer-bid-view/${id}?is_paginate=${isPaginate}&page=${page}&per_page=${show}&start_date=${startDate}&end_date=${endDate}`,
+      config
+    );
+  } else {
+    return axiosClient.get(
+      `/bd-performances/dealer-bid-view/${id}?is_paginate=${isPaginate}&page=${page}&per_page=${show}&date=${date}`,
+      config
+    );
+  }
+}

@@ -15,7 +15,7 @@ export function getMostViewedCar(token: string, date: string) {
       Authorization: `Bearer ${token}`,
     },
   };
-  return axiosClient.get(`/most-view-car?date=${date}`, config);
+  return axiosClient.get(`/most-view-car?date=${date}&limit=5`, config);
 }
 
 export function getMostBidedCar(token: string, date: string) {
@@ -24,7 +24,7 @@ export function getMostBidedCar(token: string, date: string) {
       Authorization: `Bearer ${token}`,
     },
   };
-  return axiosClient.get(`/most-bided-car?date=${date}`, config);
+  return axiosClient.get(`/most-bided-car?date=${date}&limit=5`, config);
 }
 
 export async function getChartDealerPerformance({

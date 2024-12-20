@@ -22,6 +22,7 @@ import moment from "moment";
 import useGetRoles from "@/utils/hooks/account/useGetRoles";
 import useGetBusinessUsers from "@/utils/hooks/account/useGetBusinessUsers";
 import UploadFile from "../AppComponents/UploadFile";
+import { provinces } from "@/utils/provinces";
 
 export default function CreateUpdateAccount({
   id,
@@ -43,6 +44,8 @@ export default function CreateUpdateAccount({
   proofTransferUrl,
   ktpUrl,
   type,
+  provinceProps,
+  cityProps,
 }: {
   id?: string;
   name?: string;
@@ -61,8 +64,10 @@ export default function CreateUpdateAccount({
   isDeposit?: string;
   savingBookUrl?: string;
   proofTransferUrl?: string;
-  ktpUrl?: string
+  ktpUrl?: string;
   type: string;
+  provinceProps?: string;
+  cityProps?: string;
 }) {
   const router = useRouter();
   const toast = useToast();
@@ -81,9 +86,9 @@ export default function CreateUpdateAccount({
   const [imageProofTransfer, setImageProofTransfer] = useState<
     string | undefined
   >("");
-  const [imageKtp, setImagetKtp] = useState<string | undefined>(
-    ""
-  );
+  const [imageKtp, setImagetKtp] = useState<string | undefined>("");
+  const [province, setProvince] = useState("");
+  const [city, setCity] = useState("");
 
   useEffect(() => {
     setStatusActivation(isActive);
@@ -95,6 +100,8 @@ export default function CreateUpdateAccount({
     setImageProofTransfer(proofTransferUrl);
     setImagetKtp(ktpUrl);
     setAccountBd(businessUserId);
+    setProvince(provinceProps || "");
+    setCity(cityProps || "");
   }, [
     isActive,
     isDeposit,
@@ -104,6 +111,8 @@ export default function CreateUpdateAccount({
     proofTransferUrl,
     ktpUrl,
     businessUserId,
+    cityProps,
+    provinceProps,
   ]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -130,6 +139,8 @@ export default function CreateUpdateAccount({
         proof_transfer_url: imageProofTransfer,
         ktp_url: imageKtp,
         account_business_id: parseInt(accountBd || ""),
+        province,
+        city,
       },
       token
     )
@@ -175,6 +186,8 @@ export default function CreateUpdateAccount({
         proof_transfer_url: imageProofTransfer,
         ktp_url: imageKtp,
         account_business_id: parseInt(accountBd || ""),
+        province,
+        city,
       },
       token
     )
@@ -323,6 +336,50 @@ export default function CreateUpdateAccount({
                       </Select>
                     </Stack>
                   )}
+
+                  <Stack direction="column" spacing="5px">
+                    <Text fontSize="14px" color="grey">
+                      Provinsi
+                    </Text>
+                    <Select
+                      placeholder="Pilih Provinsi"
+                      value={province}
+                      onChange={(e) => {
+                        setProvince(e.target.value);
+                        setCity("");
+                      }}
+                      required
+                    >
+                      {provinces?.map((province, index) => (
+                        <option
+                          value={province?.provinsi}
+                          key={`${province?.provinsi}-${index}`}
+                        >
+                          {province?.provinsi}
+                        </option>
+                      ))}
+                    </Select>
+                  </Stack>
+
+                  <Stack direction="column" spacing="5px">
+                    <Text fontSize="14px" color="grey">
+                      Kota
+                    </Text>
+                    <Select
+                      placeholder="Pilih Kota"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      required
+                    >
+                      {provinces
+                        ?.find((fil) => fil?.provinsi === province)
+                        ?.kota?.map((item, index) => (
+                          <option value={item} key={`${item}-${index}`}>
+                            {item}
+                          </option>
+                        ))}
+                    </Select>
+                  </Stack>
 
                   <Stack direction="column" spacing="5px">
                     <Text fontSize="14px" color="grey">

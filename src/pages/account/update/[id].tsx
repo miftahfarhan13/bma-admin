@@ -38,6 +38,8 @@ export default function UpdateAccount({ id }: { id: string }) {
               proofTransferUrl={data?.proof_transfer_url}
               ktpUrl={data?.ktp_url}
               type="update"
+              provinceProps={data?.province}
+              cityProps={data?.city}
             />
           </>
         )}

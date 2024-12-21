@@ -155,7 +155,11 @@ export default function ExportDealerInformation() {
                   </Select>
                 </Stack>
 
-                <Button variant="primary-solid-small" type="submit">
+                <Button
+                  variant="primary-solid-small"
+                  type="submit"
+                  isLoading={isLoading}
+                >
                   Export
                 </Button>
               </Stack>

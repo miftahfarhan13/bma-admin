@@ -41,6 +41,11 @@ export default function AdminLayout({
       icon: "bx:user",
       name: "History Login",
     },
+    {
+      link: "/dealer-information",
+      icon: "map:car-dealer",
+      name: "Dealer Information",
+    },
   ];
   return (
     <Flex direction="row">

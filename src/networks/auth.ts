@@ -27,7 +27,8 @@ export function getUsers(
   token: string,
   page: string,
   show: string,
-  search: string
+  search: string,
+  role?: string
 ) {
   let config = {
     headers: {
@@ -35,7 +36,9 @@ export function getUsers(
     },
   };
   return axiosClient.get(
-    `/users?is_paginate=${isPaginate}&page=${page}&per_page=${show}&search=${search}`,
+    `/users?is_paginate=${isPaginate}&page=${page}&per_page=${show}&search=${search}${
+      role ? `&role=${role}` : ""
+    }`,
     config
   );
 }

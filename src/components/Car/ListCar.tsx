@@ -190,35 +190,37 @@ export default function ListCar() {
                             }
                           />
                         </Td>
-                        <Td>
-                          {car?.status !== "Terjual" && (
-                            <>
-                              <Stack
-                                direction="row"
-                                alignItems="center"
-                                spacing="10px"
-                              >
-                                <Link href={`/car/update/${car?.id}`}>
-                                  <IconButton
-                                    _hover={{}}
-                                    bgColor="#65DE78"
-                                    color="white"
-                                    icon={<Icon icon="bx:edit" />}
-                                    aria-label=""
-                                  />
-                                </Link>
-                                <ModalDeleteCar
-                                  id={car?.id}
-                                  onSuccess={() =>
-                                    fetchCars(pageIndex.toString(), show)
-                                  }
-                                />
-                              </Stack>
-                            </>
-                          )}
-                        </Td>
                       </>
                     )}
+                    <Td>
+                      <Stack direction="row" alignItems="center" spacing="10px">
+                        <Link href={`/car/detail/${car?.id}`}>
+                          <IconButton
+                            icon={<Icon icon="mdi:eye" />}
+                            aria-label=""
+                          />
+                        </Link>
+                        {car?.status !== "Terjual" && isAdmin && (
+                          <>
+                            <Link href={`/car/update/${car?.id}`}>
+                              <IconButton
+                                _hover={{}}
+                                bgColor="#65DE78"
+                                color="white"
+                                icon={<Icon icon="bx:edit" />}
+                                aria-label=""
+                              />
+                            </Link>
+                            <ModalDeleteCar
+                              id={car?.id}
+                              onSuccess={() =>
+                                fetchCars(pageIndex.toString(), show)
+                              }
+                            />
+                          </>
+                        )}
+                      </Stack>
+                    </Td>
                   </Tr>
                 ))}
               </Tbody>

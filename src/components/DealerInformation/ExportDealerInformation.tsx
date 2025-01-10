@@ -12,6 +12,7 @@ import {
   Select,
   SimpleGrid,
   Stack,
+  Switch,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -26,6 +27,7 @@ export default function ExportDealerInformation() {
   const [startDateState, setStartDateState] = useState("");
   const [endDateState, setEndDateState] = useState("");
   const [selectedItem, setSelectedItem] = useState("");
+  const [isRange, setIsRange] = useState(true);
 
   const handleSave = async () => {
     let item: any = {};
@@ -33,8 +35,11 @@ export default function ExportDealerInformation() {
       item = JSON.parse(selectedItem);
     }
 
+    let url = `${item?.url}?start_date=${startDateState}`;
+    if (isRange) url += `&end_date=${endDateState}`;
+
     await downloadCSV({
-      url: item?.url,
+      url,
       fileName: item?.fileName,
     });
   };
@@ -43,32 +48,32 @@ export default function ExportDealerInformation() {
 
   const exportOptions = [
     {
-      url: `/api/login-history/analytics/export?start_date=${startDateState}&end_date=${endDateState}`,
+      url: `/api/login-history/analytics/export`,
       fileName: "No. Days of Login.csv",
       name: "No Days of Login",
     },
     {
-      url: `/api/cars/view/analytics/export?start_date=${startDateState}&end_date=${endDateState}`,
+      url: `/api/cars/view/analytics/export`,
       fileName: "No. Car Viewed.csv",
       name: "No Car Viewed",
     },
     {
-      url: `/api/cars/bids/analytics/export?start_date=${startDateState}&end_date=${endDateState}`,
+      url: `/api/cars/bids/analytics/export`,
       fileName: "No. Car Bided.csv",
       name: "No. Car Bided",
     },
     {
-      url: `/api/cars/winner/analytics/export?start_date=${startDateState}&end_date=${endDateState}`,
+      url: `/api/cars/winner/analytics/export`,
       fileName: "No. Car Won.csv",
       name: "No. Car Won",
     },
     {
-      url: `/api/cars/sales-odo/analytics/export?start_date=${startDateState}&end_date=${endDateState}`,
+      url: `/api/cars/sales-odo/analytics/export`,
       fileName: "Sales ODO.csv",
       name: "Sales ODO",
     },
     {
-      url: `/api/cars/gvm-odo/analytics/export?start_date=${startDateState}&end_date=${endDateState}`,
+      url: `/api/cars/gvm-odo/analytics/export`,
       fileName: "GVM ODO.csv",
       name: "GVM ODO",
     },
@@ -114,9 +119,26 @@ export default function ExportDealerInformation() {
               }}
             >
               <Stack direction="column" spacing="10px">
-                <SimpleGrid columns={2} gap="10px">
+                <Stack direction="row" spacing="5px">
+                  <Text fontSize="14px" color="grey">
+                    Range Tanggal?
+                  </Text>
+                  <Switch
+                    colorScheme="red"
+                    isChecked={isRange}
+                    onChange={(e) => {
+                      setIsRange(e.target.checked);
+                      setStartDateState("");
+                      setEndDateState("");
+                    }}
+                  />
+                </Stack>
+
+                <SimpleGrid columns={isRange ? 2 : 1} gap="10px">
                   <Stack direction="column" spacing="5px">
-                    <Text fontSize="14px">Tanggal Awal</Text>
+                    <Text fontSize="14px" color="grey">
+                      Tanggal {isRange ? "Awal" : ""}
+                    </Text>
                     <Input
                       value={startDateState}
                       onChange={(event) => {
@@ -126,17 +148,21 @@ export default function ExportDealerInformation() {
                       required
                     />
                   </Stack>
-                  <Stack direction="column" spacing="5px">
-                    <Text fontSize="14px">Tanggal Akhir</Text>
-                    <Input
-                      value={endDateState}
-                      onChange={(event) => {
-                        setEndDateState(event?.target?.value);
-                      }}
-                      type="date"
-                      required
-                    />
-                  </Stack>
+                  {isRange ? (
+                    <Stack direction="column" spacing="5px">
+                      <Text fontSize="14px" color="grey">
+                        Tanggal Akhir
+                      </Text>
+                      <Input
+                        value={endDateState}
+                        onChange={(event) => {
+                          setEndDateState(event?.target?.value);
+                        }}
+                        type="date"
+                        required={!isRange}
+                      />
+                    </Stack>
+                  ) : null}
                 </SimpleGrid>
 
                 <Stack direction="column" spacing="5px">

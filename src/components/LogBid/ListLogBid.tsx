@@ -138,8 +138,8 @@ export default function ListLogBid() {
                     <Td>{user?.id}</Td>
                     <Td>
                       <Stack direction="row" alignItems="center" spacing="5px">
-                        <Avatar name={user?.user_name} size="sm" />
-                        <Text>{user?.user_name}</Text>
+                        <Avatar name={user?.name} size="sm" />
+                        <Text>{user?.name}</Text>
                       </Stack>
                     </Td>
                     <Td>

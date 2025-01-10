@@ -46,6 +46,11 @@ export default function AdminLayout({
       icon: "map:car-dealer",
       name: "Dealer Information",
     },
+    {
+      link: "/log-bid",
+      icon: "lucide:list",
+      name: "Log Bid",
+    },
   ];
   return (
     <Flex direction="row">

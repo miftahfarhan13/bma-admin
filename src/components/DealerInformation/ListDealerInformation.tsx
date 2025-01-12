@@ -1,6 +1,5 @@
 import {
   Badge,
-  Button,
   Input,
   InputGroup,
   InputLeftElement,
@@ -28,8 +27,6 @@ import ExportDealerInformation from "./ExportDealerInformation";
 export default function ListDealerInformation() {
   const role = useRecoilValue(roleState);
   const isAdmin = role === "super-admin" || role === "admin";
-
-  const currentYear = moment(new Date()).format("YYYY");
 
   const [show, setShow] = useState("10");
   const [keyword, setKeyword] = useState("");

@@ -20,13 +20,16 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import React, { useState } from "react";
 
 export default function ExportDealerInformation() {
-  const { isLoading, downloadCSV } = useDownloadCSV();
+  const { isLoading, downloadFile } = useDownloadCSV();
 
   const { onOpen, onClose, isOpen } = useDisclosure();
 
   const [startDateState, setStartDateState] = useState("");
   const [endDateState, setEndDateState] = useState("");
   const [selectedItem, setSelectedItem] = useState("");
+  const [selectedFormat, setSelectedFormat] = useState<
+    "csv" | "excel" | string
+  >("");
   const [isRange, setIsRange] = useState(true);
 
   const handleSave = async () => {
@@ -38,9 +41,10 @@ export default function ExportDealerInformation() {
     let url = `${item?.url}?start_date=${startDateState}`;
     if (isRange) url += `&end_date=${endDateState}`;
 
-    await downloadCSV({
+    await downloadFile({
       url,
       fileName: item?.fileName,
+      fileType: selectedFormat,
     });
   };
 
@@ -49,34 +53,39 @@ export default function ExportDealerInformation() {
   const exportOptions = [
     {
       url: `/api/login-history/analytics/export`,
-      fileName: "No. Days of Login.csv",
+      fileName: "No. Days of Login",
       name: "No Days of Login",
     },
     {
       url: `/api/cars/view/analytics/export`,
-      fileName: "No. Car Viewed.csv",
+      fileName: "No. Car Viewed",
       name: "No Car Viewed",
     },
     {
       url: `/api/cars/bids/analytics/export`,
-      fileName: "No. Car Bided.csv",
+      fileName: "No. Car Bided",
       name: "No. Car Bided",
     },
     {
       url: `/api/cars/winner/analytics/export`,
-      fileName: "No. Car Won.csv",
+      fileName: "No. Car Won",
       name: "No. Car Won",
     },
     {
       url: `/api/cars/sales-odo/analytics/export`,
-      fileName: "Sales ODO.csv",
+      fileName: "Sales ODO",
       name: "Sales ODO",
     },
     {
       url: `/api/cars/gvm-odo/analytics/export`,
-      fileName: "GVM ODO.csv",
+      fileName: "GVM ODO",
       name: "GVM ODO",
     },
+  ];
+
+  const formatOptions = [
+    { label: "Excel", value: "excel" },
+    { label: "CSV", value: "csv" },
   ];
   return (
     <>
@@ -177,6 +186,22 @@ export default function ExportDealerInformation() {
                   >
                     {exportOptions.map((item) => (
                       <option value={JSON.stringify(item)}>{item?.name}</option>
+                    ))}
+                  </Select>
+                </Stack>
+
+                <Stack direction="column" spacing="5px">
+                  <Text fontSize="14px" color="grey">
+                    Pilihan Format
+                  </Text>
+                  <Select
+                    placeholder="Pilih format"
+                    value={selectedFormat}
+                    onChange={(e) => setSelectedFormat(e.target.value)}
+                    required
+                  >
+                    {formatOptions.map((item) => (
+                      <option value={item.value}>{item?.label}</option>
                     ))}
                   </Select>
                 </Stack>

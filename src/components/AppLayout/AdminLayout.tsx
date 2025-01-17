@@ -17,39 +17,54 @@ export default function AdminLayout({
   const { user, isLoading } = useGetMe();
   const menus = [
     {
-      link: "/",
-      icon: "bxs:dashboard",
-      name: "Biding Performance",
+      title: "Bidding Report",
+      menus: [
+        {
+          link: "/",
+          icon: "bxs:dashboard",
+          name: "Biding Performance",
+        },
+        {
+          link: "/bidding",
+          icon: "bxs:book-content",
+          name: "Bidding Information",
+        },
+        {
+          link: "/log-bid",
+          icon: "lucide:list",
+          name: "Log Bid",
+        },
+        {
+          link: "/dealer-information",
+          icon: "map:car-dealer",
+          name: "Dealer Information",
+        },
+      ],
     },
     {
-      link: "/bd-performance",
-      icon: "bxs:group",
-      name: "BD Performance",
+      title: "BD",
+      menus: [
+        {
+          link: "/bd-performance",
+          icon: "bxs:group",
+          name: "BD Performance",
+        },
+        {
+          link: "/history-login",
+          icon: "bx:user",
+          name: "History Login",
+        },
+      ],
     },
     {
-      link: "/bidding",
-      icon: "bxs:book-content",
-      name: "Bidding Information",
-    },
-    {
-      link: "/car",
-      icon: "bxs:car",
-      name: "Car",
-    },
-    {
-      link: "/history-login",
-      icon: "bx:user",
-      name: "History Login",
-    },
-    {
-      link: "/dealer-information",
-      icon: "map:car-dealer",
-      name: "Dealer Information",
-    },
-    {
-      link: "/log-bid",
-      icon: "lucide:list",
-      name: "Log Bid",
+      title: "Inspection",
+      menus: [
+        {
+          link: "/car",
+          icon: "bxs:car",
+          name: "Car",
+        },
+      ],
     },
   ];
   return (

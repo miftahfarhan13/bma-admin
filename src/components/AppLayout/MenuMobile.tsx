@@ -1,6 +1,5 @@
-import { Menu } from "@/utils/interface/menu";
+import { MenuParent } from "@/utils/interface/menu";
 import {
-  Button,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -17,7 +16,7 @@ export default function MenuMobile({
   menus,
   name,
 }: {
-  menus: Array<Menu>;
+  menus: Array<MenuParent>;
   name: string;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();

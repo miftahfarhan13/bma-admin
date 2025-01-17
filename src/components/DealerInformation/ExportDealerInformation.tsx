@@ -9,6 +9,8 @@ import {
   PopoverCloseButton,
   PopoverContent,
   PopoverTrigger,
+  Radio,
+  RadioGroup,
   Select,
   SimpleGrid,
   Stack,
@@ -27,10 +29,7 @@ export default function ExportDealerInformation() {
   const [startDateState, setStartDateState] = useState("");
   const [endDateState, setEndDateState] = useState("");
   const [selectedItem, setSelectedItem] = useState("");
-  const [selectedFormat, setSelectedFormat] = useState<
-    "csv" | "excel" | string
-  >("");
-  const [isRange, setIsRange] = useState(true);
+  const [type, setType] = useState("yearly");
 
   const handleSave = async () => {
     let item: any = {};
@@ -44,7 +43,7 @@ export default function ExportDealerInformation() {
     await downloadFile({
       url,
       fileName: item?.fileName,
-      fileType: selectedFormat,
+      fileType: "excel",
     });
   };
 
@@ -83,10 +82,7 @@ export default function ExportDealerInformation() {
     },
   ];
 
-  const formatOptions = [
-    { label: "Excel", value: "excel" },
-    { label: "CSV", value: "csv" },
-  ];
+  const isRange = type == "yearly";
   return (
     <>
       <Popover
@@ -127,21 +123,24 @@ export default function ExportDealerInformation() {
                 handleSave();
               }}
             >
-              <Stack direction="column" spacing="10px">
-                <Stack direction="row" spacing="5px">
-                  <Text fontSize="14px" color="grey">
-                    Range Tanggal?
-                  </Text>
-                  <Switch
-                    colorScheme="red"
-                    isChecked={isRange}
-                    onChange={(e) => {
-                      setIsRange(e.target.checked);
-                      setStartDateState("");
-                      setEndDateState("");
-                    }}
-                  />
-                </Stack>
+              <Stack direction="column" spacing="20px">
+                <RadioGroup
+                  onChange={(e) => {
+                    setType(e);
+                    setStartDateState("");
+                    setEndDateState("");
+                  }}
+                  value={type}
+                >
+                  <Stack direction="row" gap="20px">
+                    <Radio value="yearly" colorScheme="red">
+                      Export Yearly
+                    </Radio>
+                    <Radio value="monthly" colorScheme="red">
+                      Export Monthly
+                    </Radio>
+                  </Stack>
+                </RadioGroup>
 
                 <SimpleGrid columns={isRange ? 2 : 1} gap="10px">
                   <Stack direction="column" spacing="5px">
@@ -186,22 +185,6 @@ export default function ExportDealerInformation() {
                   >
                     {exportOptions.map((item) => (
                       <option value={JSON.stringify(item)}>{item?.name}</option>
-                    ))}
-                  </Select>
-                </Stack>
-
-                <Stack direction="column" spacing="5px">
-                  <Text fontSize="14px" color="grey">
-                    Pilihan Format
-                  </Text>
-                  <Select
-                    placeholder="Pilih format"
-                    value={selectedFormat}
-                    onChange={(e) => setSelectedFormat(e.target.value)}
-                    required
-                  >
-                    {formatOptions.map((item) => (
-                      <option value={item.value}>{item?.label}</option>
                     ))}
                   </Select>
                 </Stack>

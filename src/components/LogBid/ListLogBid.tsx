@@ -21,8 +21,14 @@ import AdminPaginationFooter from "@/components/AdminPaginationFooter";
 import SelectDateRange from "../AppComponents/SelectDateRange";
 import { bids } from "@/networks/bid";
 import { formatter } from "@/utils/number";
+import ButtonExportLogBid from "./ButtonExportLogBid";
+import { useRecoilValue } from "recoil";
+import { roleState } from "@/atom/role";
 
 export default function ListLogBid() {
+  const role = useRecoilValue(roleState);
+  const isAdmin = role === "super-admin" || role === "admin";
+
   const [dateRanges, setDateRanges] = useState(["", ""]);
   const [show, setShow] = useState("10");
   const [keyword, setKeyword] = useState("");
@@ -110,13 +116,21 @@ export default function ListLogBid() {
             {isLoading && <Spinner />}
           </Stack>
 
-          <SelectDateRange
-            dateRanges={dateRanges}
-            onChangeDateRanges={(value) => {
-              setDateRanges(value);
-              fetchBids((pageIndex + 1).toString(), show, value[0], value[1]);
-            }}
-          />
+          <Stack direction="row" alignItems="center" spacing="10px">
+            <SelectDateRange
+              dateRanges={dateRanges}
+              onChangeDateRanges={(value) => {
+                setDateRanges(value);
+                fetchBids((pageIndex + 1).toString(), show, value[0], value[1]);
+              }}
+            />
+            {isAdmin && (
+              <ButtonExportLogBid
+                startDate={dateRanges[0]}
+                endDate={dateRanges[1]}
+              />
+            )}
+          </Stack>
         </Stack>
 
         <Stack direction="column" spacing="20px">

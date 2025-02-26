@@ -25,7 +25,7 @@ export default function BiddingInformationHistorical({
   const isAdmin = role === "super-admin" || role === "admin";
 
   const [dateRanges, setDateRanges] = useState(["", ""]);
-  const [show, setShow] = useState("10");
+  const [show, setShow] = useState("30");
   const [keyword, setKeyword] = useState("");
 
   const firstRun = useRef(false);

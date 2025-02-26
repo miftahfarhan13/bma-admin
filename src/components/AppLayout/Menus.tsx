@@ -23,7 +23,7 @@ export default function Menus({
 
         <Stack direction="column" spacing="30px">
           {menus?.map((parent) => (
-            <Stack direction="column" spacing="10px">
+            <Stack key={parent.title} direction="column" spacing="10px">
               <Text fontWeight="700">{parent?.title}</Text>
               <Stack direction="column" spacing="5px">
                 {parent?.menus?.map((menu) => (

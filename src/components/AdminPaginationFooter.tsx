@@ -15,7 +15,7 @@ const AdminPaginationFooter = ({
   showBaris = true,
   nameOfList = "Row",
   minW,
-  showBarisOptions = [5, 10, 20],
+  showBarisOptions = [5, 10, 20, 30],
 }: {
   pageIndex: number;
   maxPage: number;

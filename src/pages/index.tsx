@@ -5,7 +5,7 @@ import TopPerformanceCar from "@/components/Dashboard/TopPerformanceCar";
 import { useState } from "react";
 import ButtonLive from "@/components/AppComponents/ButtonLive";
 import dynamic from "next/dynamic";
-import BiddingInformationHistorical from "@/components/Bidding/BiddingInformationHistorical";
+import BiddingInformationDashboard from "@/components/Dashboard/BiddingInformationDashboard";
 
 const DashboardCounterHistorical = dynamic(
   () =>
@@ -55,10 +55,7 @@ export default function Home() {
 
           <TopPerformanceCar />
 
-          <Stack direction="column" spacing="10px">
-            <Text fontWeight="700">Bidding Information</Text>
-            <BiddingInformationHistorical status="Live" />
-          </Stack>
+          <BiddingInformationDashboard />
         </Stack>
       </AdminLayout>
     </>

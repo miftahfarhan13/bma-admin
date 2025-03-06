@@ -7,8 +7,8 @@ const BiddingInformationHistorical = dynamic(
   () => import("@/components/Bidding/BiddingInformationHistorical")
 );
 
-const BiddingInformationLive = dynamic(
-  () => import("@/components/Bidding/BiddingInformationLive")
+const BiddingInformationLiveOnly = dynamic(
+  () => import("@/components/Bidding/BiddingInformationLiveOnly")
 );
 
 export default function BiddingInformationDashboard() {
@@ -21,7 +21,7 @@ export default function BiddingInformationDashboard() {
         <ButtonLive isLive={isLive} onClick={() => setIsLive(!isLive)} />
         {isLive ? (
           <>
-            <BiddingInformationLive />
+            <BiddingInformationLiveOnly />
           </>
         ) : (
           <>

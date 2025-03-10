@@ -1,7 +1,7 @@
 import { getCarsWithBids } from "@/networks/car";
 import { useEffect, useRef, useState } from "react";
 
-export default function useGetCarBids({ date }: { date: string }) {
+export default function useGetCarBids({ date, status }: { date: string, status?: string }) {
   const firstRun = useRef(true);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -17,6 +17,7 @@ export default function useGetCarBids({ date }: { date: string }) {
       show: "",
       search: "",
       date,
+      status: status || ""
     })
       .then((response) => {
         setData(response?.data?.result);

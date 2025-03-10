@@ -10,7 +10,7 @@ export default function BiddingInformationLiveOnly() {
   const today = moment(new Date()).format("YYYY-MM-DD");
   const [data, setData] = useState([]);
 
-  const { data: dataRest } = useGetCarBids({ date: today });
+  const { data: dataRest } = useGetCarBids({ date: today, status: "Live" });
 
   useEffect(() => {
     window.Echo.channel("live_car_bids_online").listen(

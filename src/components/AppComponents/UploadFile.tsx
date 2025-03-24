@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as imageConversion from "image-conversion";
-import { fetchUploadFile } from "@/networks/file";
+import { fetchDeleteFile, fetchUploadFile } from "@/networks/file";
 import {
   Box,
   Button,
-  IconButton,
   Image,
   Input,
   Skeleton,
@@ -44,7 +43,12 @@ function UploadFile({
       new_file["type"] === "image/png" ||
       new_file["type"] === "image/jpg"
     ) {
-      onUploadFile(new_file);
+      if (fileToUpload) {
+        await onDeleteFile(fileToUpload);
+        await onUploadFile(new_file);
+      } else {
+        await onUploadFile(new_file);
+      }
     } else {
       toast({
         title: "Failed",
@@ -93,6 +97,27 @@ function UploadFile({
       });
   };
 
+  const onDeleteFile = async (fileName: string) => {
+    const form = new FormData();
+    form.append("fileUrl", fileName);
+
+    await fetchDeleteFile(localStorage.getItem("token") || "", form)
+      .then((response) => {})
+      .catch((error) => {
+        setIsLoading(false);
+        const message = error?.response?.data?.message
+          ? error?.response?.data?.message
+          : error?.message;
+        toast({
+          title: "Failed",
+          description: message,
+          status: "error",
+          isClosable: true,
+          position: "top",
+        });
+      });
+  };
+
   const onSelectFile = () => {
     if (fileUpload.current) {
       fileUpload.current.click();
@@ -123,7 +148,23 @@ function UploadFile({
             ></Image>
           )}
 
-          {!fileToUpload ? (
+          <Button
+            role={undefined}
+            variant="contained"
+            tabIndex={-1}
+            leftIcon={<Icon icon="bx:upload" />}
+            onClick={onSelectFile}
+          >
+            {!fileToUpload ? "Upload file" : "Ganti File"}
+            <Input
+              onChange={() => uploadProfilePic()}
+              ref={fileUpload}
+              type="file"
+              hidden
+            />
+          </Button>
+
+          {/* {!fileToUpload ? (
             <Button
               role={undefined}
               variant="contained"
@@ -140,16 +181,28 @@ function UploadFile({
               />
             </Button>
           ) : (
-            <Button
-              variant="contained"
-              tabIndex={-1}
-              leftIcon={<Icon icon="bx:trash" />}
-              onClick={() => setFileToUpload("")}
-              color="bma.primary"
-            >
-              Ganti File
-            </Button>
-          )}
+            <Stack direction="column" w="100%">
+              <Button
+                variant="outline"
+                tabIndex={-1}
+                leftIcon={<Icon icon="bx:edit" />}
+                onClick={() => setFileToUpload("")}
+                color="bma.black"
+              >
+                Ganti File
+              </Button>
+
+              <Button
+                tabIndex={-1}
+                leftIcon={<Icon icon="bx:trash" />}
+                onClick={() => onDeleteFile(fileToUpload)}
+                color="white"
+                bgColor="bma.primary"
+              >
+                Hapus File
+              </Button>
+            </Stack>
+          )} */}
         </Stack>
       </Box>
     </Box>

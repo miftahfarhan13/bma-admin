@@ -20,6 +20,7 @@ import UploadFile from "../AppComponents/UploadFile";
 import useGetBrands from "@/utils/hooks/brand/useGetBrands";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { fetchCreateCar, fetchUpdateCar } from "@/networks/car";
+import { fetchDeleteFile } from "@/networks/file";
 
 interface ICarDefect {
   id: number | undefined;
@@ -246,6 +247,39 @@ export default function CreateUpdateCar({
           ? error?.response?.data?.message
           : error?.message;
         setIsLoading(false);
+        toast({
+          title: "Failed",
+          description: message,
+          status: "error",
+          isClosable: true,
+          position: "top",
+        });
+      });
+  };
+
+  const onDeleteFile = async (fileName: string) => {
+    const form = new FormData();
+    form.append(
+      "fileUrl",
+      `${process.env.NEXT_PUBLIC_API_URL}/storage/${fileName}`
+    );
+
+    await fetchDeleteFile(localStorage.getItem("token") || "", form)
+      .then((response) => {
+        setIsLoading(false);
+        toast({
+          title: "Success",
+          description: "Berhasil menghapus File!",
+          status: "success",
+          isClosable: true,
+          position: "top",
+        });
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        const message = error?.response?.data?.message
+          ? error?.response?.data?.message
+          : error?.message;
         toast({
           title: "Failed",
           description: message,

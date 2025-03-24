@@ -8,20 +8,17 @@ export default function BiddingInformationLiveOnly() {
   useEcho();
 
   const today = moment(new Date()).format("YYYY-MM-DD");
-  const [data, setData] = useState([]);
 
-  const { data: dataRest } = useGetCarBids({ date: today, status: "Live" });
+  const { data: dataRest, refetch } = useGetCarBids({ date: today });
 
   useEffect(() => {
-    window.Echo.channel("live_car_bids_online").listen(
-      "LiveCarBidsEvent",
+    window.Echo.channel("update_bid_event").listen(
+      "UpdateBidEvent",
       async (e: any) => {
-        setData(e?.data ? e?.data[0] : []);
+        refetch();
       }
     );
   }, []);
 
-  const liveData = data && data?.length > 0 ? data : dataRest;
-
-  return <>{liveData && <TableBiddingInformation data={liveData} />}</>;
+  return <>{dataRest && <TableBiddingInformation data={dataRest} />}</>;
 }

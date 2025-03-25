@@ -9,7 +9,10 @@ export default function BiddingInformationLiveOnly() {
 
   const today = moment(new Date()).format("YYYY-MM-DD");
 
-  const { data: dataRest, refetch } = useGetCarBids({ date: today });
+  const { data: dataRest, refetch } = useGetCarBids({
+    date: today,
+    status: "Live",
+  });
 
   useEffect(() => {
     window.Echo.channel("update_bid_event").listen(
